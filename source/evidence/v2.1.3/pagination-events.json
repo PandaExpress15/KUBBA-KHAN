@@ -1,0 +1,13 @@
+{
+  "browser": "156.0.8078.47",
+  "version": "2.1.3",
+  "visits": [
+    1
+  ],
+  "queued": {
+    "video": 4,
+    "exercise": 4
+  },
+  "syntheticFixture": true,
+  "ownerDOMAttributesVerified": false
+}

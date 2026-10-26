@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import {launch} from './browser-support.mjs';
+import {pageSnapshot,pageAction} from '../extension/automation-page.js';
+import {insertReviewed} from '../extension/input.js';
+const b=await launch();
+try{
+ const page=await b.context.newPage();
+ const url='https://classroom.khanacademy.org/learner/class/BOUNDARY/assignment/1';
+ await b.context.route(url,r=>r.fulfill({contentType:'text/html',body:`<h1>Factoring title unrelated to the question</h1><aside hidden><math><annotation encoding="application/x-tex">x+9</annotation></math></aside><aside><button>Next question</button><p role="status">Correct!</p></aside><main data-testid="question"><p>Evaluate this exact trigonometric value.</p><math><annotation encoding="application/x-tex">\\sin(\\pi/6)</annotation></math><input aria-label="Answer"><button>Check</button><p role="status"></p></main>`}));
+ await page.goto(url);
+ const tabId=await b.worker.evaluate(async url=>(await chrome.tabs.query({})).find(t=>t.url===url).id,url);
+ const invoke=(fn,args=[])=>b.worker.evaluate(`(async()=> (await chrome.scripting.executeScript({target:{tabId:${tabId}},func:${fn.toString()},args:${JSON.stringify(args)}}))[0].result)()`);
+ const snapshot=await invoke(pageSnapshot);
+ console.log('ACTUAL DOM SNAPSHOT',JSON.stringify(snapshot));
+ assert.equal(snapshot.expression,'\\sin(\\pi/6)','hidden/unrelated math is excluded');
+ assert.equal(snapshot.operation,'evaluate','title must not classify the current problem');
+ assert.equal(snapshot.accepted,false,'unrelated Next/Correct is not acceptance');
+ await page.locator('main button').evaluate(e=>e.remove());
+ assert.equal((await invoke(pageSnapshot)).accepted,false,'unrelated feedback is not acceptance when Check disappears');
+ const action=await invoke(pageAction,['NEXT_QUESTION',{url,token:snapshot.token}]);
+ assert.equal(action.ok,false,'an unrelated Next must never be clicked');
+ await page.locator('input').fill('my existing work');
+ const preserved=await invoke(insertReviewed,[{answer:'2',latex:'2'},snapshot.token]);
+ assert.equal(preserved.error,'ANSWER_FIELD_NOT_EMPTY');assert.equal(await page.locator('input').inputValue(),'my existing work');
+ await page.locator('main annotation').evaluate(e=>e.textContent='x+1');
+ const stale=await invoke(pageAction,['CHECK',{url,token:snapshot.token}]);assert.equal(stale.error,'STALE_PROBLEM');
+ const unauthorized=await invoke(async function(){return chrome.runtime.sendMessage({type:'AUTO_START',tabId:1});});
+ assert.equal(unauthorized.error,'UNKNOWN_CONTENT_ACTION','content frames cannot authorize Start');
+ console.log('PASS actual visible question scope, hidden-expression rejection, feedback and Next boundaries');
+ console.log('PASS actual native existing-work preservation, stale Check rejection and content-frame authority');
+}finally{await b.close();}

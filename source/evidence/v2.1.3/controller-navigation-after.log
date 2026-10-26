@@ -1,0 +1,35 @@
+✔ queue only accepts supported, same-class, unique assignment links (1.587383ms)
+✔ class scope only on actual classroom URL (1.032971ms)
+✔ problem signatures distinguish repeated expression at another ordinal (11.260088ms)
+✔ algebraic equivalence for input readback (2.577419ms)
+✔ full coordinated two-tab flow: pagination, two videos, four answers, two exercise completions (16.61312ms)
+✔ input insertion is verified on a later observation before Check (2.81119ms)
+✔ unsupported math pauses only exercise lane, video continues (1.257367ms)
+✔ incorrect site feedback does not resubmit or advance (2.747365ms)
+✔ ambiguous submission is not retried after worker restart (3.323209ms)
+✔ STOP all cancels future actions and pauses runner media (2.123117ms)
+✔ closed exercise tab pauses with explicit code (2.076166ms)
+✔ user navigation outside class blocks work in that lane (1.482626ms)
+✔ scope-preserving unexpected assignment is not operated on (1.981865ms)
+✔ existing answer is never overwritten on automatic start (1.740103ms)
+✔ Khan media iframe registered before playback, without all-frame injection (3.25074ms)
+✔ resume cannot forget an uncertain submission (3.54338ms)
+✔ one active run prevents duplicate worker tabs (2.613023ms)
+✔ article-only list pages are passed without losing later video/exercise jobs (1.533351ms)
+✔ starting on a later page first returns to page one (1.822385ms)
+✔ Start performs a real queue read before any content timer or alarm (0.356946ms)
+✔ heartbeat creation failure is a persisted startup error (0.3396ms)
+✔ content attachment failure cannot masquerade as connected ready (0.27353ms)
+✔ an expression change before accepted feedback is not credited or resubmitted (3.361616ms)
+✔ Stop during asynchronous startup cannot be cleared by late tab lookup (0.23284ms)
+✔ missing Next waits then fails without dropping a page or starting partial jobs (0.609025ms)
+✔ a briefly empty later list page gets its own loading deadline (0.563866ms)
+✔ ambiguous pagination is never chosen arbitrarily (0.323486ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 145.400109

@@ -1,0 +1,12 @@
+export function statusView(run,connected,isClass,requestError=''){
+ const code=run?.state==='ERROR'?run.errors?.at(-1)?.code||'STARTUP_FAILED':requestError;
+ const messages={NO_SUPPORTED_ASSIGNMENT_ROWS:'Khan’s assignment rows were not readable. Copy diagnostics here.',LIST_NEXT_UNAVAILABLE:'Could not activate the assignment-list Next button. Copy diagnostics for its control status.',LIST_PREVIOUS_UNAVAILABLE:'Could not return to page one. Copy diagnostics for the pagination status.',LIST_PAGINATION_AMBIGUOUS:'Several pagination controls match. No button was clicked.',LIST_PAGINATION_TARGET_UNSAFE:'Pagination points outside this class. No link was followed.',DUPLICATE_LIST_PAGE:'The assignment list repeated a page instead of advancing.',LIST_PAGINATION_DID_NOT_CHANGE:'The page did not change after Next.',SITE_ACCESS_DENIED:'Chrome denied access to this Khan tab. Check the extension’s site access.',OPEN_CLASSROOM_ASSIGNMENT_LIST:'Open the classroom All assignments page first.',STARTUP_ALARM_FAILED:'Chrome could not create the runner heartbeat.',STARTUP_INJECTION_FAILED:'The runner could not attach to this tab. Refresh Khan and retry.'};
+ if(code)return {title:'Start failed',detail:messages[code]||String(code).replaceAll('_',' ').toLowerCase(),tone:'error'};
+ if(run?.running&&run.state==='DISCOVERING')return {title:'Scanning your assignment list',detail:`${run.startup?.probe?.waitingFor?'Waiting for '+run.startup.probe.waitingFor+' page control · ':''}${run.startup?.pages||0} page(s) scanned · ${run.queued?.video||0} videos · ${run.queued?.exercise||0} exercises queued.`,tone:'working'};
+ const paused=Object.entries(run?.lanes||{}).find(([,lane])=>lane.state==='PAUSED');
+ if(run?.running&&paused)return {title:'Runner paused · '+paused[0],detail:String(paused[1].error||'INSPECT_PAUSED_TAB').replaceAll('_',' ').toLowerCase()+'. Other active tabs may continue.',tone:'error'};
+ if(run?.running)return {title:'Runner active',detail:'Each tab’s progress and pause reason are shown below.',tone:'working'};
+ if(run?.state==='STOPPED')return {title:'Stopped',detail:'Start both tabs to begin a new run.',tone:'idle'};
+ if(run?.state==='DONE')return {title:'Queue finished',detail:'See the separate video-end and exercise-completion counts below.',tone:'idle'};
+ return {title:connected?'Not started':'Open your classroom tab',detail:isClass?'Press the green Start both tabs button.':'Open All assignments, choose To-do, and refresh the tab.',tone:'idle'};
+}

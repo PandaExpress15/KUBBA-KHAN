@@ -1,0 +1,45 @@
+
+RUN node tests/browser-pagination.mjs
+PASS actual popup Start → five-page scan with Next page accessible names, article-only page, two work tabs
+PASS actual Previous page controls return to page one before collecting all five pages
+PASS delayed pagination controls wait safely, then collect the full queue
+PASS Stop during pagination wait: no automatic Next after the control appears
+EXIT 0
+
+RUN node tests/browser-mathquill.mjs
+CASE 1 {"opts":{"stateless":false},"answer":{"latex":"(2x+1)(5x+4)"},"result":{"kind":"mathquill","notice":"Answer entered through the editor DOM and read back.","observed":"(2x+1)(5x+4)","ok":true},"value":"(2x+1)(5x+4)"}
+CASE 2 {"opts":{"stateless":true},"answer":{"latex":"-\\frac{1}{2}"},"result":{"kind":"mathquill","notice":"Answer entered through the editor DOM and read back.","observed":"-\\frac{1}{2}","ok":true},"value":"-\\frac{1}{2}"}
+CASE 3 {"opts":{"stateless":false},"answer":{"latex":"\\frac{x+1}{x-1}"},"result":{"kind":"mathquill","notice":"Answer entered through the editor DOM and read back.","observed":"\\frac{x+1}{x-1}","ok":true},"value":"\\frac{x+1}{x-1}"}
+CASE 4 {"opts":{"stateless":true},"answer":{"latex":"\\frac{\\sqrt{3}}{2}"},"result":{"kind":"mathquill","notice":"Answer entered through the editor DOM and read back.","observed":"\\frac{\\sqrt{3}}{2}","ok":true},"value":"\\frac{\\sqrt{3}}{2}"}
+CASE 5 {"opts":{"copyDisabled":true},"answer":{"latex":"2"},"result":{"error":"EDITOR_COPY_DISABLED","ok":false},"value":""}
+CASE 6 {"opts":{"pasteDisabled":true},"answer":{"latex":"2"},"result":{"error":"EDITOR_PASTE_DISABLED","ok":false},"value":""}
+CASE 7 {"opts":{"existing":"x+7"},"answer":{"latex":"2"},"result":{"error":"ANSWER_FIELD_NOT_EMPTY","ok":false},"value":"x+7"}
+PASS 7 actual upstream MathQuill no-global cases: factors, negative fraction, rational fraction, radical, stateless clipboard, copy/paste prevention, existing-work preservation
+EXIT 0
+
+RUN node tests/browser.mjs
+Browser 156.0.8078.47 extension 2.1.3 source chrome-extension://ecdnidnngfffbfcnkbmbbccogalodlif/
+PASS SPA multipage reset/article-only/dedupe/same-class, two actual tabs, two real media ends at effective 2x (top + iframe), native controlled input + actual fallback MathQuill, four once-only Checks, Next/Done, next assignments
+PASS actual upstream public MathQuill API entry/readback/Check/Done
+PASS pointer Stop during real media and pending exercise; media paused/restored; no Check or navigation for two pulse intervals
+PASS unsupported math pauses visibly above fold, no Check or completion count
+PASS wrong site feedback pauses, no resubmit or completion
+PASS full-navigation queue discovery as well as SPA rendering
+PASS 15/15 in-browser selfchecks; no page errors
+EXIT 0
+
+RUN node tests/browser-recovery.mjs
+PASS installed on already-open classroom tab: Start attaches the runner without a tab reload
+WORKER TRANSITIONS [{"status":"running","id":"0"},{"status":"stopping","id":"0"},{"status":"stopped","id":"0"},{"status":"starting","id":"0"},{"status":"starting","id":"0"},{"status":"starting","id":"0"},{"status":"running","id":"0"}]
+PASS actual MV3 worker stopped/restarted; durable Check intent survives; unknown feedback pauses; Resume does not repeat Check
+PASS delayed real DOM feedback: exactly one Check, then observed Done
+PASS real user navigation outside class pauses without Check
+PASS actual tab closure detected by real Chrome heartbeat; no Check
+PASS changed problem before feedback: no credit and no resubmission
+PASS identical consecutive expressions without ordinal pause; no guessed identity or second Check
+PASS actual extension reload preserves source binding and reattaches an existing tab
+EXIT 0
+
+RUN node tests/browser-reload.mjs
+PASS real extension reload, existing class-list tab, immediate pointer Start, multipage queue via live content pulses
+EXIT 0

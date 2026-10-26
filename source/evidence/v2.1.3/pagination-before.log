@@ -1,0 +1,11 @@
+file:///workspace/khan-runner-isolated/Khan-Runner-Codex-Handoff/source/tests/browser-pagination.mjs:16
+ async function start(){const p=await popup(b);await p.click('#start');await until(async()=>{const s=await state();if(s?.state==='ERROR')throw Error(JSON.stringify({state:s.state,error:s.errors.at(-1)?.code,probe:s.scan?.probe}));return s?.state==='RUNNING';},{timeout:50000,label:'five-page classroom queue'});return p;}
+                                                                                                                                               ^
+
+Error: {"state":"ERROR","error":"LIST_NEXT_UNAVAILABLE","probe":{"assignmentLinks":2,"next":false,"page":1,"pages":5,"supportedRows":2,"todo":true}}
+    at until.timeout (file:///workspace/khan-runner-isolated/Khan-Runner-Codex-Handoff/source/tests/browser-pagination.mjs:16:144)
+    at async until (file:///workspace/khan-runner-isolated/Khan-Runner-Codex-Handoff/source/tests/browser-support.mjs:12:31)
+    at async start (file:///workspace/khan-runner-isolated/Khan-Runner-Codex-Handoff/source/tests/browser-pagination.mjs:16:72)
+    at async file:///workspace/khan-runner-isolated/Khan-Runner-Codex-Handoff/source/tests/browser-pagination.mjs:17:2
+
+Node.js v24.19.0

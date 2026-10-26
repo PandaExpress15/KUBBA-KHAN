@@ -1,61 +1,53 @@
-# Verification report · Khan Runner 2.1.2 · 2026-10-25
+# Khan Runner 2.1.3 · actual verification
 
-**Result: corrected source is verified in actual Chrome on isolated synthetic classroom pages. The owner's signed-in Khan workflow is BLOCKED, not live-verified.** No access to the owner's desktop Chrome or authorized classroom session was available. One Start → Copy diagnostics result is still required to identify their exact live failure. No course credit, grades or live exercise acceptance are claimed.
+## Result
 
-## Exact inputs and runtime
+All **283 Node checks** and **11 actual-browser test programs** passed on the corrected source. Browser tests use isolated synthetic classroom pages, actual extension APIs, real decoded media and actual upstream MathQuill. They do not establish signed-in Khan acceptance or recorded course credit.
 
-- Input ZIP SHA-256: `c46c1c92b7d1df6948a63de1e54e6aace02b610ff343404345a0ce68acd9fbaf`.
-- Original source 2.1.1; all 54 handoff manifest entries independently matched before edits. Original baseline: 275 Node checks, exit 0.
-- Final extension: 2.1.2. Chrome actually loaded all 20 extension files and every SHA-256 matched the corrected source.
-- Loaded extension tree SHA-256: `ec32e714dc8605dd35d97fe2008bf28c0e930afd8ca406c5f86342d2a9035d71`. Definition: SHA-256 of UTF-8 `JSON.stringify` of the sorted relative extension-file → SHA-256 map in `evidence/installed-source.json`.
-- Loaded source: `/workspace/khan-runner-isolated/Khan-Runner-Codex-Handoff/source/extension`; test-profile extension ID `ecdnidnngfffbfcnkbmbbccogalodlif` (path-dependent; another installation may have a different ID).
-- Google Chrome 156.0.8078.47, Playwright 1.62.1, Node v24.19.0, npm 11.9.0, Linux. Python 3.12.14 was used for archive verification/packaging.
-- Chrome package checksum `6c92cd22e90c6e3e255d782991543fa2091db8614e8536a971a7433a5c4d7ac8` matched Google's signed repository. Browser sandbox and TLS/package verification remained enabled. A new disposable browser profile was used for every script.
-- Normal unpacked developer installation, correct version/path, enabled extension, manifest without errors, and all required host permissions were verified. No policy, credential store or existing Chrome profile was modified.
+The owner's screenshot confirms that 2.1.2 failed at assignment-list Next navigation while Next was visibly available on page 1 of 5. The exact owner DOM attributes remain unavailable. A real Chrome regression reproduced LIST_NEXT_UNAVAILABLE for a visible Next control named Next page; the corrected navigation adapter passes this case.
 
-## Commands and actual results
+## Exact source and runtime
 
-| Executed command | Exit | Result |
+- Extension: **2.1.3**, **21 files**.
+- Browser: **156.0.8078.47**, official verified Google Chrome package; Playwright 1.62.1; Node v24.19.0.
+- Chrome-loaded extension tree SHA-256: `ebc57cd717c8ee11f31531052c7b497bbf8f36237226ba37aa44788215f9ead7`. All loaded file hashes match source; see evidence/v2.1.3/installed-source.json.
+- The tree digest is SHA-256 of JSON.stringify of the sorted relative extension-file to SHA-256 map, as implemented in browser-install.mjs.
+- Fresh isolated profiles, normal Developer mode and unpacked extension loading were used. Browser sandbox, TLS and package verification remained enabled. No system browser policy, credential store or owner profile was changed.
+- Production adds no runtime dependency, helper server, paid API or expanded host permission.
+
+## Checks that ran
+
+| Actual command | Exit | Verified boundary |
 |---|---:|---|
-| `bash run_checks.sh` before implementation | 0 | 275 passed, 0 failed |
-| `node --test tests/*.test.mjs` on final production code | 0 | 278 passed, 0 failed, 0 skipped/cancelled |
-| `node tests/browser-install.mjs` | 0 | Fresh MV3 installation, exact loaded bytes, version/source binding, host permissions |
-| `node tests/browser-popup.mjs` | 0 | Actual action popup; real pointer Start/Stop; queue probe; rapid cancellation |
-| `node tests/browser-boundaries.mjs` | 0 | Actual DOM expression/feedback/navigation scope, stale Check, native existing work, sender authority |
-| `node tests/browser-mathquill.mjs` | 0 | Seven actual upstream-editor cases; plain/stateless clipboard; fractions/radical; restrictions preserved |
-| `node tests/browser.mjs` | 0 | Full concurrent two-lane run, real media, native and MathQuill exercise workflows, Stop and pauses |
-| `node tests/browser-recovery.mjs` | 0 | Already-open attachment; actual worker stop/restart; delayed/unknown feedback; navigation/closure; identity ambiguity; reload |
-| `node tests/browser-reload.mjs` | 0 | Actual extension reload and content pulses on an already-open multipage class list |
-| `node tests/browser-manual.mjs` | 0 | Actual popup Read/Solve/Insert through MV3 worker; controlled input; no Check |
+| node --test tests/*.test.mjs | 0 | 283 passed; zero failed/skipped/cancelled |
+| node tests/browser-install.mjs | 0 | Enabled MV3 installation, source/version binding, all 21 loaded file hashes and host permissions |
+| node tests/browser-manual.mjs | 0 | Actual popup Read/Solve/Insert through worker and controlled native input |
+| node tests/browser-popup.mjs | 0 | Pointer Start/Stop, visible primary controls, rapid cancellation |
+| node tests/browser-boundaries.mjs | 0 | Visible question scope, hidden math, feedback boundaries, stale input and sender authority |
+| node tests/browser-pagination-controls.mjs | 0 | 23 actual DOM label/role/relationship, disambiguation, disabled, stale and foreign-target cases |
+| node tests/browser-pagination.mjs | 0 | Five-page scan, reset from page five, article-only page, two work tabs, delayed Next and Stop while waiting |
+| node tests/browser-document-navigation.mjs | 0 | Three full-document runs, exact page sequence, complete queues; two actual interrupted replies recovered without repeated clicks |
+| node tests/browser-mathquill.mjs | 0 | Seven real upstream editor cases, plain/stateless modes, fractions/radical, copy/paste restrictions and existing work |
+| node tests/browser.mjs | 0 | Two real videos at 2×, two exercise assignments, four once-only Checks, Next/Done, actual native/MathQuill entry, concurrency, Stop and pauses |
+| node tests/browser-recovery.mjs | 0 | Real worker stop/restart, delayed/unknown feedback, closure/navigation, identical questions and extension reload |
+| node tests/browser-reload.mjs | 0 | Actual extension reload and continued multipage content pulses |
 
-The six central browser scripts ran in the captured `npm run test:browser` suite, each with EXIT 0. Installation and manual-insertion scripts were additionally executed separately and passed. The saved browser runner now includes all eight scripts. These are existing process outcomes, not inferred from the npm command's name or from mock test counts.
+The browser programs were executed in targeted batches. Final outcomes are indexed in evidence/v2.1.3/final-results.json. Earlier failed candidate runs are retained as regression history, not described as passing commands. A timing assertion in the new pagination test initially checked tab URLs before initial navigation completed; the corrected test waits for both actual assignment tabs and retains its exact count and queue assertions.
 
-## Browser observations
+## Important actual observations
 
-1. **Start:** A single actual pointer click crossed popup → runtime message → persisted run → immediate DOM queue probe. The original popup clipping regression fails before the CSS correction and passes afterward. A rapid Stop cancels queued startup without creating a work tab.
-2. **Queue:** Started on page 3, returned through pages 2/1, then scanned 1/2/3, including an article-only page. Duplicate video and foreign-class jobs were excluded. SPA rerenders and full document navigation passed.
-3. **Tabs and concurrency:** Exactly two assignment work tabs existed for a mixed queue. Both lanes progressed; a Check occurred during genuine media playback. Two queued video items and two exercise assignments completed in the fixture.
-4. **Real video:** Two generated 16-second HTML5 videos played to their actual ends at 2×, one top-level and one in a permitted cross-origin iframe. Measured effective rates were approximately **1.99962×** and **2.00046×** from media time versus wall time. End events were browser-trusted, current time equaled duration, and zero seeked events occurred. This is real decoded media, not a mocked video object or synthetic ended event. The iframe is a synthetic HTML5 player at an allowed embed origin, not a validation of the proprietary YouTube player.
-5. **Answers:** The first exercise used a native controlled field that replaced its input after entry. The second used actual upstream MathQuill without `window.MathQuill`. Four answers survived readback, four Check clicks occurred exactly once, four positive feedback responses were observed, Next occurred twice, and Done twice. The next queued assignment opened. A separate full exercise passed with the public MathQuill API.
-6. **Editor coverage:** Actual upstream MathQuill 0.10.1 passed factors, negative fractions, a rational fraction and a radical in plain/stateless clipboard modes. Copy/paste cancellation and existing answers were preserved. No private controller/React objects or system clipboard access were used.
-7. **Stop:** Pointer Stop during real playback and READY_TO_CHECK paused/restored the media. Over 8.5 seconds (two content pulse intervals), no future Check, Next/Done or assignment navigation occurred. Already-delivered actions are not described as reversible.
-8. **Worker recovery:** DevTools observed running → stopping → stopped → starting → running, and the worker's global context marker was replaced. Persisted Check intent survived. Unknown feedback paused after the actual timeout; Resume did not submit again. Delayed accepted feedback resulted in exactly one Check and observed completion.
-9. **Other recovery:** User navigation to a different class paused without Check. Closing the exercise tab was detected by the actual Chrome heartbeat without Check. A changed expression before feedback received no progress credit. Identical consecutive questions without ordinals paused rather than guessing. Actual extension reload retained its ID/source binding and reattached the existing list.
-10. **Failure UI:** Unsupported and rejected answers paused without false completion. The top popup showed the pause/error even while another lane could run. The selftest completed 15/15 in the browser. The final full workflow had **zero page errors**.
-11. **Manual insertion:** Read/Solve/Insert crossed the actual popup and MV3 worker with the static import, entered the native controlled field, and did not click Check.
+The five-page accessible-label fixture failed before the fix with the same error shown in the owner's screenshot. After correction it scanned 1/2/3/4/5, and a second run starting on page five visited 5/4/3/2/1/2/3/4/5. Article-only pages were passed. Controls that appeared after six seconds were handled, and Stop prevented later Next even after the control appeared.
 
-`evidence/browser-events.json` contains the synthetic real-media and exercise UI event trace; `installed-source.json` records all loaded file hashes. Screenshots show the actual popup before/after correction and its visible paused state.
+A full-document navigation test exposed an additional Chrome transport boundary: navigation can remove the injected frame before its reply is delivered. The controller now preserves intent and observes the next document without blindly clicking again. Three actual Chrome runs completed with exact page sequences; two interrupted replies were observed and recovered.
 
-## Remaining required live acceptance
+In the full workflow, two 16-second videos played at effective 2× to browser-trusted ended events without seeking. One was top-level and one in a permitted cross-origin fixture iframe. Two fixture exercise assignments produced four correct feedback observations, four once-only Checks, two Next and two Done actions. Native entry survived controlled rerendering; actual public and no-global MathQuill paths passed. The final workflow had zero page errors and 15/15 in-browser selfchecks.
 
-| Boundary | Status | Required next action |
-|---|---|---|
-| Owner's post-Start popup/worker state | BLOCKED | On the actual To-do page, press Start once and paste Copy diagnostics |
-| Current classroom row controls, custom filters and navigation | UNVERIFIED | Observe the authorized real DOM once the live boundary is available |
-| Real classroom HTML5/YouTube player, autoplay and course credit | UNVERIFIED | Run an authorized actual assignment; report media and course-credit observations separately |
-| Actual Khan editor, accepted answer, Check/Next/Done | UNVERIFIED | Use authorized practice/test material and observe the actual response |
-| Other installed Chrome versions / Firefox / Web Store | NOT TESTED / NOT PUBLISHED | Outside this verification |
+Stop paused/restored runner-started media and prevented later Check/navigation. Actual worker state transitions running → stopping → stopped → starting → running and replacement of its global context were observed. Durable Check intent survived; unknown feedback and Resume did not duplicate a submission. Wrong/unsupported answers, ambiguous identity, class departure and closed tabs paused without false completion.
 
-No Chrome session, student records or credentials were supplied or copied. The corrected build is not described as universally working or live-certified. Solver capabilities and unsupported formats are listed in `README.md`; graphs, multiple choice, multiple fields, systems and general word problems still pause.
+## Live boundary and supported formats
 
-Project Sovereign, RADAR and the selected KUBBA-KHAN checkout were left unchanged. No external messages, paid services or publication were performed.
+Your actual classroom must still be tested by loading 2.1.3, pressing Start once and observing the real players/editors and feedback. If it pauses, Copy diagnostics now includes sanitized pagination states and match categories. No private screenshot, class identifier, student record, credential or browser profile is included in the evidence.
+
+The solver remains restricted to validated local polynomial algebra, linear equations, single rational polynomial fractions and supported exact unit-circle values. Graphs, multiple choice/fields, systems, general word problems and unreadable questions pause. This release is not a general guarantee to solve every Khan activity or earn course credit.
+
+Project Sovereign and RADAR were untouched. Publishing the corrected package and source to KUBBA-KHAN was authorized by the owner.

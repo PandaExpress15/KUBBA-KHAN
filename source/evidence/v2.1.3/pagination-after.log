@@ -1,0 +1,2 @@
+PASS actual popup Start → five-page scan with Next page accessible names, article-only page, two work tabs
+PASS actual Previous page controls return to page one before collecting all five pages

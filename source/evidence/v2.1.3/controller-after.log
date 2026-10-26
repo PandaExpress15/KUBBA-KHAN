@@ -1,0 +1,37 @@
+✔ queue only accepts supported, same-class, unique assignment links (1.164288ms)
+✔ class scope only on actual classroom URL (0.374903ms)
+✔ problem signatures distinguish repeated expression at another ordinal (8.424821ms)
+✔ algebraic equivalence for input readback (2.429649ms)
+✔ full coordinated two-tab flow: pagination, two videos, four answers, two exercise completions (13.903439ms)
+✔ input insertion is verified on a later observation before Check (2.144019ms)
+✔ unsupported math pauses only exercise lane, video continues (1.3454ms)
+✔ incorrect site feedback does not resubmit or advance (2.523209ms)
+✔ ambiguous submission is not retried after worker restart (2.7707ms)
+✔ STOP all cancels future actions and pauses runner media (2.341306ms)
+✔ closed exercise tab pauses with explicit code (1.968576ms)
+✔ user navigation outside class blocks work in that lane (1.564058ms)
+✔ scope-preserving unexpected assignment is not operated on (1.926278ms)
+✔ existing answer is never overwritten on automatic start (1.346382ms)
+✔ Khan media iframe registered before playback, without all-frame injection (4.29531ms)
+✔ resume cannot forget an uncertain submission (3.359465ms)
+✔ one active run prevents duplicate worker tabs (2.016819ms)
+✔ article-only list pages are passed without losing later video/exercise jobs (1.483228ms)
+✔ starting on a later page first returns to page one (1.613924ms)
+✔ Start performs a real queue read before any content timer or alarm (0.443797ms)
+✔ heartbeat creation failure is a persisted startup error (0.396155ms)
+✔ content attachment failure cannot masquerade as connected ready (0.283937ms)
+✔ an expression change before accepted feedback is not credited or resubmitted (3.10293ms)
+✔ Stop during asynchronous startup cannot be cleared by late tab lookup (0.257016ms)
+✔ idle connection does not claim an active runner (0.97231ms)
+✔ startup error stays visible even when the page connection is healthy (0.195684ms)
+✔ discovery displays actual queue counts (0.116204ms)
+✔ request-level error is visible before a run exists (0.144658ms)
+✔ a paused lane is an error at the top even while the other lane runs (0.868354ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 122.805428

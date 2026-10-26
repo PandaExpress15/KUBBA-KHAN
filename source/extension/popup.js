@@ -1,0 +1,35 @@
+import {solveSupported as solve} from './advanced-math.js';
+import {statusView} from './status-view.js';
+const $=id=>document.getElementById(id);let tabId,readToken='',result=null,snapshot=null,run=null,requestError='',starting=false;
+const message=(type,data={})=>chrome.runtime.sendMessage({type,tabId,...data});
+const notice=s=>$('notice').textContent=s;
+const readable=s=>String(s||'').replaceAll('_',' ').toLowerCase();
+async function status(){
+ try{
+  const [tab]=await chrome.tabs.query({active:true,currentWindow:true});tabId=tab?.id;
+  const automation=await message('AUTO_STATUS');run=automation.run||null;
+  let isClass=false;try{const u=new URL(tab.url);isClass=/^\/learner\/class\/[^/]+/.test(u.pathname)&&u.hostname==='classroom.khanacademy.org';}catch{}
+  $('start').disabled=starting||!isClass||run?.running;$('resume').hidden=!Object.values(run?.lanes||{}).some(l=>l.state==='PAUSED');
+  const lines=[];for(const [name,l]of Object.entries(run?.lanes||{}))lines.push(`${name}: ${readable(l.state)} · ${Math.min(l.index+1,l.total)}/${l.total}${l.error?' · '+readable(l.error):''}`);
+  if(run?.counts)lines.push(`Video ends ${run.counts.video} · Exercises complete ${run.counts.exercise} · Questions advanced ${run.counts.answers}`);
+  $('lanes').textContent=lines.join(' / ');
+  if(run?.state==='ERROR')notice(readable(run.errors.at(-1)?.code));
+  const r=await message('STATUS');snapshot=r.ok?r:null;
+  $('read').disabled=!r.ok;const view=statusView(run,!!r.ok,isClass,requestError);$('dot').classList.toggle('on',view.tone==='working');$('dot').classList.toggle('error',view.tone==='error');
+  $('state').textContent=view.title;$('detail').textContent=view.detail;$('connection').dataset.tone=view.tone;
+ }catch(e){requestError='CONNECTION_FAILED';$('state').textContent='Connection failed';$('detail').textContent='Copy diagnostics, or refresh the Khan tab and retry.';$('connection').dataset.tone='error';notice(readable(e.message));}
+}
+async function action(fn){try{await fn();}catch(e){requestError=String(e.message||'ACTION_FAILED').replace(/https?:\/\/\S+/g,'[page]');notice(readable(requestError));$('state').textContent='Action failed';$('detail').textContent=readable(requestError);$('connection').dataset.tone='error';}}
+$('refresh').onclick=()=>action(status);
+$('start').onclick=()=>action(async()=>{requestError='';starting=true;$('start').disabled=true;$('start').textContent='Starting…';$('state').textContent='Starting · attaching to Khan';$('detail').textContent='Scanning your Video and Exercise assignments now.';try{const r=await message('AUTO_START',{rate:Number($('rate').value),muted:$('muted').checked});if(!r.ok){if(r.error==='START_CANCELLED_BY_STOP'){notice('Start cancelled by Stop.');return;}throw Error(r.error||'STARTUP_FAILED');}notice('Scanning assignments. Both tabs start when the queue is captured.');}finally{starting=false;$('start').textContent='Start both tabs';await status();}});
+$('stop').onclick=()=>action(async()=>{requestError='';const r=await message('AUTO_STOP');if(!r.ok)throw Error(r.error);await message('STOP');notice('All automatic actions stopped. Runner-started videos paused.');await status();});
+$('resume').onclick=()=>action(async()=>{const r=await message('AUTO_RESUME');if(!r.ok)throw Error(r.error);notice('Paused tabs resumed. Ambiguous submission results will not be resubmitted.');await status();});
+$('read').onclick=()=>action(async()=>{result=null;$('result').hidden=true;readToken='';const r=await message('READ');if(!r.ok)throw Error(r.error);readToken=r.token;$('expression').value=r.expression;$('mode').value=r.mode;notice(r.expression?'Check the expression, then show the steps.':'No unique expression. Type it into the box.');if(r.fieldCount!==1)notice('Found '+r.fieldCount+' visible fields. Manual insertion is unavailable.');});
+function invalidate(){result=null;$('result').hidden=true;}
+$('expression').oninput=invalidate;$('mode').onchange=invalidate;
+$('solve').onclick=()=>{result=solve($('expression').value,$('mode').value);$('result').hidden=false;$('answer').textContent=result.status==='solved'?result.answer:result.reason;$('verdict').textContent=result.status==='solved'?'EXACT ALGEBRA':result.status.toUpperCase();$('steps').replaceChildren();for(const step of result.steps||[]){const li=document.createElement('li');li.textContent=step;$('steps').append(li);}$('copy').disabled=result.status!=='solved';$('insert').disabled=result.status!=='solved'||!readToken;notice(result.status==='solved'?'Calculated locally.':'This format needs manual work.');};
+$('copy').onclick=()=>action(async()=>{if(result?.status==='solved'){await navigator.clipboard.writeText(result.answer);notice('Answer copied.');}});
+$('insert').onclick=()=>action(async()=>{if(result?.status!=='solved'||!readToken)return;$('insert').disabled=true;const r=await message('INSERT',{expression:$('expression').value,mode:$('mode').value,token:readToken});notice(r.ok?r.notice:readable(r.error));});
+$('diagnostics').onclick=()=>action(async()=>{await status();const report={build:'2.1.3',requestError,browser:/(?:Chrome|Chromium)\/([\d.]+)/.exec(navigator.userAgent)?.[0]||'unknown',connected:!!snapshot,run:run?{state:run.state,running:run.running,startup:run.startup,counts:run.counts,queued:run.queued,lanes:Object.fromEntries(Object.entries(run.lanes).map(([k,v])=>[k,{state:v.state,error:v.error,index:v.index,total:v.total,rate:v.rate}])),errors:run.errors}:null,liveSiteVerified:false};await navigator.clipboard.writeText(JSON.stringify(report,null,2));notice('Sanitized diagnostics copied.');});
+$('selftest').onclick=()=>chrome.tabs.create({url:chrome.runtime.getURL('selftest.html')});
+void status();setInterval(()=>void status(),1500);

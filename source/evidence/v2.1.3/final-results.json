@@ -1,0 +1,70 @@
+{
+  "version": "2.1.3",
+  "node": {
+    "passed": 283,
+    "failed": 0,
+    "skipped": 0,
+    "exit": 0
+  },
+  "browser": [
+    {
+      "script": "browser-install.mjs",
+      "exit": 0,
+      "evidence": "initial-browser-run.log"
+    },
+    {
+      "script": "browser-manual.mjs",
+      "exit": 0,
+      "evidence": "initial-browser-run.log"
+    },
+    {
+      "script": "browser-popup.mjs",
+      "exit": 0,
+      "evidence": "initial-browser-run.log"
+    },
+    {
+      "script": "browser-boundaries.mjs",
+      "exit": 0,
+      "evidence": "initial-browser-run.log"
+    },
+    {
+      "script": "browser-pagination-controls.mjs",
+      "exit": 0,
+      "evidence": "initial-browser-run.log"
+    },
+    {
+      "script": "browser-pagination.mjs",
+      "exit": 0,
+      "evidence": "continued-browser-run.log"
+    },
+    {
+      "script": "browser-document-navigation.mjs",
+      "exit": 0,
+      "evidence": "document-navigation.log"
+    },
+    {
+      "script": "browser-mathquill.mjs",
+      "exit": 0,
+      "evidence": "continued-browser-run.log"
+    },
+    {
+      "script": "browser.mjs",
+      "exit": 0,
+      "evidence": "continued-browser-run.log"
+    },
+    {
+      "script": "browser-recovery.mjs",
+      "exit": 0,
+      "evidence": "continued-browser-run.log"
+    },
+    {
+      "script": "browser-reload.mjs",
+      "exit": 0,
+      "evidence": "continued-browser-run.log"
+    }
+  ],
+  "extensionTreeSHA256": "ebc57cd717c8ee11f31531052c7b497bbf8f36237226ba37aa44788215f9ead7",
+  "ownerScreenshotFailure": "LIST_NEXT_UNAVAILABLE",
+  "ownerDOMAttributesVerified": false,
+  "liveClassroomVerified": false
+}
