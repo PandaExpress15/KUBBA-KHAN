@@ -4,4 +4,4 @@ test('startup error stays visible even when the page connection is healthy',()=>
 test('discovery displays actual queue counts',()=>{const v=statusView({state:'DISCOVERING',running:true,startup:{pages:2},queued:{video:4,exercise:5}},true,true);assert.match(v.title,/Scanning/);assert.match(v.detail,/2 page/);assert.match(v.detail,/4 videos/);});
 test('request-level error is visible before a run exists',()=>assert.equal(statusView(null,true,true,'STARTUP_INJECTION_FAILED').tone,'error'));
 
-test('a paused lane is an error at the top even while the other lane runs',()=>{const v=statusView({state:'RUNNING',running:true,lanes:{video:{state:'PLAYING'},exercise:{state:'PAUSED',error:'UNSUPPORTED_MATH_FORMAT'}}},true,true);assert.match(v.title,/paused/);assert.equal(v.tone,'error');assert.match(v.detail,/unsupported math/);});
+test('a paused lane is an error at the top even while the other lane runs',()=>{const v=statusView({state:'RUNNING',running:true,lanes:{video:{state:'PLAYING'},exercise:{state:'PAUSED',error:'UNSUPPORTED_MATH_FORMAT'}}},true,true);assert.match(v.title,/paused/);assert.equal(v.tone,'error');assert.match(v.detail,/needs manual work/);});

@@ -1,0 +1,9 @@
+# Version 2.1.4 evidence
+
+final-results.json indexes the final-source passing commands. installed-source.json attests every Chrome-loaded production file; its hashes match the packaged source. node-final.log records 286 passes and zero failures. browser-confirmation.log supplies final installation/manual/popup passes; browser-exercises-final.log supplies final scope and eight-question mixed MathQuill passes; browser-final.log supplies the final seven pagination/media/recovery programs. Each indexed individual program exited 0.
+
+The complete main browser sequence also includes earlier runs of the first five programs before the last instruction/completion safeguards were added; those earlier passes are not used as final-source proof. Final targeted verification rechecked those changed boundaries. A broadened regression fixture initially made its own stale-question test locator ambiguous; browser-confirmation.log retains that test-only error, and browser-exercises-final.log records the corrected locator and passed assertions. The single locator correction selected the intended question annotation and retained all safety assertions.
+
+panels-before.log is the actual Chrome failure on 2.1.3: a split question/response layout exposes the field but loses the stem, operation and footer controls (exit 1). panels-candidate.log is an earlier eight-question success, and node-candidate.log retains a stale expected UI-copy assertion; neither is final proof. No owner screenshot, class URL, student data, credential or browser profile is included. All published event data is synthetic.
+
+The owner reports video playback succeeded in 2.1.3. Actual Khan exercise reading, entry, grading and course credit remain unverified. Do not treat fixture feedback or these test counts as live classroom acceptance.

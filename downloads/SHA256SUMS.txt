@@ -1,5 +1,7 @@
-d8d9ced3893e7ac4f05ff4cfc5a1e24453d7a559effd1c221e1ed3f7e5dee10a  Khan-Runner-Chrome-Latest.zip
+caefb8943817ae145932a6b32257085f70723faa043b183035f6e912f75db989  Khan-Runner-Chrome-Latest.zip
 faf5542964d13958763be6c74ecc7f136fc711d171be679255da20a7a339838b  Khan-Runner-Chrome-v2.1.2.zip
 d8d9ced3893e7ac4f05ff4cfc5a1e24453d7a559effd1c221e1ed3f7e5dee10a  Khan-Runner-Chrome-v2.1.3.zip
+caefb8943817ae145932a6b32257085f70723faa043b183035f6e912f75db989  Khan-Runner-Chrome-v2.1.4.zip
 a404dae21d1e9b2c88c1485eeba09d231ea767f9946634c75c859767a6179969  Khan-Runner-Source-v2.1.2.zip
 27296b443e9a3e4a2586970fff3b221659500073336ca4912dd7a57ea392ee55  Khan-Runner-Source-v2.1.3.zip
+60cfc5aead0f2c55dff89d2aacc8f5328fc088b6824d4ddc7106a7107046fe8f  Khan-Runner-Source-v2.1.4.zip

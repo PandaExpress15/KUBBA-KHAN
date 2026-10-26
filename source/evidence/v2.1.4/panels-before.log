@@ -1,0 +1,19 @@
+NESTED SNAPSHOT {"url":"https://classroom.khanacademy.org/learner/class/PANELS/assignment/1","token":"https://classroom.khanacademy.org/learner/class/PANELS/assignment/1|10x^2+13x+4|=","expression":"","operation":null,"fieldCount":1,"fieldValue":null,"mathquill":true,"ordinal":1,"total":8,"accepted":false,"negative":false,"done":false,"controls":[],"items":[],"assignmentCount":0,"page":null,"pages":null,"isTodo":null,"radioCount":0}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: question stem must remain readable outside the response renderer
+
+'' !== '10x^2+13x+4'
+
+    at file:///workspace/khan-runner-isolated/turn-exercise-v2.1.4/source/tests/browser-exercise-panels.mjs:43:9 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '',
+  expected: '10x^2+13x+4',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

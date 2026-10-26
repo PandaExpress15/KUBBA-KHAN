@@ -4,21 +4,36 @@ export function pageSnapshot(){
  const text=e=>(e?.innerText||e?.textContent||'').trim();
  const fieldSelector='.mq-editable-field,input:not([type]),input[type=text],input[type=number],textarea';
  const roots=[...document.querySelectorAll('main,[role=main],.perseus-renderer,[data-testid*=question]')].filter(visible);
- const root=roots.filter(e=>[...e.querySelectorAll(fieldSelector)].some(visible)).sort((a,b)=>a.contains(b)?1:b.contains(a)?-1:0)[0]||roots[0]||document;
- const controls=[...root.querySelectorAll('button,a,[role=button]')].filter(e=>visible(e)&&!e.disabled&&e.getAttribute('aria-disabled')!=='true').map(e=>(e.getAttribute('aria-label')||text(e)).replace(/\s+/g,' ').trim());
+ // A response renderer can contain only the box. Keep the stem and sibling
+ // feedback/footer in their enclosing main rather than selecting that renderer.
+ const byDepth=(a,b)=>a.contains(b)?1:b.contains(a)?-1:0;
+ const withFields=roots.filter(e=>[...e.querySelectorAll(fieldSelector)].some(visible));
+ const mains=withFields.filter(e=>e.matches('main,[role=main]'));
+ const root=mains.sort(byDepth)[0]||withFields.filter(e=>!e.matches('.perseus-renderer')).sort(byDepth)[0]||withFields.sort((a,b)=>-byDepth(a,b))[0]||roots[0]||document;
+ const irrelevant=e=>!!e.closest('aside,nav,[role=complementary],[role=navigation],[hidden],[inert]');
+ const controls=[...root.querySelectorAll('button,a,[role=button]')].filter(e=>visible(e)&&!irrelevant(e)&&!e.disabled&&e.getAttribute('aria-disabled')!=='true').map(e=>(e.getAttribute('aria-label')||text(e)).replace(/\s+/g,' ').trim());
  const raw=[...root.querySelectorAll(fieldSelector)];
- const fields=raw.filter(e=>visible(e)&&!e.disabled&&!e.readOnly&&!(e.matches('input,textarea')&&e.closest('.mq-editable-field'))&&!e.closest('[role=search]')&&!/search|message|chat/i.test(e.getAttribute('aria-label')||''));
- const anns=[...root.querySelectorAll('annotation[encoding="application/x-tex"]')].filter(e=>!e.closest('.mq-editable-field')&&!e.closest('[hidden]')&&visible(e.closest('math')||e.parentElement||e));
- const expressions=[...new Set(anns.map(e=>text(e)).filter(Boolean))];
+ const fields=raw.filter(e=>visible(e)&&!irrelevant(e)&&!e.disabled&&!e.readOnly&&!(e.matches('input,textarea')&&e.closest('.mq-editable-field'))&&!e.closest('[role=search]')&&!/search|message|chat/i.test(e.getAttribute('aria-label')||''));
+ const anns=[...root.querySelectorAll('annotation[encoding="application/x-tex"]')].filter(e=>!e.closest('.mq-editable-field')&&!irrelevant(e)&&visible(e.closest('math')||e.parentElement||e));
+ // A printed '=' or 'x =' next to an answer box is a label, not a second
+ // problem. Every other distinct expression remains an ambiguity.
+ const labels=s=>/^(?:[a-z](?:\([a-z]\))?)?\s*=\s*$/i.test(s.replace(/\\(?:left|right)/g,''));
+ const expressions=[...new Set(anns.map(e=>text(e)).filter(s=>s&&!labels(s)))];
  const mathToken=Array.from(document.querySelectorAll('annotation[encoding="application/x-tex"],.katex-mathml math')).filter(e=>!e.closest('.mq-editable-field')).map(e=>e.textContent).join('|').slice(0,2000);
  const body=text(document.body);const prompt=root===document?'':text(root);
  const ordinal=body.match(/\b(\d+)\s*(?:of|\/)\s*(\d+)\s*questions?\b/i);
- const operation=/\bfactor(?:ing)?\b/i.test(prompt)?'factor':/\bexpand\b/i.test(prompt)?'expand':/\bsolve\b/i.test(prompt)?'equation':/\bevaluate|calculate\b/i.test(prompt)?'evaluate':/\bsimplify|combine like|reduce (?:the |this )?rational|lowest terms\b/i.test(prompt)?'simplify':expressions.length===1&&/^(?:\\)?(?:sin|cos|tan)\s*(?:\\left)?\(/.test(expressions[0])?'evaluate':null;
- const feedback=[...root.querySelectorAll('[role=status],[role=alert],[data-testid*=feedback],.perseus-correctness')].filter(visible).map(text).join(' ');
+ const mode=s=>/^\s*(?:please\s+)?factor(?:ize|ise|ing)?\b/i.test(s)?'factor':/^\s*(?:please\s+)?expand\b/i.test(s)?'expand':/^\s*(?:please\s+)?solve\b/i.test(s)?'equation':/^\s*(?:please\s+)?(?:evaluate|calculate|find (?:the )?(?:exact )?value|what is (?:the )?(?:exact )?value)\b/i.test(s)?'evaluate':/^\s*(?:please\s+)?(?:simplify|combine like|reduce (?:the |this )?rational)\b/i.test(s)?'simplify':null;
+ const instructions=[...root.querySelectorAll('p,.paragraph,[data-testid*=prompt]')].filter(e=>visible(e)&&!irrelevant(e)&&!e.closest('.mq-editable-field')).map(e=>mode(text(e))).filter(Boolean);
+ const modes=[...new Set(instructions)];
+ // Paragraph directives take priority over an assignment title. If a simple
+ // fixture/accessible renderer has no paragraphs, accept its opening directive.
+ const operation=modes.length===1?modes[0]:modes.length>1?null:(!root.querySelectorAll('h1,h2,h3').length?mode(prompt):null)||(expressions.length===1&&/^(?:\\)?(?:sin|cos|tan)\s*(?:\\left)?\(/.test(expressions[0])?'evaluate':null);
+ const feedback=[...root.querySelectorAll('[role=status],[role=alert],[data-testid*=feedback],.perseus-correctness')].filter(e=>visible(e)&&!irrelevant(e)).map(text).join(' ');
  const negative=/\bincorrect\b|not correct|not quite|try again|wrong answer/i.test(feedback);
  const hasCheck=controls.some(s=>/^(check|check answer|check answers|submit answer)$/i.test(s));
  const accepted=!negative&&!hasCheck&&/\bcorrect[!.]?\b|well done|great job|nice work/i.test(feedback);
- const done=/\b(?:exercise|assignment|practice|activity)\s+(?:is\s+)?complete[d]?\b|you(?:'ve| have)? (?:successfully )?(?:finished|completed) (?:this|the) (?:exercise|assignment|practice|activity)/i.test(root===document?'':text(root));
+ const completion=/^(?:(?:exercise|assignment|practice|activity)\s+(?:is\s+)?complete[d]?|you(?:'ve| have)? (?:successfully )?(?:finished|completed) (?:this|the) (?:exercise|assignment|practice|activity))(?:[.!]|$)/i;
+ const done=!hasCheck&&!fields.length&&[...root.querySelectorAll('p,h1,h2,h3,[role=status],[role=alert],[data-testid*=completion]')].filter(e=>visible(e)&&!irrelevant(e)).some(e=>completion.test(text(e)));
  const items=[];
  for(const row of document.querySelectorAll('tr,[role=row]')){
   const label=text(row),types=[...row.querySelectorAll('td,[role=cell]')].map(e=>text(e).toLowerCase()).filter(s=>s==='video'||s==='exercise');
@@ -29,7 +44,7 @@ export function pageSnapshot(){
  const page=body.match(/current page:\s*(\d+)\s*(?:of|\/)\s*(\d+)/i);
  const statusSelect=[...document.querySelectorAll('select')].find(e=>[...e.options].some(o=>/^to[ -]?do$/i.test(o.textContent.trim())));
  const isTodo=statusSelect?/^to[ -]?do$/i.test(statusSelect.selectedOptions[0]?.textContent.trim()||''):null;
- return {url:location.href,token:location.href+'|'+mathToken,expression:expressions.length===1?expressions[0].replace(/=\s*$/,''):'',operation,fieldCount:fields.length,fieldValue:fields.length===1&&!fields[0].matches('.mq-editable-field')?fields[0].value:null,mathquill:fields[0]?.matches('.mq-editable-field')||false,ordinal:ordinal?Number(ordinal[1]):null,total:ordinal?Number(ordinal[2]):null,accepted,negative,done,controls,items,assignmentCount:document.querySelectorAll('a[href*="/assignment/"]').length,page:page?Number(page[1]):null,pages:page?Number(page[2]):null,isTodo,radioCount:[...document.querySelectorAll('input[type=radio],[role=radio]')].filter(visible).length};
+ return {probe:{fields:fields.length,mathAnnotations:anns.length,expressions:expressions.length,answerLabels:anns.filter(e=>labels(text(e))).length,operation:operation||'unknown',checkControls:controls.filter(s=>/^(check|check answer|check answers|submit answer)$/i.test(s)).length,scope:root===document?'document':root.matches('main,[role=main]')?'main':'question',readState:!expressions.length?'NO_QUESTION_MATH':expressions.length>1?'MULTIPLE_QUESTION_EXPRESSIONS':!operation?'QUESTION_OPERATION_UNCLEAR':'READY'},url:location.href,token:location.href+'|'+mathToken,expression:expressions.length===1?expressions[0].replace(/=\s*$/,''):'',operation,fieldCount:fields.length,fieldValue:fields.length===1&&!fields[0].matches('.mq-editable-field')?fields[0].value:null,mathquill:fields[0]?.matches('.mq-editable-field')||false,ordinal:ordinal?Number(ordinal[1]):null,total:ordinal?Number(ordinal[2]):null,accepted,negative,done,controls,items,assignmentCount:document.querySelectorAll('a[href*="/assignment/"]').length,page:page?Number(page[1]):null,pages:page?Number(page[2]):null,isTodo,radioCount:[...document.querySelectorAll('input[type=radio],[role=radio]')].filter(visible).length};
 }
 
 export function pageAction(action,expected){
@@ -46,9 +61,11 @@ export function pageAction(action,expected){
  let root=document;
  if(!action.startsWith('LIST_')){
   const roots=[...document.querySelectorAll('main,[role=main],.perseus-renderer,[data-testid*=question]')].filter(visible);
-  root=roots.filter(e=>[...e.querySelectorAll('.mq-editable-field,input:not([type]),input[type=text],input[type=number],textarea')].some(visible)).sort((a,b)=>a.contains(b)?1:b.contains(a)?-1:0)[0]||roots[0]||document;
+  const withFields=roots.filter(e=>[...e.querySelectorAll('.mq-editable-field,input:not([type]),input[type=text],input[type=number],textarea')].some(visible));
+  const depth=(a,b)=>a.contains(b)?1:b.contains(a)?-1:0;
+  root=withFields.filter(e=>e.matches('main,[role=main]')).sort(depth)[0]||withFields.filter(e=>!e.matches('.perseus-renderer')).sort(depth)[0]||withFields.sort((a,b)=>-depth(a,b))[0]||roots[0]||document;
  }
- const controls=[...root.querySelectorAll('button,a,[role=button]')].filter(e=>visible(e)&&!e.disabled&&e.getAttribute('aria-disabled')!=='true'&&pattern.test((e.getAttribute('aria-label')||e.innerText||e.textContent||'').replace(/\s+/g,' ').trim()));
+ const controls=[...root.querySelectorAll('button,a,[role=button]')].filter(e=>visible(e)&&!e.closest('aside,nav,[role=complementary],[role=navigation],[hidden],[inert]')&&!e.disabled&&e.getAttribute('aria-disabled')!=='true'&&pattern.test((e.getAttribute('aria-label')||e.innerText||e.textContent||'').replace(/\s+/g,' ').trim()));
  if(controls.length!==1)return {ok:false,error:'CONTROL_MISSING_OR_AMBIGUOUS'};
  controls[0].click();return {ok:true};
 }

@@ -6,7 +6,7 @@ import {mathQuillDOM} from './mq-dom.js';
 import {pageSnapshot,pageAction,mediaStep,stopMedia,readEditor} from './automation-page.js';
 import {paginationUI} from './pagination.js';
 const STORE='dual-run',ALARM='klr-dual-heartbeat';
-const idle=()=>({version:'2.1.3',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
+const idle=()=>({version:'2.1.4',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
 const cleanURL=u=>u.split(/[?#]/)[0];
 export function classScope(url){if(!isKhan(url))throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');const u=new URL(url),m=u.pathname.match(/^\/learner\/class\/[^/]+/);if(!m)throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');return u.origin+m[0];}
 export function collectJobs(items,scope){const seen=new Set(),out={video:[],exercise:[]};for(const x of items||[]){if(!['video','exercise'].includes(x.kind)||!inScope(x.url,scope)||!new URL(x.url).pathname.includes('/assignment/')||seen.has(cleanURL(x.url)))continue;seen.add(cleanURL(x.url));out[x.kind].push(cleanURL(x.url));}return out;}
@@ -21,7 +21,7 @@ export class DualRunner{
  async media(s,lane,func,args=[]){const out=[];for(const id of lane.frameIds||[0]){if(this.cancelled&&func!==stopMedia)break;try{out.push(await this.invoke(lane.tabId,func,args,'ISOLATED',id));}catch{/* Detached or inaccessible iframe. Remaining permitted frames are still inspected. */}}return out;}
  async signal(s){for(const id of new Set([s.sourceTab,...Object.values(s.lanes||{}).map(l=>l.tabId)].filter(Number.isInteger)))await this.api.tabs.sendMessage(id,{type:'AUTO_CONFIG',running:s.running,revision:s.revision}).catch(()=>{});}
  async stop(){this.cancel();const s=await this.get();s.running=false;s.state='STOPPED';s.revision++;await this.save(s);await this.api.alarms.clear(ALARM);await this.signal(s);for(const lane of Object.values(s.lanes))await this.media(s,lane,stopMedia);return {ok:true,run:this.public(s)};}
- public(s){return {version:s.version,running:s.running,state:s.state,counts:s.counts,startup:{stage:s.startupStage||'',pages:s.scan?.pages||0,probe:s.scan?.probe||null,navigationInterruptions:s.scan?.navigationInterruptions||0,lastNavigationError:s.scan?.lastNavigationError||''},queued:{video:s.jobs?.video.length||0,exercise:s.jobs?.exercise.length||0},lanes:Object.fromEntries(Object.entries(s.lanes).map(([k,l])=>[k,{tabId:l.tabId,state:l.state,error:l.error||'',index:l.index,total:s.jobs?.[k].length||0,rate:l.rate||0}])),errors:s.errors.slice(-5)};}
+ public(s){return {version:s.version,running:s.running,state:s.state,counts:s.counts,startup:{stage:s.startupStage||'',pages:s.scan?.pages||0,probe:s.scan?.probe||null,navigationInterruptions:s.scan?.navigationInterruptions||0,lastNavigationError:s.scan?.lastNavigationError||''},queued:{video:s.jobs?.video.length||0,exercise:s.jobs?.exercise.length||0},lanes:Object.fromEntries(Object.entries(s.lanes).map(([k,l])=>[k,{tabId:l.tabId,state:l.state,error:l.error||'',index:l.index,total:s.jobs?.[k].length||0,rate:l.rate||0,probe:l.probe||null}])),errors:s.errors.slice(-5)};}
  async status(){return {ok:true,run:this.public(await this.get())};}
  async start(tabId,options={}){
   const cancelRevision=this.cancelRevision;
@@ -50,7 +50,7 @@ export class DualRunner{
  async finishIfDone(s){if(Object.values(s.lanes).every(l=>l.state==='DONE')){s.running=false;s.state='DONE';await this.save(s);await this.api.alarms.clear(ALARM);await this.signal(s);}}
  async advance(s,lane){
   if(this.cancelled||!s.running)return;
-  s.counts[lane.kind]++;lane.index++;lane.problem=null;lane.started=this.now();lane.error='';lane.frameIds=[0];delete lane.introClicked;delete lane.playFailures;
+  s.counts[lane.kind]++;lane.index++;lane.problem=null;lane.started=this.now();lane.error='';lane.frameIds=[0];delete lane.introClicked;delete lane.playFailures;delete lane.probe;delete lane.questionWait;
   if(lane.index>=s.jobs[lane.kind].length){lane.state='DONE';await this.save(s);await this.finishIfDone(s);return;}
   lane.state='NAVIGATING';await this.save(s);if(!this.cancelled)await this.api.tabs.update(lane.tabId,{url:s.jobs[lane.kind][lane.index]});
  }
@@ -122,8 +122,13 @@ export class DualRunner{
   lane.state='PLAYING';await this.save(s);
  }
  async click(s,lane,p,action){if(this.cancelled)return false;const r=await this.invoke(lane.tabId,pageAction,[action,{url:p.url,token:p.token}]);if(!r?.ok){await this.pause(s,lane,r?.error||'ACTION_NOT_OBSERVED');return false;}return true;}
+ async waitForQuestion(s,lane,code){
+  lane.questionWait??=this.now();lane.state='WAITING_FOR_QUESTION';
+  if(this.now()-lane.questionWait>=12000)await this.pause(s,lane,code);else await this.save(s);
+ }
  async exercise(s,lane){
   const p=await this.invoke(lane.tabId,pageSnapshot);if(this.cancelled||!p)return;
+  lane.probe=p.probe?{...p.probe,phase:lane.problem?.phase||'READING'}:null;
   if(p.done){if(lane.problem&&['CHECKING','WAITING_FEEDBACK','NEXT_CLICKED','FINISH_CLICKED'].includes(lane.problem.phase))s.counts.answers++;lane.state='ASSIGNMENT_COMPLETE_OBSERVED';await this.advance(s,lane);return;}
   if(lane.problem?.phase==='FINISH_CLICKED'){if(this.now()-lane.problem.at>20000)await this.pause(s,lane,'FINISH_RESULT_NOT_OBSERVED');return;}
   if(lane.problem&&['CHECKING','WAITING_FEEDBACK','NEXT_CLICKED'].includes(lane.problem.phase)){
@@ -143,9 +148,12 @@ export class DualRunner{
   }
   if(!p.fieldCount){if(p.controls.some(x=>/^(start|start exercise|begin practice|let's go)$/i.test(x))&&!lane.introClicked){lane.introClicked=true;await this.save(s);await this.click(s,lane,p,'START_EXERCISE');return;}if(this.now()-lane.started>20000)await this.pause(s,lane,p.radioCount?'MULTIPLE_CHOICE_UNSUPPORTED':'NO_SUPPORTED_ANSWER_FIELD');return;}
   if(p.fieldCount!==1){await this.pause(s,lane,'MULTIPLE_ANSWER_FIELDS');return;}
-  if(!p.expression||!p.operation){await this.pause(s,lane,'PROBLEM_NOT_UNAMBIGUOUS');return;}
-  const answer=solveSupported(p.expression,p.operation);if(answer.status!=='solved'){await this.pause(s,lane,'UNSUPPORTED_MATH_FORMAT');return;}
+  if(!p.expression||!p.operation){await this.waitForQuestion(s,lane,p.probe?.readState||'PROBLEM_NOT_UNAMBIGUOUS');return;}
+  const answer=solveSupported(p.expression,p.operation);if(lane.probe)lane.probe.solver=answer.status==='solved'?'solved':'unsupported';if(answer.status!=='solved'){await this.pause(s,lane,'UNSUPPORTED_MATH_FORMAT');return;}
   const key=await problemKey(p);
+  const checks=p.controls.filter(x=>/^(check|check answer|check answers|submit answer)$/i.test(x)).length;
+  if(checks!==1){await this.waitForQuestion(s,lane,'CHECK_CONTROL_MISSING_OR_AMBIGUOUS');return;}
+  delete lane.questionWait;
   if(!lane.problem){
    lane.problem={key,phase:'ENTERING',at:this.now()};lane.state='ENTERING_ANSWER';await this.save(s);if(this.cancelled)return;
    let entry=await this.invoke(lane.tabId,insertReviewed,[{answer:answer.answer,latex:answer.latex},p.token],'MAIN');

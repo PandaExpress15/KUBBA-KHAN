@@ -1,0 +1,79 @@
+{
+  "version": "2.1.4",
+  "extensionTreeSHA256": "03543817edc022becbfe7c615f751335c947ab8969855ed03bbc854c2ab86ba1",
+  "node": {
+    "command": "node --test tests/*.test.mjs",
+    "exit": 0,
+    "passed": 286,
+    "failed": 0,
+    "skipped": 0,
+    "log": "node-final.log"
+  },
+  "browser": [
+    {
+      "command": "node tests/browser-install.mjs",
+      "exit": 0,
+      "log": "browser-confirmation.log"
+    },
+    {
+      "command": "node tests/browser-manual.mjs",
+      "exit": 0,
+      "log": "browser-confirmation.log"
+    },
+    {
+      "command": "node tests/browser-popup.mjs",
+      "exit": 0,
+      "log": "browser-confirmation.log"
+    },
+    {
+      "command": "node tests/browser-boundaries.mjs",
+      "exit": 0,
+      "log": "browser-exercises-final.log"
+    },
+    {
+      "command": "node tests/browser-exercise-panels.mjs",
+      "exit": 0,
+      "log": "browser-exercises-final.log"
+    },
+    {
+      "command": "node tests/browser-pagination-controls.mjs",
+      "exit": 0,
+      "log": "browser-final.log"
+    },
+    {
+      "command": "node tests/browser-pagination.mjs",
+      "exit": 0,
+      "log": "browser-final.log"
+    },
+    {
+      "command": "node tests/browser-document-navigation.mjs",
+      "exit": 0,
+      "log": "browser-final.log"
+    },
+    {
+      "command": "node tests/browser-mathquill.mjs",
+      "exit": 0,
+      "log": "browser-final.log"
+    },
+    {
+      "command": "node tests/browser.mjs",
+      "exit": 0,
+      "log": "browser-final.log"
+    },
+    {
+      "command": "node tests/browser-recovery.mjs",
+      "exit": 0,
+      "log": "browser-final.log"
+    },
+    {
+      "command": "node tests/browser-reload.mjs",
+      "exit": 0,
+      "log": "browser-final.log"
+    }
+  ],
+  "browserVersion": "156.0.8078.47",
+  "ownerReportedVideoPlayback": true,
+  "liveClassroomVerified": false,
+  "ownerExerciseBoundaryKnown": false,
+  "syntheticMixedFormatChecks": 8
+}

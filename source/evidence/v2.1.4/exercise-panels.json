@@ -1,0 +1,128 @@
+{
+  "browser": "156.0.8078.47",
+  "syntheticSite": true,
+  "liveKhanVerified": false,
+  "events": [
+    {
+      "kind": "stem-visible",
+      "q": 0
+    },
+    {
+      "kind": "stem-visible",
+      "q": 0
+    },
+    {
+      "kind": "check",
+      "q": 0,
+      "value": "(2\\cdot x+1)\\cdot(5\\cdot x+4)",
+      "correct": true
+    },
+    {
+      "kind": "next",
+      "q": 0
+    },
+    {
+      "kind": "stem-visible",
+      "q": 1
+    },
+    {
+      "kind": "check",
+      "q": 1,
+      "value": "(x-3)\\cdot(x+3)",
+      "correct": true
+    },
+    {
+      "kind": "next",
+      "q": 1
+    },
+    {
+      "kind": "stem-visible",
+      "q": 2
+    },
+    {
+      "kind": "check",
+      "q": 2,
+      "value": "6\\cdot x\\cdot(x-2)\\cdot(x+2)",
+      "correct": true
+    },
+    {
+      "kind": "next",
+      "q": 2
+    },
+    {
+      "kind": "stem-visible",
+      "q": 3
+    },
+    {
+      "kind": "check",
+      "q": 3,
+      "value": "x-3",
+      "correct": true
+    },
+    {
+      "kind": "next",
+      "q": 3
+    },
+    {
+      "kind": "stem-visible",
+      "q": 4
+    },
+    {
+      "kind": "check",
+      "q": 4,
+      "value": "5",
+      "correct": true
+    },
+    {
+      "kind": "next",
+      "q": 4
+    },
+    {
+      "kind": "stem-visible",
+      "q": 5
+    },
+    {
+      "kind": "check",
+      "q": 5,
+      "value": "\\frac{\\sqrt{3}}{2}",
+      "correct": true
+    },
+    {
+      "kind": "next",
+      "q": 5
+    },
+    {
+      "kind": "stem-visible",
+      "q": 6
+    },
+    {
+      "kind": "check",
+      "q": 6,
+      "value": "2\\cdot x^2-5\\cdot x-12",
+      "correct": true
+    },
+    {
+      "kind": "next",
+      "q": 6
+    },
+    {
+      "kind": "stem-visible",
+      "q": 7
+    },
+    {
+      "kind": "check",
+      "q": 7,
+      "value": "\\frac{19}{6}",
+      "correct": true
+    },
+    {
+      "kind": "done",
+      "q": 7
+    }
+  ],
+  "counts": {
+    "answers": 8,
+    "exercise": 1,
+    "video": 0
+  }
+}

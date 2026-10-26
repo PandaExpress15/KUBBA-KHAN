@@ -101,3 +101,21 @@ test('an unknown pagination reply is not blindly clicked again if the page never
  f.api.scripting.executeScript=async args=>{if(args.func===paginationUI&&args.args[0]==='next'){attempts++;throw Error('Frame with ID 0 was removed.');}return original(args);};
  await f.runner.start(7);f.advance(21000);await f.tick();const s=await f.runner.get();assert.equal(s.state,'ERROR');assert.equal(s.errors.at(-1).code,'LIST_PAGINATION_DID_NOT_CHANGE');assert.equal(attempts,1);
 });
+
+test('temporarily missing question math waits before entry and resumes when ready',async()=>{
+ const f=fixture(),original=f.api.scripting.executeScript;let missing=true;
+ f.api.scripting.executeScript=async args=>{const r=await original(args);if(missing&&args.func===pageSnapshot&&f.tabs.get(args.target.tabId)?.url.includes('/assignment/exercise')){r[0].result.expression='';r[0].result.probe={fields:1,mathAnnotations:0,expressions:0,answerLabels:0,operation:'unknown',checkControls:1,scope:'main',readState:'NO_QUESTION_MATH'};}return r;};
+ await f.runner.start(7);await f.tick();assert.equal((await f.runner.get()).lanes.exercise.state,'WAITING_FOR_QUESTION');assert.equal(f.insertions,0);assert.equal(f.checks,0);
+ missing=false;await f.tick();assert.equal((await f.runner.get()).lanes.exercise.state,'ANSWER_ENTERED');await f.tick();assert.equal(f.checks,1);
+});
+test('unreadable question pauses with a specific probe and no private content',async()=>{
+ const f=fixture(),original=f.api.scripting.executeScript;
+ f.api.scripting.executeScript=async args=>{const r=await original(args);if(args.func===pageSnapshot&&f.tabs.get(args.target.tabId)?.url.includes('/assignment/exercise')){r[0].result.expression='';r[0].result.probe={fields:1,mathAnnotations:0,expressions:0,answerLabels:0,operation:'unknown',checkControls:1,scope:'main',readState:'NO_QUESTION_MATH'};}return r;};
+ await f.runner.start(7);for(let i=0;i<5;i++)await f.tick();const s=await f.runner.status();assert.equal(s.run.lanes.exercise.error,'NO_QUESTION_MATH');assert.equal(f.checks,0);assert.equal(f.insertions,0);
+ assert.equal(s.run.lanes.exercise.probe.readState,'NO_QUESTION_MATH');assert.ok(!JSON.stringify(s).includes('10x'));assert.ok(!JSON.stringify(s).includes(ROOT));
+});
+test('missing Check is observed before entry instead of persisting an uncertain submission',async()=>{
+ const f=fixture(),original=f.api.scripting.executeScript;let missing=true;
+ f.api.scripting.executeScript=async args=>{const r=await original(args);if(missing&&args.func===pageSnapshot&&f.tabs.get(args.target.tabId)?.url.includes('/assignment/exercise'))r[0].result.controls=[];return r;};
+ await f.runner.start(7);await f.tick();assert.equal(f.insertions,0);assert.equal(f.checks,0);missing=false;await f.tick();assert.equal(f.insertions,1);await f.tick();assert.equal(f.checks,1);
+});

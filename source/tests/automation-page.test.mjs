@@ -2,7 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {pageAction,mediaStep,stopMedia} from '../extension/automation-page.js';
 globalThis.location={href:'https://classroom.khanacademy.org/learner/class/A/assignment/1',hostname:'classroom.khanacademy.org',ancestorOrigins:[]};globalThis.getComputedStyle=()=>({visibility:'visible'});
 let clicks=0,controls=[],videos=[];
-const makeControl=(label,disabled=false)=>({disabled,getClientRects(){return [1];},getAttribute(a){return a==='aria-label'?label:null;},click(){clicks++;}});
+const makeControl=(label,disabled=false)=>({disabled,closest(){return null;},getClientRects(){return [1];},getAttribute(a){return a==='aria-label'?label:null;},click(){clicks++;}});
 globalThis.document={querySelectorAll(q){return q==='video'?videos:q.startsWith('annotation')?[]:q==='select'||q.startsWith('main,')?[]:controls;}};
 test('Check click is explicit and bound to current page',()=>{controls=[makeControl('Check')];clicks=0;const r=pageAction('CHECK',{url:location.href,token:location.href+'|'});assert.ok(r.ok);assert.equal(clicks,1);});
 test('stale URL cannot submit',()=>{clicks=0;assert.equal(pageAction('CHECK',{url:'old'}).error,'STALE_PAGE');assert.equal(clicks,0);});

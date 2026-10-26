@@ -1,0 +1,78 @@
+
+RUN node tests/browser-install.mjs
+PASS fresh installation and all loaded source bytes {"browser":"156.0.8078.47","version":"2.1.4","id":"edmpffihnmdodmiokmdcibjkmikacccm","path":"/workspace/khan-runner-isolated/turn-exercise-v2.1.4/source/extension","enabled":true,"allHostPermissionsGranted":true,"manifestErrors":[],"extensionTreeSHA256":"68a88ac583632db93b7ea58934ef15f5cf6dbd2bfe42e9d3ecca10ab4357b560","files":{"adapter.js":"14ed57034fe00e3bcf3bcc1a5a7be56023749f76f4e60bc3fea4a6754caf8f3d","advanced-math.js":"96d63221b62e6893010169f5cbd179154f7f59154cad3c27faa1b5fe1abe308b","automation-page.js":"c9ac177e8713c5547a0cf0a0ed23bf02965ce65d7d16b61dc9517c04cc3c1cdf","dual.js":"0cd2b7fb213b27b798ad829f3a180df62d7a27c5d695ff28ae0234202f1fa582","icons/128.png":"65984ae0e84e5b7dd7583afecb0d9130b4e4224838a0178aad1049aaaa419a62","icons/16.png":"7424c25419f34588399c705a49ad882cd5bbf65e215e20f20a06eb58ecd9f007","icons/48.png":"535f6bfd4812b5a0e5b5f4bb47861518d8289959dfbe60a744cc53c90ae4d6c4","input.js":"061d97455ad5cb6c75716ee20482dc33d01a0810aec004f96c0ed30fc03228e5","manifest.json":"c508d0424f81226cfba6687e4a02371ecd7e0d303805f0988d1e2141fbc4434b","math.js":"58dba40579b6ce96457921e6325f4715ced5e5d19160b915f0510ad51670e606","mq-dom.js":"1986613acdf43777bb04259e9888f6b24938cb0eb5e53d61e448f901ecafe527","pagination.js":"a236e757b45da6c15e0264bac81a695f64f25d03b160c2e16afe0a8fd23d941a","policy.js":"ef6fb6bc603b6b1f1d840bba9839d9546e19b2bd0fd16985b94788d6af537cbe","popup.css":"c699eddeabda1324536148c67a3ac00ca52bc3b64a70eaf9fcfd38295425022c","popup.html":"85827df7037c1f72ab4b4ced006e0194e7ef7134a785790299fa76c49a629a2f","popup.js":"5e5a8a055f22c61c581465cabc50555a8b754c00bef45f05409362905b5d4756","runner-content.js":"740bec9d67a9635a80ad994b59e9ea443e2fe2dacbb2f64703d987b6a62f75fa","selftest.html":"df26b678b8f49d12ed818a3de887f3bad0f97550f8df4fa81ed66919e33c0cad","selftest.js":"3270f6003bb31207a54067534e4985fc48b1d78ac8d9f861bd8bc388fe809396","status-view.js":"2f827c150442154af1ffeab5f0424e19988f5c8bc51540639ebea7aa702588f4","worker.js":"882558d6021b1ab9d87b1bc6729701c5c44f9798960936d2410f334913202e4c"},"syntheticSiteOnly":true}
+EXIT 0
+
+RUN node tests/browser-manual.mjs
+PASS actual popup manual Read/Solve/Insert → MV3 static import → controlled native field; no Check
+EXIT 0
+
+RUN node tests/browser-popup.mjs
+ACTUAL POPUP {"width":415,"height":510,"button":{"x":119,"y":349.9375,"width":126,"height":37.390625,"top":349.9375,"right":245,"bottom":387.328125,"left":119},"state":"Not started"}
+PASS actual popup: pointer Start and Stop, runtime messaging, immediate DOM queue probe, all primary controls above fold
+PASS rapid Start/Stop cancels pending startup without creating work tabs
+EXIT 0
+
+RUN node tests/browser-boundaries.mjs
+ACTUAL DOM SNAPSHOT {"accepted":false,"assignmentCount":0,"controls":["Check"],"done":false,"expression":"\\sin(\\pi/6)","fieldCount":1,"fieldValue":"","isTodo":null,"items":[],"mathquill":false,"negative":false,"operation":"evaluate","ordinal":null,"page":null,"pages":null,"probe":{"answerLabels":0,"checkControls":1,"expressions":1,"fields":1,"mathAnnotations":1,"operation":"evaluate","readState":"READY","scope":"main"},"radioCount":0,"token":"https://classroom.khanacademy.org/learner/class/BOUNDARY/assignment/1|x+9|\\sin(\\pi/6)","total":null,"url":"https://classroom.khanacademy.org/learner/class/BOUNDARY/assignment/1"}
+PASS actual visible question scope, hidden-expression rejection, feedback and Next boundaries
+PASS actual native existing-work preservation, stale Check rejection and content-frame authority
+EXIT 0
+
+RUN node tests/browser-exercise-panels.mjs
+NESTED SNAPSHOT {"probe":{"fields":1,"mathAnnotations":2,"expressions":1,"answerLabels":1,"operation":"factor","checkControls":1,"scope":"main","readState":"READY"},"url":"https://classroom.khanacademy.org/learner/class/PANELS/assignment/1","token":"https://classroom.khanacademy.org/learner/class/PANELS/assignment/1|10x^2+13x+4|=","expression":"10x^2+13x+4","operation":"factor","fieldCount":1,"fieldValue":null,"mathquill":true,"ordinal":1,"total":8,"accepted":false,"negative":false,"done":false,"controls":["Check answer"],"items":[],"assignmentCount":0,"page":null,"pages":null,"isTodo":null,"radioCount":0}
+PASS six-second question loading wait; eight nested-panel questions through actual no-global MathQuill, mixed clipboard modes, verified answer entry, once-only Check, feedback, seven Next and Done [{"kind":"stem-visible","q":0},{"kind":"stem-visible","q":0},{"kind":"check","q":0,"value":"(2\\cdot x+1)\\cdot(5\\cdot x+4)","correct":true},{"kind":"next","q":0},{"kind":"stem-visible","q":1},{"kind":"check","q":1,"value":"(x-3)\\cdot(x+3)","correct":true},{"kind":"next","q":1},{"kind":"stem-visible","q":2},{"kind":"check","q":2,"value":"6\\cdot x\\cdot(x-2)\\cdot(x+2)","correct":true},{"kind":"next","q":2},{"kind":"stem-visible","q":3},{"kind":"check","q":3,"value":"x-3","correct":true},{"kind":"next","q":3},{"kind":"stem-visible","q":4},{"kind":"check","q":4,"value":"5","correct":true},{"kind":"next","q":4},{"kind":"stem-visible","q":5},{"kind":"check","q":5,"value":"\\frac{\\sqrt{3}}{2}","correct":true},{"kind":"next","q":5},{"kind":"stem-visible","q":6},{"kind":"check","q":6,"value":"2\\cdot x^2-5\\cdot x-12","correct":true},{"kind":"next","q":6},{"kind":"stem-visible","q":7},{"kind":"check","q":7,"value":"\\frac{19}{6}","correct":true},{"kind":"done","q":7}]
+EXIT 0
+
+RUN node tests/browser-pagination-controls.mjs
+PASS 23 real DOM pagination cases: visible/accessibility/relationship labels, scoped disambiguation, disabled ancestors, stale/foreign targets and no exercise-Next confusion
+EXIT 0
+
+RUN node tests/browser-pagination.mjs
+PASS actual popup Start → five-page scan with Next page accessible names, article-only page, two work tabs
+PASS actual Previous page controls return to page one before collecting all five pages
+PASS delayed pagination controls wait safely, then collect the full queue
+PASS Stop during pagination wait: no automatic Next after the control appears
+EXIT 0
+
+RUN node tests/browser-document-navigation.mjs
+PASS three full-document pagination runs; exact page sequence, complete queues, no repeated navigation; actual interrupted replies: 3
+EXIT 0
+
+RUN node tests/browser-mathquill.mjs
+CASE 1 {"opts":{"stateless":false},"answer":{"latex":"(2x+1)(5x+4)"},"result":{"kind":"mathquill","notice":"Answer entered through the editor DOM and read back.","observed":"(2x+1)(5x+4)","ok":true},"value":"(2x+1)(5x+4)"}
+CASE 2 {"opts":{"stateless":true},"answer":{"latex":"-\\frac{1}{2}"},"result":{"kind":"mathquill","notice":"Answer entered through the editor DOM and read back.","observed":"-\\frac{1}{2}","ok":true},"value":"-\\frac{1}{2}"}
+CASE 3 {"opts":{"stateless":false},"answer":{"latex":"\\frac{x+1}{x-1}"},"result":{"kind":"mathquill","notice":"Answer entered through the editor DOM and read back.","observed":"\\frac{x+1}{x-1}","ok":true},"value":"\\frac{x+1}{x-1}"}
+CASE 4 {"opts":{"stateless":true},"answer":{"latex":"\\frac{\\sqrt{3}}{2}"},"result":{"kind":"mathquill","notice":"Answer entered through the editor DOM and read back.","observed":"\\frac{\\sqrt{3}}{2}","ok":true},"value":"\\frac{\\sqrt{3}}{2}"}
+CASE 5 {"opts":{"copyDisabled":true},"answer":{"latex":"2"},"result":{"error":"EDITOR_COPY_DISABLED","ok":false},"value":""}
+CASE 6 {"opts":{"pasteDisabled":true},"answer":{"latex":"2"},"result":{"error":"EDITOR_PASTE_DISABLED","ok":false},"value":""}
+CASE 7 {"opts":{"existing":"x+7"},"answer":{"latex":"2"},"result":{"error":"ANSWER_FIELD_NOT_EMPTY","ok":false},"value":"x+7"}
+PASS 7 actual upstream MathQuill no-global cases: factors, negative fraction, rational fraction, radical, stateless clipboard, copy/paste prevention, existing-work preservation
+EXIT 0
+
+RUN node tests/browser.mjs
+Browser 156.0.8078.47 extension 2.1.4 source chrome-extension://edmpffihnmdodmiokmdcibjkmikacccm/
+PASS SPA multipage reset/article-only/dedupe/same-class, two actual tabs, two real media ends at effective 2x (top + iframe), native controlled input + actual fallback MathQuill, four once-only Checks, Next/Done, next assignments
+PASS actual upstream public MathQuill API entry/readback/Check/Done
+PASS pointer Stop during real media and pending exercise; media paused/restored; no Check or navigation for two pulse intervals
+PASS unsupported math pauses visibly above fold, no Check or completion count
+PASS wrong site feedback pauses, no resubmit or completion
+PASS full-navigation queue discovery as well as SPA rendering
+PASS 15/15 in-browser selfchecks; no page errors
+EXIT 0
+
+RUN node tests/browser-recovery.mjs
+PASS installed on already-open classroom tab: Start attaches the runner without a tab reload
+WORKER TRANSITIONS [{"status":"running","id":"0"},{"status":"stopping","id":"0"},{"status":"stopped","id":"0"},{"status":"starting","id":"0"},{"status":"starting","id":"0"},{"status":"starting","id":"0"},{"status":"running","id":"0"}]
+PASS actual MV3 worker stopped/restarted; durable Check intent survives; unknown feedback pauses; Resume does not repeat Check
+PASS delayed real DOM feedback: exactly one Check, then observed Done
+PASS real user navigation outside class pauses without Check
+PASS actual tab closure detected by real Chrome heartbeat; no Check
+PASS changed problem before feedback: no credit and no resubmission
+PASS identical consecutive expressions without ordinal pause; no guessed identity or second Check
+PASS actual extension reload preserves source binding and reattaches an existing tab
+EXIT 0
+
+RUN node tests/browser-reload.mjs
+PASS real extension reload, existing class-list tab, immediate pointer Start, multipage queue via live content pulses
+EXIT 0

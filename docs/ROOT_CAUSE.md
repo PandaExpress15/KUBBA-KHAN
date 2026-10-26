@@ -1,31 +1,21 @@
-# Classroom pagination failure · 2.1.3
+# Exercise correction · 2.1.4
 
-## Confirmed owner-side boundary
+The owner confirms the 2.1.3 extension watched the videos, but reports that it did not answer exercise boxes. No new exercise screenshot, DOM or diagnostic error was supplied for that failure, and the owner’s signed-in Chrome is not connected to this cloud workspace. Its exact exercise boundary remains unverified.
 
-The owner’s screenshot shows extension 2.1.2 reporting **Start failed: The assignment-list Next control was not found**. The class list is visibly on page 1 of 5 with a Next control. The failing boundary is assignment-list pagination, before the two work lanes begin. This is new live evidence; the earlier popup-size defect did not explain this screenshot.
+## Reproduced failure
 
-The screenshot does not expose the actual DOM tag, accessible name or click handler. No signed-in owner browser connection is available, and the image/class identifier is not redistributed in this release.
-
-## Reproduced implementation defect
-
-The old action selector used `aria-label || visible text` and required the resulting name to equal `Next` exactly. In actual Chrome, the 2.1.2 extension reproduced `LIST_NEXT_UNAVAILABLE` on a five-page list with a visible Next button whose accessible name is Next page. That is a standard accessible control, and the old matcher wrongly rejected it.
-
-This demonstrates a concrete selector defect consistent with the observed live boundary. It is not a claim that the screenshot proves the owner’s exact aria-label.
+An actual Chrome regression used a question stem and answer box in separate nested renderer panels, with Check and feedback in a sibling footer. The 2.1.3 reader chose the deepest renderer containing a field. Its result was one MathQuill field, no expression, no operation, and no Check controls. The test exited 1 at the assertion requiring the visible quadratic to be readable. See evidence/v2.1.4/panels-before.log. This is a proven source defect and a plausible explanation for the owner’s symptom, not an observation of the owner’s DOM.
 
 ## Correction
 
-`extension/pagination.js` centralizes list navigation. It recognizes visible text, aria-label, aria-labelledby, title, input-button labels and next/previous link relationships. An accessible label no longer hides a valid visible Next label. It prefers a specifically labelled pagination region when unrelated Next controls exist.
+The reader and action adapter keep the enclosing main region, including the stem and footer, while excluding sidebars/navigation/hidden content. Explicit paragraph directives override unrelated assignment headings; conflicting instructions remain unsupported. Printed answer prefixes (=, x = and f(x) =) no longer become competing expressions. All other distinct expressions remain ambiguous.
 
-Before clicking, it checks the exact expected list URL and page, visibility, disabled ancestors, disabled fieldsets, pointer-event restrictions, and link destinations. Other classes, external origins and exercise-Next controls are excluded. Ambiguous controls stop rather than receiving arbitrary clicks. No authentication, editor or browser restriction is bypassed.
-
-`dual.js` uses the same adapter for list inspection and Next/Previous actions, so the readiness probe and action selector cannot disagree about name variants. Temporarily missing or disabled controls get a bounded wait rather than an immediate startup failure. Briefly empty later pages get their own loading deadline. Successful clicks still require observed page change; unknown outcomes are not blindly retried. Full-document tests also reproduced loss of a script reply when navigation removed its frame. The controller preserves the saved click intent and waits for the new document; three actual runs completed, including two interrupted replies, without repeated navigation.
-
-The top popup says **Scanning your assignment list** and reports when it is waiting for a Next/Previous page control. Its diagnostics include sanitized control-state counts, matching categories and action error codes. No class URL, student name, assignment text or answer is added to diagnostic exports.
+Delayed question content and unavailable Check controls are observed for up to 12 seconds before pausing. A single enabled Check is required before entry. Existing work, algebraic readback, durable Check intent, accepted-feedback progression, class scope and Stop remain protected. Exercise diagnostics expose counts and stable categories without problem text or answers.
 
 ## Verification and limits
 
-See `TEST_REPORT.md` for final command outcomes. Regression files are `browser-pagination-controls.mjs` and `browser-pagination.mjs`; before/after evidence is under `evidence/v2.1.3/` in the complete-source archive. Fixtures use made-up class IDs and ordinary DOM UI; they do not inspect Khan private APIs or application code.
+The new Chrome test completes eight supported formats through real no-global upstream MathQuill, alternating clipboard modes, once-only Check, correct fixture feedback and Next/Done. Tests also cover delayed content, labels, ambiguity, unrelated headings/completion, both actual work tabs, media, Stop and restart recovery. Exact final commands, exits and loaded source hashes are in TEST_REPORT.md and evidence/v2.1.4/.
 
-The restricted local solver and its unsupported-format pauses are retained. A broader solver, image/graph understanding and current real-site player/editor compatibility cannot be established from an assignment-list screenshot. Current signed-in Khan acceptance still requires the owner to run the updated build in their session.
+The engine already supported the shown quadratic. This release fixes reading and control association, rather than claiming a universal solver. Graphs, multiple choice/fields, systems, general word problems and unsupported expressions still pause. Actual Khan exercise acceptance is unverified; Copy diagnostics on the paused exercise tab identifies the next owner-side boundary without transferring credentials.
 
-The 2.1.2 popup layout, Stop cancellation, question/feedback scoping, actual MathQuill clipboard-mode and durable Check-intent corrections remain in place. Project Sovereign and RADAR remain untouched. GitHub publication to KUBBA-KHAN was explicitly authorized by the owner.
+The prior video/pagination fixes are retained. No host permissions, paid dependency, helper server, remote solver, credential access, grade API, browser security setting or unrelated project is added or changed. Project Sovereign and RADAR remain untouched.
