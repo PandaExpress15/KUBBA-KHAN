@@ -1,0 +1,502 @@
+
+> khan-local-runner-chrome@2.1.10 test
+> node --test tests/*.test.mjs
+
+✔ adapter idle does not change media (9.999996ms)
+✔ start sets actual media rate (8.785283ms)
+✔ STOP disconnects and restores original rate (2.259342ms)
+✔ STOP preserves a rate changed by user (2.106203ms)
+✔ ended alone never clicks Next (1.895336ms)
+✔ completion plus end and opt-in clicks Next once (1.947715ms)
+✔ completion without end never advances (1.91794ms)
+✔ ambiguous Next buttons do not advance (2.29046ms)
+✔ stale embedded end ignored (2.14409ms)
+✔ rerendered media rebinds without duplicate listeners (1.703218ms)
+✔ mutation storm batches one scan (1.336266ms)
+✔ unrelated YouTube iframe stays inert (1.174213ms)
+✔ Khan embedded YouTube video attaches (1.196267ms)
+✔ READ is explicit and returns manual fallback for unreadable expression (1.524479ms)
+✔ session deadline cleans up (1.385611ms)
+✔ rational simplify (x^2-1)/(x+1) (13.066932ms)
+✔ rational simplify (x^2+2x+1)/(x+1) (4.44219ms)
+✔ rational simplify (2x^2+4x)/(2x) (1.920003ms)
+✔ rational simplify (x^2-4)/(x^2+4x+4) (6.591945ms)
+✔ rational simplify (x^3-x)/(x^2-1) (0.518118ms)
+✔ rational simplify (x^2-1)/(2x+2) (0.789555ms)
+✔ rational simplify (0)/(x+1) (5.666709ms)
+✔ rational simplify \frac{x^{2}-1}{x+1} (1.754795ms)
+✔ rational simplify (y^2-1)/(y+1) (12.764277ms)
+✔ unsupported rational (x+1)/(0) (0.339259ms)
+✔ unsupported rational (x+y)/(x+1) (0.099669ms)
+✔ unsupported rational (x+1)/alert(1) (0.076294ms)
+✔ unsupported rational 1/x/x (0.101232ms)
+✔ unsupported rational \sqrt{3} (0.094222ms)
+✔ exact trig sin(pi/6) (0.953462ms)
+✔ exact trig cos(pi/3) (0.225228ms)
+✔ exact trig sin(pi/4) (0.324908ms)
+✔ exact trig cos(pi/6) (0.12658ms)
+✔ exact trig tan(pi/6) (0.104958ms)
+✔ exact trig tan(pi/4) (0.131978ms)
+✔ exact trig tan(pi/3) (0.107371ms)
+✔ exact trig sin(-pi/6) (0.102293ms)
+✔ exact trig cos(pi) (0.304157ms)
+✔ exact trig sin(3pi/2) (0.611157ms)
+✔ exact trig sin(13pi/6) (2.054655ms)
+✔ exact trig cos(0) (0.238629ms)
+✔ exact trig sin(30°) (0.391568ms)
+✔ exact trig \sin\left(\frac{\pi}{3}\right) (0.265308ms)
+✔ exact trig cos(60^{\circ}) (0.097767ms)
+✔ unsupported trig tan(\pi/2) (0.233221ms)
+✔ unsupported trig sin(1) (0.264357ms)
+✔ unsupported trig sin(\pi/5) (0.087812ms)
+✔ unsupported trig cos(x) (0.151848ms)
+✔ unsupported trig sin(process.exit()) (0.083796ms)
+✔ unsupported trig asin(0) (0.16646ms)
+✔ radical signs and input canonical equivalence (0.769826ms)
+✔ trig numeric identity sin 0/12 (0.517147ms)
+✔ trig numeric identity sin 2/12 (0.235063ms)
+✔ trig numeric identity sin 3/12 (0.099359ms)
+✔ trig numeric identity sin 4/12 (0.122223ms)
+✔ trig numeric identity sin 6/12 (0.17346ms)
+✔ trig numeric identity sin 8/12 (0.180722ms)
+✔ trig numeric identity sin 9/12 (0.083986ms)
+✔ trig numeric identity sin 10/12 (0.081883ms)
+✔ trig numeric identity sin 12/12 (0.065489ms)
+✔ trig numeric identity sin 14/12 (0.072008ms)
+✔ trig numeric identity sin 15/12 (0.096174ms)
+✔ trig numeric identity sin 16/12 (0.095133ms)
+✔ trig numeric identity sin 18/12 (3.22952ms)
+✔ trig numeric identity sin 20/12 (0.12004ms)
+✔ trig numeric identity sin 21/12 (0.074622ms)
+✔ trig numeric identity sin 22/12 (0.119129ms)
+✔ trig numeric identity cos 0/12 (0.083465ms)
+✔ trig numeric identity cos 2/12 (0.111858ms)
+✔ trig numeric identity cos 3/12 (2.57758ms)
+✔ trig numeric identity cos 4/12 (0.100872ms)
+✔ trig numeric identity cos 6/12 (0.068613ms)
+✔ trig numeric identity cos 8/12 (0.06678ms)
+✔ trig numeric identity cos 9/12 (7.082566ms)
+✔ trig numeric identity cos 10/12 (0.974318ms)
+✔ trig numeric identity cos 12/12 (0.116235ms)
+✔ trig numeric identity cos 14/12 (0.310726ms)
+✔ trig numeric identity cos 15/12 (0.077246ms)
+✔ trig numeric identity cos 16/12 (0.12621ms)
+✔ trig numeric identity cos 18/12 (0.068593ms)
+✔ trig numeric identity cos 20/12 (0.055353ms)
+✔ trig numeric identity cos 21/12 (0.063836ms)
+✔ trig numeric identity cos 22/12 (0.37985ms)
+✔ trig numeric identity tan 0/12 (0.09314ms)
+✔ trig numeric identity tan 2/12 (0.07333ms)
+✔ trig numeric identity tan 3/12 (0.180851ms)
+✔ trig numeric identity tan 4/12 (0.160681ms)
+✔ trig numeric identity tan 8/12 (0.134953ms)
+✔ trig numeric identity tan 9/12 (0.149154ms)
+✔ trig numeric identity tan 10/12 (0.202004ms)
+✔ trig numeric identity tan 12/12 (0.076715ms)
+✔ trig numeric identity tan 14/12 (0.497226ms)
+✔ trig numeric identity tan 15/12 (0.066059ms)
+✔ trig numeric identity tan 16/12 (0.052909ms)
+✔ trig numeric identity tan 20/12 (0.049745ms)
+✔ trig numeric identity tan 21/12 (0.047171ms)
+✔ trig numeric identity tan 22/12 (0.049054ms)
+✔ Check click is explicit and bound to current page (3.200525ms)
+✔ stale URL cannot submit (0.193711ms)
+✔ stale expression cannot submit (0.151217ms)
+✔ two matching Check buttons are ambiguous (0.299079ms)
+✔ disabled Check never clicked (0.211748ms)
+✔ Next action never chooses Check (0.221763ms)
+✔ next question label is supported (0.265979ms)
+✔ finish label is supported (0.255503ms)
+✔ unknown action cannot execute code (0.179991ms)
+✔ automatic media actually calls play and sets muted 2x (0.888574ms)
+✔ ended video is not restarted or seeked (0.271158ms)
+✔ autoplay rejection is observable (0.35274ms)
+✔ unrelated media frame cannot be controlled (0.23268ms)
+✔ Continue is an explicit question progression label (0.176816ms)
+✔ accessible Go to next question label is supported (0.253871ms)
+✔ queue only accepts supported, same-class, unique assignment links (2.989029ms)
+✔ class scope only on actual classroom URL (0.540582ms)
+✔ problem signatures distinguish repeated expression at another ordinal (15.912474ms)
+✔ algebraic equivalence for input readback (2.4241ms)
+✔ full coordinated two-tab flow: pagination, two videos, four answers, two exercise completions (20.272632ms)
+✔ input insertion is verified on a later observation before Check (3.098863ms)
+✖ unsupported math pauses only exercise lane, video continues (3.006515ms)
+✖ incorrect site feedback does not resubmit or advance (4.495701ms)
+✖ ambiguous submission is not retried after worker restart (5.350175ms)
+✔ STOP all cancels future actions and pauses runner media (4.670524ms)
+✔ closed exercise tab pauses with explicit code (2.477891ms)
+✔ user navigation outside class blocks work in that lane (3.016349ms)
+✔ scope-preserving unexpected assignment is not operated on (3.30954ms)
+✖ existing answer is never overwritten on automatic start (6.631659ms)
+✔ Khan media iframe registered before playback, without all-frame injection (4.083382ms)
+✔ resume cannot forget an uncertain submission (5.521491ms)
+✔ one active run prevents duplicate worker tabs (2.299002ms)
+✔ article-only list pages are passed without losing later video/exercise jobs (1.47189ms)
+✔ starting on a later page first returns to page one (4.148259ms)
+✔ Start performs a real queue read before any content timer or alarm (1.961826ms)
+✔ heartbeat creation failure is a persisted startup error (0.402915ms)
+✔ content attachment failure cannot masquerade as connected ready (0.787062ms)
+✖ an expression change before accepted feedback is not credited or resubmitted (5.795894ms)
+✔ Stop during asynchronous startup cannot be cleared by late tab lookup (0.555975ms)
+✔ missing Next waits then fails without dropping a page or starting partial jobs (0.655154ms)
+✔ a briefly empty later list page gets its own loading deadline (2.798332ms)
+✔ ambiguous pagination is never chosen arbitrarily (0.612971ms)
+✔ a removed frame after a real navigation keeps intent and observes the next page (0.991458ms)
+✔ an unknown pagination reply is not blindly clicked again if the page never changes (1.878971ms)
+✔ temporarily missing question math waits before entry and resumes when ready (6.516615ms)
+✖ unreadable question pauses with a specific probe and no private content (2.859644ms)
+✔ missing Check is observed before entry instead of persisting an uncertain submission (5.41449ms)
+✔ answer pacing draws every whole second from 10 through 30 inclusive (1.767914ms)
+✔ no entry or Check before the exact saved deadline; readback still precedes Check (3.94862ms)
+✔ restart preserves the original deadline without another random draw (4.126667ms)
+✔ Stop during pacing prevents entry and Check even after the deadline (1.743648ms)
+✖ a changed question during pacing pauses without submitting either problem (2.933905ms)
+✔ each following question draws a fresh pause (5.71035ms)
+✔ a results summary cannot complete an assignment without accepted final-question intent (1.103687ms)
+✔ accepted final Next followed by a results summary completes exactly one assignment (5.524747ms)
+✔ an exercise adapter failure pauses only that lane while video playback continues (0.877328ms)
+✖ explicit unsupported factor domain pauses without entering or checking while video lane continues (1.793383ms)
+✔ plain insertion uses input and change, never submits (2.641827ms)
+✔ never overwrites existing work (0.208714ms)
+✔ stale page rejected (0.17979ms)
+✔ multiple fields rejected (0.927282ms)
+✔ numeric field rejects symbolic answer (0.476645ms)
+✔ MathQuill uses existing public instance (0.244698ms)
+✔ missing MathQuill API returns manual fallback (0.259179ms)
+✔ factor: 10x^2+13x+4 (7.507003ms)
+✔ expand: (2x+1)(5x+4) (0.357166ms)
+✔ expand: (x-2)^2 (0.548314ms)
+✔ simplify: 2x + 3x - 5 + 9 (0.278658ms)
+✔ evaluate: 1/2+1/3 (0.649355ms)
+✔ evaluate: 0.1+0.2 (0.301903ms)
+✔ evaluate: -2^2 (0.315914ms)
+✔ evaluate: (-2)^2 (0.182264ms)
+✔ evaluate: 2*(3+4) (0.25362ms)
+✔ evaluate: 0 (1.260773ms)
+✔ equation: 2x+3=7 (0.271067ms)
+✔ equation: -3x=6 (0.275364ms)
+✔ equation: x/3=1/2 (0.208643ms)
+✔ equation: 2y+1=0 (0.163696ms)
+✔ expand: \frac{1}{2}x+\frac{1}{3}x (0.259539ms)
+✔ expand: x^{2}+2x+1 (0.227011ms)
+✔ simplify: 3x² − 2x³ + x² (0.444838ms)
+✔ evaluate: 2^0 (0.078458ms)
+✔ evaluate: 2(3+1) (0.092119ms)
+✔ factor verified expansion x^2-4 (0.500531ms)
+✔ factor verified expansion x^3-4x^2+6x-24 (1.528306ms)
+✔ factor verified expansion 6x^3+9x^2 (0.523866ms)
+✔ factor verified expansion -2x^2+8 (0.370486ms)
+✔ factor verified expansion x^4-16 (0.707433ms)
+✔ factor verified expansion x^2+1 (0.283075ms)
+✔ factor verified expansion 0*x (0.14665ms)
+✔ factor verified expansion x (0.159359ms)
+✔ factor verified expansion x^8 (3.199484ms)
+✔ factor verified expansion 0 (0.134813ms)
+✔ factor verified expansion (x+1)^4 (0.461073ms)
+✔ factor verified expansion x^2/2-1/2 (0.321543ms)
+✔ reject process.exit() (0.123616ms)
+✔ reject alert(1) (0.052889ms)
+✔ reject x.constructor (0.147923ms)
+✔ reject sin(x) (0.141142ms)
+✔ reject x+y (0.376946ms)
+✔ reject 1/0 (0.155023ms)
+✔ reject 2^999 (0.110937ms)
+✔ reject x^9 (0.093621ms)
+✔ reject x^-2 (0.11337ms)
+✔ reject 1/x (0.092669ms)
+✔ reject x^2.5 (0.079549ms)
+✔ reject 1e9 (0.136545ms)
+✔ reject NaN (0.084187ms)
+✔ reject Infinity (0.075483ms)
+✔ reject x;fetch(1) (0.076095ms)
+✔ reject \sqrt{4} (0.079479ms)
+✔ reject (x+1 (0.927202ms)
+✔ reject x) (0.171066ms)
+✔ reject 2**3 (0.131848ms)
+✔ reject x=2 (0.10006ms)
+✔ reject ((((((((((((((((((((((((((x))) (0.247512ms)
+✔ reject 999999999999999999999999999999 (0.079039ms)
+✔ irrational factoring stops instead of an incomplete answer (0.612881ms)
+✔ cubic irrational roots stops (0.241632ms)
+✔ no solution (0.151077ms)
+✔ infinite solutions (0.216705ms)
+✔ nonlinear equation unsupported (0.170156ms)
+✔ exact rational normalizes negative denominator (0.379049ms)
+✔ zero polynomial multiplication (0.134682ms)
+✔ numeric mode rejects variable (0.181803ms)
+✔ unknown operation (0.084587ms)
+✔ mixed numbers stop instead of concatenating digits (0.071988ms)
+✔ fraction LaTeX has structural numerator and denominator (0.164497ms)
+✔ factor identity 1,-3 (1.387564ms)
+✔ factor identity 1,-2 (0.585239ms)
+✔ factor identity 1,-1 (0.446491ms)
+✔ factor identity 1,0 (0.300331ms)
+✔ factor identity 1,1 (0.571147ms)
+✔ factor identity 1,2 (0.526019ms)
+✔ factor identity 1,3 (0.698219ms)
+✔ factor identity 2,-3 (0.954553ms)
+✔ factor identity 2,-2 (0.717658ms)
+✔ factor identity 2,-1 (0.434332ms)
+✔ factor identity 2,0 (0.28621ms)
+✔ factor identity 2,1 (0.302224ms)
+✔ factor identity 2,2 (0.40642ms)
+✔ factor identity 2,3 (0.887472ms)
+✔ factor identity 3,-3 (0.363146ms)
+✔ factor identity 3,-2 (0.480802ms)
+✔ factor identity 3,-1 (2.547942ms)
+✔ factor identity 3,0 (0.262494ms)
+✔ factor identity 3,1 (0.289295ms)
+✔ factor identity 3,2 (0.294592ms)
+✔ factor identity 3,3 (0.334733ms)
+✔ factor identity 4,-3 (0.249034ms)
+✔ factor identity 4,-2 (0.213791ms)
+✔ factor identity 4,-1 (0.306991ms)
+✔ factor identity 4,0 (0.248674ms)
+✔ factor identity 4,1 (2.752623ms)
+✔ factor identity 4,2 (4.0691ms)
+✔ factor identity 4,3 (0.442915ms)
+✔ no-global-API path inserts exact LaTeX and reads it back (13.045084ms)
+✔ stateless clipboard convention is detected locally (7.713848ms)
+✔ copy prevention is respected (1.978511ms)
+✔ paste prevention is respected (2.989559ms)
+✔ existing answer is preserved (3.02346ms)
+✔ readback mode does not mutate the expression (2.646064ms)
+✔ stale page cannot receive a paste (0.237827ms)
+✔ allow https://classroom.khanacademy.org/learner/class/A/assignment/1 (1.28495ms)
+✔ allow https://www.khanacademy.org/math (0.191227ms)
+✔ deny http://www.khanacademy.org/ (0.176445ms)
+✔ deny https://khanacademy.org.evil.com/ (0.170707ms)
+✔ deny https://www.khanacademy.org@evil.com/ (0.167141ms)
+✔ deny javascript:alert(1) (0.113251ms)
+✔ deny not-url (0.207882ms)
+✔ deny https://evil.com/ (0.153331ms)
+✔ class-specific scope (0.368664ms)
+✔ class boundary rejects prefix collisions (0.334071ms)
+✔ same class assignment allowed (0.138979ms)
+✔ youtube embed only (0.152599ms)
+✔ rate clamps (0.161743ms)
+✔ certified rational factorization x^5-x^4+3x-3 (8.107113ms)
+✔ certified rational factorization x^6-x^4+3x^2-3 (1.960984ms)
+✔ certified rational factorization x^5+2x^4+5x+10 (1.505541ms)
+✔ certified rational factorization x^4+4 (2.334035ms)
+✔ certified rational factorization x^4+5x^2+4 (1.322676ms)
+✔ certified rational factorization x^8+5x^4+4 (2.918643ms)
+✔ certified rational factorization x^4+2x^2+1 (1.70456ms)
+✔ certified rational factorization x^6+3x^4+3x^2+1 (1.304889ms)
+✔ certified rational factorization x^8+4x^6+6x^4+4x^2+1 (4.12907ms)
+✔ certified rational factorization -6x^5+6x^4-18x+18 (2.100925ms)
+✔ certified rational factorization x^5/2-x^4/2+3x/2-3/2 (1.485992ms)
+✔ certified rational factorization 2x^5-x^4+6x-3 (1.564549ms)
+✔ certified rational factorization x^8+1 (2.887786ms)
+✔ certified rational factorization x^4+3 (0.722325ms)
+✔ certified rational factorization x^6-1 (1.762727ms)
+✔ pictured residual has an exact Eisenstein certificate (0.853862ms)
+✔ bounded exhaustive search can certify an irreducible degree-eight factor (1.782506ms)
+✔ search exhaustion remains unsupported, not a guessed complete factorization (1.15188ms)
+✔ pre-existing low-degree irrational requests stay unsupported (0.478839ms)
+✔ snapshot reads screenshot-style polynomial and question ordinal (8.082037ms)
+✔ actual type cell wins over assignment title wording (0.933051ms)
+✔ multiple distinct math expressions stop automatic selection (0.303135ms)
+✔ stale correct feedback cannot advance a still-checkable question (0.303686ms)
+✔ correct feedback with Next is accepted (0.467181ms)
+✔ not correct feedback never becomes accepted (0.316966ms)
+✔ rational reduction wording selects simplify (0.738289ms)
+✔ explicit trig annotation can select exact evaluation (0.415054ms)
+✔ explicit Question N of M header identifies consecutive repeated expressions (0.551888ms)
+✔ MV3 Chrome package and referenced assets (1.973353ms)
+✔ no broad network/cookie permissions or exposed resources (0.775615ms)
+✖ no eval or application fetches (2.796059ms)
+✔ all popup controls exist and no inline script (0.593151ms)
+✔ idle connection does not claim an active runner (1.428926ms)
+✔ startup error stays visible even when the page connection is healthy (0.204587ms)
+✔ discovery displays actual queue counts (0.215934ms)
+✔ request-level error is visible before a run exists (1.110067ms)
+✔ a paused lane is an error at the top even while the other lane runs (0.321623ms)
+✔ answer pause has a visible countdown (0.188573ms)
+✔ opening the next assignment displays completed and remaining counts (0.269585ms)
+✔ worker tab-bound state and no arbitrary content actions (3.261437ms)
+✔ STOP rejects delayed report and cannot resurrect state (0.574203ms)
+✔ frame validation rejects fake Khan suffix and outside parent (1.020252ms)
+✔ trusted media frame can report end, cannot insert (0.560803ms)
+✔ invalid status payload is rejected (0.369205ms)
+✔ cross-class URL update stops the session (0.354633ms)
+✔ deadline holds all frames (0.458609ms)
+✔ untrusted main tab cannot start (0.148373ms)
+ℹ tests 320
+ℹ suites 0
+ℹ pass 311
+ℹ fail 9
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2150.786823
+
+✖ failing tests:
+
+test at tests/dual.test.mjs:43:1
+✖ unsupported math pauses only exercise lane, video continues (3.006515ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + ''
+  - 'UNSUPPORTED_MATH_FORMAT'
+  
+      at TestContext.<anonymous> (file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/dual.test.mjs:43:202)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'UNSUPPORTED_MATH_FORMAT',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/dual.test.mjs:44:1
+✖ incorrect site feedback does not resubmit or advance (4.495701ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + ''
+  - 'SITE_REJECTED_ANSWER'
+  
+      at TestContext.<anonymous> (file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/dual.test.mjs:44:196)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'SITE_REJECTED_ANSWER',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/dual.test.mjs:45:1
+✖ ambiguous submission is not retried after worker restart (5.350175ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + ''
+  - 'SUBMISSION_RESULT_NOT_OBSERVED'
+  
+      at TestContext.<anonymous> (file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/dual.test.mjs:45:306)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'SUBMISSION_RESULT_NOT_OBSERVED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/dual.test.mjs:50:1
+✖ existing answer is never overwritten on automatic start (6.631659ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + ''
+  - 'ANSWER_FIELD_NOT_EMPTY'
+  
+      at TestContext.<anonymous> (file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/dual.test.mjs:50:248)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'ANSWER_FIELD_NOT_EMPTY',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/dual.test.mjs:60:1
+✖ an expression change before accepted feedback is not credited or resubmitted (5.795894ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + ''
+  - 'PROBLEM_CHANGED_BEFORE_FEEDBACK'
+  
+      at TestContext.<anonymous> (file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/dual.test.mjs:71:38)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'PROBLEM_CHANGED_BEFORE_FEEDBACK',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/dual.test.mjs:115:1
+✖ unreadable question pauses with a specific probe and no private content (2.859644ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + ''
+  - 'NO_QUESTION_MATH'
+  
+      at TestContext.<anonymous> (file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/dual.test.mjs:118:100)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'NO_QUESTION_MATH',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/dual.test.mjs:148:1
+✖ a changed question during pacing pauses without submitting either problem (2.933905ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + ''
+  - 'PROBLEM_CHANGED_DURING_WAIT'
+  
+      at TestContext.<anonymous> (file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/dual.test.mjs:151:120)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'PROBLEM_CHANGED_DURING_WAIT',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/dual.test.mjs:174:1
+✖ explicit unsupported factor domain pauses without entering or checking while video lane continues (1.793383ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'DONE' !== 'PAUSED'
+  
+      at TestContext.<anonymous> (file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/dual.test.mjs:177:97)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'DONE',
+    expected: 'PAUSED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/static.test.mjs:5:1
+✖ no eval or application fetches (2.796059ms)
+  AssertionError [ERR_ASSERTION]: local-cas.js
+      at TestContext.<anonymous> (file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/static.test.mjs:5:164)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

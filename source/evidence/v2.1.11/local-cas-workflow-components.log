@@ -1,0 +1,18 @@
+LOCAL HELPER CONNECTED temporary test extension manifest grants loopback; production manifest remains optional and owner permission approval UI is unverified
+LOCAL CAS PACING 1 26
+LOCAL CAS PACING 2 13
+PASS actual Python HTTP helper, explicit test-profile loopback grant and popup enable, unsupported assignment deferred without Check, real no-global MathQuill radical/local verification then builtin factoring, Next/Done {"counts":{"answers":2,"exercise":1,"video":0},"deferred":1,"httpRequests":20}
+LOCAL CAS STATE {"continueBlocked":true,"counts":{"answers":0,"exercise":0,"video":0},"errors":[{"at":1793126765608,"code":"UNSUPPORTED_MATH_FORMAT","deferred":true,"lane":"exercise"}],"jobs":{"exercise":["https://classroom.khanacademy.org/learner/class/LOCALCAS/assignment/unsupported","https://classroom.khanacademy.org/learner/class/LOCALCAS/assignment/math"],"video":[]},"lanes":{"exercise":{"completed":0,"deferred":1,"delay":{"key":"26f393ba8dd56277aa0d714824c9469d16958922a2cef7e22194e8b19fa10af8","seconds":16,"until":1793126782400},"error":"","frameIds":[0],"index":1,"kind":"exercise","probe":{"answerLabels":0,"checkControls":1,"expressions":1,"factorDomain":"default-rational","feedbackCandidates":0,"fields":1,"mathAnnotations":0,"negativeFeedback":false,"nextCandidates":0,"operation":"simplify","phase":"READING","positiveFeedback":false,"progressionNameSources":[],"publicMathCandidates":1,"readState":"READY","resultHeadingCandidates":0,"resultSummary":false,"returnControlCandidates":0,"scope":"main","semanticFeedbackCandidates":0,"solver":"solved","visualFeedbackCandidates":0},"problem":null,"started":1793126765608,"state":"WAITING_BEFORE_ANSWER","tabId":548285359}},"muted":true,"rate":2,"review":[{"assignmentKey":"0d55fe6b2e491adf81c0b7374394e87bda332823a41f9d6233ffb88c1c483e28","at":1793126702461,"code":"UNSUPPORTED_MATH_FORMAT","key":"0d55fe6b2e491adf81c0b7374394e87bda332823a41f9d6233ffb88c1c483e28","phase":"READING"}],"revision":3,"running":false,"scan":{"pages":1,"pending":null,"probe":{"assignmentLinks":2,"navigation":{"conflictingLabels":0,"next":{"enabled":0,"found":0,"scoped":0,"sources":[],"state":"missing"},"previous":{"enabled":0,"found":0,"scoped":0,"sources":[],"state":"missing"}},"next":false,"page":1,"pages":1,"supportedRows":2,"todo":true},"seen":["1|https://classroom.khanacademy.org/learner/class/LOCALCAS/assignment/unsupported|https://classroom.khanacademy.org/learner/class/LOCALCAS/assignment/math"],"since":1793126765163},"scope":"https://classroom.khanacademy.org/learner/class/LOCALCAS","sourceTab":548285355,"started":1793126765163,"startupStage":"READ_QUEUE","state":"STOPPED","version":"2.1.11"}
+LOCAL CAS EVENTS [{"kind":"question","q":1,"assignment":"unsupported","at":1793126765263},{"kind":"question","q":1,"assignment":"math","at":1793126765647}]
+HELPER OUTPUT {"ready": true, "host": "127.0.0.1", "port": 8765, "version": "2.1.11", "tokenConfig": "/tmp/kubla-cas-test-TvZT5G/config.json"}
+Paste the token from the private config into the extension local-solver settings. Keep this terminal running.
+
+file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/browser-support.mjs:13
+ throw Error('Timed out: '+label+'; last result '+JSON.stringify(result));
+       ^
+
+Error: Timed out: helper credential removed by Disable; last result false
+    at until (file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/browser-support.mjs:13:8)
+    at async file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/browser-local-cas.mjs:53:76
+
+Node.js v24.19.0

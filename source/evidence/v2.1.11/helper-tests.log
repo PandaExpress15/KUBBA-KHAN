@@ -1,0 +1,18 @@
+test_degree_twelve_factors (__main__.ExactMath.test_degree_twelve_factors) ... ok
+test_exact_solutions (__main__.ExactMath.test_exact_solutions) ... ok
+test_no_guess_for_multiple_no_or_nonfinite_solutions (__main__.ExactMath.test_no_guess_for_multiple_no_or_nonfinite_solutions) ... ok
+test_readback_requires_original_correctness_and_factored_form (__main__.ExactMath.test_readback_requires_original_correctness_and_factored_form) ... ok
+test_surd_certificate (__main__.ExactMath.test_surd_certificate) ... ok
+test_unsafe_and_bounded_inputs (__main__.ExactMath.test_unsafe_and_bounded_inputs) ... ok
+test_auth_origin_and_host_rejected (__main__.RealHTTP.test_auth_origin_and_host_rejected) ... ok
+test_authenticated_post_health (__main__.RealHTTP.test_authenticated_post_health) ... ok
+test_health_and_actual_solve_verify (__main__.RealHTTP.test_health_and_actual_solve_verify) ... ok
+test_hung_worker_is_killed_and_next_request_recovers (__main__.RealHTTP.test_hung_worker_is_killed_and_next_request_recovers) ... ok
+test_invalid_and_oversized_requests (__main__.RealHTTP.test_invalid_and_oversized_requests) ... ok
+test_preflight (__main__.RealHTTP.test_preflight) ... ok
+test_worker_process_limits_and_invalid_math (__main__.RealHTTP.test_worker_process_limits_and_invalid_math) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 6.237s
+
+OK

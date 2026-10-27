@@ -1,0 +1,14 @@
+LOCAL CAS STATE undefined
+LOCAL CAS EVENTS []
+HELPER OUTPUT {"ready": true, "host": "127.0.0.1", "port": 8765, "version": "2.1.11", "tokenConfig": "/tmp/kubla-cas-test-5vXOTn/config.json"}
+Paste the token from the private config into the extension local-solver settings. Keep this terminal running.
+
+file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/browser-support.mjs:13
+ throw Error('Timed out: '+label+'; last result '+JSON.stringify(result));
+       ^
+
+Error: Timed out: popup connects to real loopback helper; last result false
+    at until (file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/browser-support.mjs:13:8)
+    at async file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/browser-local-cas.mjs:38:2
+
+Node.js v24.19.0

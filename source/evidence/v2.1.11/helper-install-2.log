@@ -1,0 +1,3 @@
+Requirement already satisfied: sympy==1.14.0 in /tmp/kubla-helper-install-chkxn6ar/helper/.venv/lib/python3.12/site-packages (from -r /tmp/kubla-helper-install-chkxn6ar/helper/requirements.txt (line 2)) (1.14.0)
+Requirement already satisfied: mpmath==1.3.0 in /tmp/kubla-helper-install-chkxn6ar/helper/.venv/lib/python3.12/site-packages (from -r /tmp/kubla-helper-install-chkxn6ar/helper/requirements.txt (line 3)) (1.3.0)
+{"ready": true, "host": "127.0.0.1", "port": 41743, "version": "2.1.11", "tokenConfig": "/tmp/kubla-helper-install-chkxn6ar/config/kubla-khan/helper.json"}

@@ -1,0 +1,18 @@
+LOCAL CAS STATE undefined
+LOCAL CAS EVENTS []
+HELPER OUTPUT {"ready": true, "host": "127.0.0.1", "port": 8765, "version": "2.1.11", "tokenConfig": "/tmp/kubla-cas-test-TFbuh4/config.json"}
+Paste the token from the private config into the extension local-solver settings. Keep this terminal running.
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+worker.evaluate: Error: Cannot show popup for an inactive window. To show the popup for this window, first call `chrome.windows.update` with `focused` set to true.
+    at popup (/workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/browser-support.mjs:44:15)
+    at controls (/workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/browser-local-cas.mjs:21:34)
+    at enable (/workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/browser-local-cas.mjs:35:40)
+    at /workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/browser-local-cas.mjs:41:170 {
+  log: []
+}
+
+Node.js v24.19.0

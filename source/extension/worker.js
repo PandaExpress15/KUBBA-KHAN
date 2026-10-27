@@ -1,3 +1,4 @@
+import {localHealth} from './local-cas.js';
 import {isKhan,scope,inScope,validMedia,safeRate} from './policy.js';
 import {insertReviewed} from './input.js';
 import {DualRunner,ALARM} from './dual.js';
@@ -35,6 +36,9 @@ async function handle(m,sender,requestEpoch){
     throw Error('UNKNOWN_CONTENT_ACTION');
   }
   const id=m.tabId;if(!Number.isInteger(id))throw Error('NO_TAB');
+  if(m.type==='LOCAL_ENABLE'){if(!/^[A-Za-z0-9_-]{24,128}$/.test(m.token||''))throw Error('INVALID_HELPER_TOKEN');await chrome.storage.local.set({'local-cas':{enabled:true,token:m.token}});return {ok:true,connected:await localHealth(chrome)};}
+  if(m.type==='LOCAL_DISABLE'){await chrome.storage.local.remove('local-cas');return {ok:true};}
+  if(m.type==='LOCAL_STATUS'){const settings=(await chrome.storage.local.get('local-cas'))['local-cas'];return {ok:true,enabled:!!settings?.enabled};}
   if(m.type==='AUTO_STATUS')return dual.status();
   if(m.type==='AUTO_STOP')return dual.stop();
   if(m.type==='AUTO_RESUME')return dual.resume();
@@ -42,7 +46,7 @@ async function handle(m,sender,requestEpoch){
     if(requestEpoch!==stopEpoch)throw Error('START_CANCELLED_BY_STOP');
     const old=await get(id);old.running=false;old.revision++;await save(id,old);await broadcast(id,old);
     if(requestEpoch!==stopEpoch)throw Error('START_CANCELLED_BY_STOP');
-    return dual.start(id,{rate:m.rate,muted:m.muted});
+    return dual.start(id,{rate:m.rate,muted:m.muted,continueBlocked:m.continueBlocked});
   }
   if(m.type==='STOP'){
     const s=await get(id);s.running=false;s.state='IDLE';s.revision++;s.frames={};await save(id,s);await broadcast(id,s);return {ok:true,config:s};

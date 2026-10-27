@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "newVenv": true,
+      "privateTokenConfig": true,
+      "actualHTTPResult": "2*sqrt(2)",
+      "seconds": 9.01
+    },
+    {
+      "attempt": 2,
+      "newVenv": false,
+      "privateTokenConfig": true,
+      "actualHTTPResult": "2*sqrt(2)",
+      "seconds": 1.04
+    }
+  ],
+  "tokenPublished": false
+}

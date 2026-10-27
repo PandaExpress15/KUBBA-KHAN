@@ -1,0 +1,6 @@
+Warning: Detected unsettled top-level await at file:///workspace/khan-runner-isolated/turn-local-v2.1.11/source/tests/browser-local-cas.mjs:37
+ await until(()=>p.evaluate(()=>document.getElementById('helper-status').textContent.includes('connected')),{timeout:15000,label:'popup connects to real loopback helper'});
+ ^
+
+
+

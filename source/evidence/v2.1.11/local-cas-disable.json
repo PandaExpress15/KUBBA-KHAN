@@ -1,0 +1,18 @@
+{
+  "browser": "156.0.8078.47",
+  "syntheticSite": true,
+  "liveClassroomVerified": false,
+  "realPythonHTTPHelper": true,
+  "permissionMethod": "temporary test extension manifest grants loopback; production manifest remains optional and owner permission approval UI is unverified",
+  "permissionFixture": true,
+  "productionManifestUnchanged": true,
+  "ownerPermissionApprovalUIVerified": false,
+  "actualPopupEnableHealthAndDisableVerified": true,
+  "helperCredentialRemoved": true,
+  "http": [
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    }
+  ]
+}

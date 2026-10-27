@@ -12,7 +12,7 @@ export async function until(fn,{timeout=30000,interval=100,label='condition'}={}
  while(Date.now()<end){result=await fn();if(result)return result;await wait(interval);}
  throw Error('Timed out: '+label+'; last result '+JSON.stringify(result));
 }
-export async function launch({beforeInstall}={}){
+export async function launch({beforeInstall,extraArgs=[],extensionPath=extension}={}){
  const profile=await mkdtemp(path.join(tmpdir(),'khan-browser-'));
  let context;
  try{
@@ -22,7 +22,7 @@ export async function launch({beforeInstall}={}){
    env:{...process.env,XDG_CONFIG_HOME:path.join(profile,'config'),XDG_CACHE_HOME:path.join(profile,'cache')},
    // CDP's supported unpacked-extension developer API, only in this disposable profile.
    // No web-security, TLS, autoplay, editor or sandbox bypasses.
-   args:['--enable-unsafe-extension-debugging']
+   args:['--enable-unsafe-extension-debugging',...extraArgs]
   });
   await beforeInstall?.(context);
   // Match ordinary Load unpacked installation: enable Developer mode through
@@ -31,7 +31,7 @@ export async function launch({beforeInstall}={}){
   const developerMode=manager.locator('#devMode');
   if(!await developerMode.evaluate(e=>e.checked))await developerMode.click();
   const cdp=await context.browser().newBrowserCDPSession();
-  const {id}=await cdp.send('Extensions.loadUnpacked',{path:extension});
+  const {id}=await cdp.send('Extensions.loadUnpacked',{path:extensionPath});
   const worker=await until(()=>context.serviceWorkers().find(w=>w.url()===`chrome-extension://${id}/worker.js`),{label:'MV3 worker'});
   await manager.close();
   return {context,cdp,id,worker,profile,close:async()=>{await context.close();await rm(profile,{recursive:true,force:true});}};

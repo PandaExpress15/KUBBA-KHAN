@@ -10,6 +10,6 @@ export function statusView(run,connected,isClass,requestError=''){
  if(run?.running&&run.lanes?.exercise?.state==='WAITING_BEFORE_ANSWER')return {title:'Waiting before the next answer',detail:`${run.lanes.exercise.wait?.remainingSeconds??0}s remaining · a fresh 10–30-second pause is chosen for each question.`,tone:'working'};
  if(run?.running)return {title:'Runner active',detail:'Each tab’s progress and pause reason are shown below.',tone:'working'};
  if(run?.state==='STOPPED')return {title:'Stopped',detail:'Start both tabs to begin a new run.',tone:'idle'};
- if(run?.state==='DONE')return {title:'Queue finished',detail:'See the separate video-end and exercise-completion counts below.',tone:'idle'};
+ if(run?.state==='DONE')return {title:Object.values(run.lanes||{}).some(l=>l.deferred)?'Queue processed · review needed':'Queue finished',detail:'Completed and needs-review assignments are counted separately below.',tone:'idle'};
  return {title:connected?'Not started':'Open your classroom tab',detail:isClass?'Press the green Start both tabs button.':'Open All assignments, choose To-do, and refresh the tab.',tone:'idle'};
 }
