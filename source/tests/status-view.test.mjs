@@ -5,3 +5,5 @@ test('discovery displays actual queue counts',()=>{const v=statusView({state:'DI
 test('request-level error is visible before a run exists',()=>assert.equal(statusView(null,true,true,'STARTUP_INJECTION_FAILED').tone,'error'));
 
 test('a paused lane is an error at the top even while the other lane runs',()=>{const v=statusView({state:'RUNNING',running:true,lanes:{video:{state:'PLAYING'},exercise:{state:'PAUSED',error:'UNSUPPORTED_MATH_FORMAT'}}},true,true);assert.match(v.title,/paused/);assert.equal(v.tone,'error');assert.match(v.detail,/needs manual work/);});
+
+test('answer pause has a visible countdown',()=>{const v=statusView({running:true,state:'RUNNING',lanes:{exercise:{state:'WAITING_BEFORE_ANSWER',wait:{seconds:24,remainingSeconds:19}}}},true,true);assert.match(v.title,/Waiting/);assert.match(v.detail,/19s remaining/);assert.match(v.detail,/10–30/);});

@@ -29,7 +29,8 @@ try{
  console.log('Browser',b.context.browser().version(),'extension',await b.worker.evaluate(()=>chrome.runtime.getManifest().version),'source',await b.worker.evaluate(()=>chrome.runtime.getURL('')));
 
  await start({});
- const done=await until(async()=>{const s=await state();if(s?.state==='ERROR'||Object.values(s?.lanes||{}).some(l=>l.state==='PAUSED'))throw Error(JSON.stringify(s));return s?.state==='DONE'?s:false;},{timeout:100000,label:'two videos and two exercises'});
+ await until(async()=>{const s=await state();return s?.lanes?.exercise?.state==='WAITING_BEFORE_ANSWER'&&s?.lanes?.video?.state==='PLAYING'&&events.some(e=>e.kind==='media-timeupdate'&&e.time>0.3);},{label:'video progresses while the exercise countdown is active'});
+ const done=await until(async()=>{const s=await state();if(s?.state==='ERROR'||Object.values(s?.lanes||{}).some(l=>l.state==='PAUSED'))throw Error(JSON.stringify(s));return s?.state==='DONE'?s:false;},{timeout:230000,label:'two videos and two exercises'});
  assert.deepEqual(done.counts,{answers:4,exercise:2,video:2});
  assert.equal(b.context.pages().filter(p=>p.url().includes('/assignment/')).length,2,'exactly two work tabs');
  assert.equal(done.jobs.video.length,2);assert.equal(done.jobs.exercise.length,2);
@@ -49,18 +50,18 @@ try{
  assert.equal(events.filter(e=>e.kind==='done').length,2);
  assert.ok(events.some(e=>e.kind==='controlled-rerender'&&e.value));
  assert.ok(events.some(e=>e.kind==='check'&&e.url.includes('exercise2')),'real no-global MathQuill Check');
- const firstEnd=events.find(e=>e.kind==='media-ended').at;
- assert.ok(events.some(e=>e.kind==='check'&&e.at<firstEnd),'exercise Check overlaps real video playback');
+ // The requested answer delay can exceed both videos. Concurrency is checked
+ // above by observing real media progress during the independent countdown.
  console.log('PASS SPA multipage reset/article-only/dedupe/same-class, two actual tabs, two real media ends at effective 2x (top + iframe), native controlled input + actual fallback MathQuill, four once-only Checks, Next/Done, next assignments');
  const happyEvents=structuredClone(events);
 
  await start({single:true,editor:'public',questions:1});
- await until(async()=>{const s=await state();if(s.state==='ERROR'||s.lanes.exercise?.state==='PAUSED')throw Error(JSON.stringify(s));return s.state==='DONE';},{timeout:30000,label:'public MathQuill full exercise'});
+ await until(async()=>{const s=await state();if(s.state==='ERROR'||s.lanes.exercise?.state==='PAUSED')throw Error(JSON.stringify(s));return s.state==='DONE';},{timeout:75000,label:'public MathQuill full exercise'});
  assert.equal(events.filter(e=>e.kind==='check').length,1);
  console.log('PASS actual upstream public MathQuill API entry/readback/Check/Done');
 
  await start({initialPage:1});
- await until(async()=>{const s=await state();return s.lanes.exercise?.problem?.phase==='READY_TO_CHECK'&&events.some(e=>e.kind==='media-playing');},{label:'pending entry and playing video'});
+ await until(async()=>{const s=await state();return s.lanes.exercise?.state==='WAITING_BEFORE_ANSWER'&&events.some(e=>e.kind==='media-playing');},{label:'pending entry and playing video'});
  await click('#stop');await until(async()=> (await state()).state==='STOPPED',{label:'Stop observed'});
  const stoppedAt=Date.now(),before=events.filter(e=>e.kind==='check').length;
  await wait(8500);
@@ -80,7 +81,7 @@ try{
  await click('#stop');console.log('PASS unsupported math pauses visibly above fold, no Check or completion count');
 
  await start({single:true,wrong:true});
- await until(async()=> (await state()).lanes.exercise?.error==='SITE_REJECTED_ANSWER',{label:'wrong feedback'});
+ await until(async()=> (await state()).lanes.exercise?.error==='SITE_REJECTED_ANSWER',{timeout:75000,label:'wrong feedback'});
  assert.equal(events.filter(e=>e.kind==='check').length,1);assert.equal((await state()).counts.exercise,0);
  await click('#stop');console.log('PASS wrong site feedback pauses, no resubmit or completion');
 

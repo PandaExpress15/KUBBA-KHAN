@@ -19,7 +19,7 @@ async function start(opts){
 }
 try{
  await source.bringToFront();await click('#start');
- await until(()=>checks()===1,{label:'Check intent delivered'});
+ await until(()=>checks()===1,{timeout:75000,label:'Check intent delivered'});
  assert.ok(await b.worker.evaluate(async root=>{const tab=(await chrome.tabs.query({})).find(t=>t.url===root);return (await chrome.scripting.executeScript({target:{tabId:tab.id},func:()=>!!globalThis.__klrDualTicker}))[0].result;},ROOT));
  console.log('PASS installed on already-open classroom tab: Start attaches the runner without a tab reload');
  const service=await b.context.newCDPSession(source),versions=new Map(),transitions=[];
@@ -40,7 +40,7 @@ try{
  await click('#stop');
 
  await start({questions:1,feedbackDelay:12000});
- await until(async()=> (await state()).state==='DONE',{timeout:40000,label:'delayed accepted feedback'});
+ await until(async()=> (await state()).state==='DONE',{timeout:85000,label:'delayed accepted feedback'});
  assert.equal(checks(),1);console.log('PASS delayed real DOM feedback: exactly one Check, then observed Done');
 
  await start({questions:1});
@@ -58,12 +58,12 @@ try{
  assert.equal(checks(),0);await click('#stop');console.log('PASS actual tab closure detected by real Chrome heartbeat; no Check');
 
  await start({changeAfterCheck:true});
- await until(async()=> (await state()).lanes.exercise?.state==='PAUSED',{label:'changed problem after Check'});
+ await until(async()=> (await state()).lanes.exercise?.state==='PAUSED',{timeout:75000,label:'changed problem after Check'});
  assert.equal((await state()).lanes.exercise.error,'PROBLEM_CHANGED_BEFORE_FEEDBACK');assert.equal((await state()).counts.answers,0);assert.equal(checks(),1);
  await click('#stop');console.log('PASS changed problem before feedback: no credit and no resubmission');
 
  await start({ordinals:false,questions:2});
- await until(async()=> (await state()).lanes.exercise?.error==='NEXT_QUESTION_DID_NOT_CHANGE',{timeout:50000,label:'identical question without ordinal'});
+ await until(async()=> (await state()).lanes.exercise?.error==='NEXT_QUESTION_DID_NOT_CHANGE',{timeout:95000,label:'identical question without ordinal'});
  assert.equal(checks(),1);assert.equal((await state()).counts.answers,0);await click('#stop');
  console.log('PASS identical consecutive expressions without ordinal pause; no guessed identity or second Check');
 
@@ -77,7 +77,7 @@ try{
  await until(async()=> (await reloadPage.evaluate(()=>chrome.developerPrivate.getExtensionsInfo({includeDisabled:true}))).some(e=>e.id===b.id&&e.state==='ENABLED'),{label:'reload enabled'});
  const wake=await b.context.newPage();await wake.goto(`chrome-extension://${b.id}/popup.html`);b.worker=await reloaded;await wake.close();await reloadPage.close();
  await start({questions:1});
- await until(async()=>{const s=await state();if(s.state==='ERROR'||s.lanes.exercise?.state==='PAUSED')throw Error(JSON.stringify(s));return s.state==='DONE';},{timeout:45000,label:'source reload then normal run'});
+ await until(async()=>{const s=await state();if(s.state==='ERROR'||s.lanes.exercise?.state==='PAUSED')throw Error(JSON.stringify(s));return s.state==='DONE';},{timeout:85000,label:'source reload then normal run'});
  assert.equal(checks(),1);console.log('PASS actual extension reload preserves source binding and reattaches an existing tab');
 }catch(e){console.error('RECOVERY STATE',JSON.stringify(await state().catch(()=>null)));throw e;}
 finally{await b.close();}

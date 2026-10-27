@@ -1,0 +1,990 @@
+{
+  "browser": "156.0.8078.47",
+  "syntheticSite": true,
+  "liveSiteVerified": false,
+  "happyEvents": [
+    {
+      "kind": "list-page",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE",
+      "at": 1793062710418,
+      "page": 3
+    },
+    {
+      "kind": "list-page",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE",
+      "at": 1793062710960,
+      "page": 2
+    },
+    {
+      "kind": "list-page",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE",
+      "at": 1793062714973,
+      "page": 1
+    },
+    {
+      "kind": "list-page",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE",
+      "at": 1793062718982,
+      "page": 2
+    },
+    {
+      "kind": "list-page",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE",
+      "at": 1793062722994,
+      "page": 3
+    },
+    {
+      "kind": "exercise-question",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+      "at": 1793062726918,
+      "q": 1
+    },
+    {
+      "kind": "media-ratechange",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062726963,
+      "trusted": true,
+      "time": 0.0003,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-playing",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062726963,
+      "trusted": true,
+      "time": 0.0012,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062727220,
+      "trusted": true,
+      "time": 0.5153,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062727486,
+      "trusted": true,
+      "time": 1.047,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062727752,
+      "trusted": true,
+      "time": 1.5779,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062728017,
+      "trusted": true,
+      "time": 2.109,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062728283,
+      "trusted": true,
+      "time": 2.6403,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062728548,
+      "trusted": true,
+      "time": 3.1716,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062728814,
+      "trusted": true,
+      "time": 3.7028,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062729080,
+      "trusted": true,
+      "time": 4.2342,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062729345,
+      "trusted": true,
+      "time": 4.7655,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062729611,
+      "trusted": true,
+      "time": 5.2967,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062729877,
+      "trusted": true,
+      "time": 5.8279,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062730142,
+      "trusted": true,
+      "time": 6.3594,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062730408,
+      "trusted": true,
+      "time": 6.8903,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062730674,
+      "trusted": true,
+      "time": 7.4219,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062730939,
+      "trusted": true,
+      "time": 7.9528,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062731205,
+      "trusted": true,
+      "time": 8.484,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062731470,
+      "trusted": true,
+      "time": 9.0153,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062731736,
+      "trusted": true,
+      "time": 9.5466,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062732002,
+      "trusted": true,
+      "time": 10.0785,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062732267,
+      "trusted": true,
+      "time": 10.609,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062732533,
+      "trusted": true,
+      "time": 11.1403,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062732798,
+      "trusted": true,
+      "time": 11.6716,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062733064,
+      "trusted": true,
+      "time": 12.2031,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062733330,
+      "trusted": true,
+      "time": 12.7341,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062733595,
+      "trusted": true,
+      "time": 13.2653,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062733861,
+      "trusted": true,
+      "time": 13.7965,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062734127,
+      "trusted": true,
+      "time": 14.3279,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062734392,
+      "trusted": true,
+      "time": 14.8591,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062734658,
+      "trusted": true,
+      "time": 15.3907,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062734923,
+      "trusted": true,
+      "time": 15.9216,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062734963,
+      "trusted": true,
+      "time": 16,
+      "duration": 16,
+      "rate": 2,
+      "paused": true
+    },
+    {
+      "kind": "media-pause",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062734964,
+      "trusted": true,
+      "time": 16,
+      "duration": 16,
+      "rate": 2,
+      "paused": true
+    },
+    {
+      "kind": "media-ended",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+      "at": 1793062734964,
+      "trusted": true,
+      "time": 16,
+      "duration": 16,
+      "rate": 2,
+      "paused": true
+    },
+    {
+      "kind": "media-ratechange",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062739096,
+      "trusted": true,
+      "time": 0.0004,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-playing",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062739097,
+      "trusted": true,
+      "time": 0.0022,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062739361,
+      "trusted": true,
+      "time": 0.5298,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062739627,
+      "trusted": true,
+      "time": 1.0614,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062739892,
+      "trusted": true,
+      "time": 1.5923,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062740158,
+      "trusted": true,
+      "time": 2.1235,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062740423,
+      "trusted": true,
+      "time": 2.6547,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062740689,
+      "trusted": true,
+      "time": 3.1861,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062740955,
+      "trusted": true,
+      "time": 3.7174,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062741220,
+      "trusted": true,
+      "time": 4.2485,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062741486,
+      "trusted": true,
+      "time": 4.7797,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062741751,
+      "trusted": true,
+      "time": 5.311,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062742017,
+      "trusted": true,
+      "time": 5.8422,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062742283,
+      "trusted": true,
+      "time": 6.3737,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062742548,
+      "trusted": true,
+      "time": 6.9047,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062742814,
+      "trusted": true,
+      "time": 7.4361,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062743080,
+      "trusted": true,
+      "time": 7.9673,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062743345,
+      "trusted": true,
+      "time": 8.4985,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062743611,
+      "trusted": true,
+      "time": 9.0298,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062743876,
+      "trusted": true,
+      "time": 9.561,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062744142,
+      "trusted": true,
+      "time": 10.0924,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062744408,
+      "trusted": true,
+      "time": 10.6235,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062744673,
+      "trusted": true,
+      "time": 11.155,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062744939,
+      "trusted": true,
+      "time": 11.686,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062745205,
+      "trusted": true,
+      "time": 12.2173,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062745470,
+      "trusted": true,
+      "time": 12.7485,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062745736,
+      "trusted": true,
+      "time": 13.2798,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062746001,
+      "trusted": true,
+      "time": 13.8109,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062746267,
+      "trusted": true,
+      "time": 14.3426,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062746533,
+      "trusted": true,
+      "time": 14.8735,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062746798,
+      "trusted": true,
+      "time": 15.4047,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062747064,
+      "trusted": true,
+      "time": 15.9361,
+      "duration": 16,
+      "rate": 2,
+      "paused": false
+    },
+    {
+      "kind": "media-timeupdate",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062747097,
+      "trusted": true,
+      "time": 16,
+      "duration": 16,
+      "rate": 2,
+      "paused": true
+    },
+    {
+      "kind": "media-pause",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062747097,
+      "trusted": true,
+      "time": 16,
+      "duration": 16,
+      "rate": 2,
+      "paused": true
+    },
+    {
+      "kind": "media-ended",
+      "url": "https://www.youtube-nocookie.com/embed/FIXTURE",
+      "at": 1793062747097,
+      "trusted": true,
+      "time": 16,
+      "duration": 16,
+      "rate": 2,
+      "paused": true
+    },
+    {
+      "kind": "native-input",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+      "at": 1793062751965,
+      "q": 1,
+      "value": "(2*x + 1)*(5*x + 4)"
+    },
+    {
+      "kind": "controlled-rerender",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+      "at": 1793062751966,
+      "q": 1,
+      "value": "(2*x + 1)*(5*x + 4)"
+    },
+    {
+      "kind": "check",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+      "at": 1793062755975,
+      "q": 1,
+      "answer": "(2*x + 1)*(5*x + 4)",
+      "checks": 1
+    },
+    {
+      "kind": "feedback",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+      "at": 1793062756226,
+      "q": 1,
+      "correct": true
+    },
+    {
+      "kind": "next",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+      "at": 1793062759980,
+      "q": 1
+    },
+    {
+      "kind": "exercise-question",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+      "at": 1793062760131,
+      "q": 2
+    },
+    {
+      "kind": "native-input",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+      "at": 1793062796996,
+      "q": 2,
+      "value": "(2*x + 1)*(5*x + 4)"
+    },
+    {
+      "kind": "controlled-rerender",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+      "at": 1793062796996,
+      "q": 2,
+      "value": "(2*x + 1)*(5*x + 4)"
+    },
+    {
+      "kind": "check",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+      "at": 1793062800797,
+      "q": 2,
+      "answer": "(2*x + 1)*(5*x + 4)",
+      "checks": 2
+    },
+    {
+      "kind": "feedback",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+      "at": 1793062801047,
+      "q": 2,
+      "correct": true
+    },
+    {
+      "kind": "done",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+      "at": 1793062805010,
+      "q": 2
+    },
+    {
+      "kind": "exercise-question",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise2",
+      "at": 1793062809082,
+      "q": 1
+    },
+    {
+      "kind": "check",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise2",
+      "at": 1793062826170,
+      "q": 1,
+      "answer": "(2\\cdot x+1)\\cdot(5\\cdot x+4)",
+      "checks": 1
+    },
+    {
+      "kind": "feedback",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise2",
+      "at": 1793062826420,
+      "q": 1,
+      "correct": true
+    },
+    {
+      "kind": "next",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise2",
+      "at": 1793062830175,
+      "q": 1
+    },
+    {
+      "kind": "exercise-question",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise2",
+      "at": 1793062830326,
+      "q": 2
+    },
+    {
+      "kind": "check",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise2",
+      "at": 1793062850229,
+      "q": 2,
+      "answer": "(2\\cdot x+1)\\cdot(5\\cdot x+4)",
+      "checks": 2
+    },
+    {
+      "kind": "feedback",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise2",
+      "at": 1793062850479,
+      "q": 2,
+      "correct": true
+    },
+    {
+      "kind": "done",
+      "url": "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise2",
+      "at": 1793062854236,
+      "q": 2
+    }
+  ],
+  "finalState": {
+    "counts": {
+      "answers": 0,
+      "exercise": 0,
+      "video": 0
+    },
+    "errors": [],
+    "jobs": {
+      "exercise": [
+        "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1",
+        "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise2"
+      ],
+      "video": [
+        "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1",
+        "https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video2"
+      ]
+    },
+    "lanes": {
+      "exercise": {
+        "delay": {
+          "key": "e5841a17cc8c815072a220fba36e811d696a8e404ff51fa540312002f56307de",
+          "seconds": 24,
+          "until": 1793062950831
+        },
+        "frameIds": [
+          0
+        ],
+        "index": 0,
+        "kind": "exercise",
+        "probe": {
+          "answerLabels": 0,
+          "checkControls": 1,
+          "expressions": 1,
+          "fields": 1,
+          "mathAnnotations": 1,
+          "operation": "factor",
+          "phase": "READING",
+          "readState": "READY",
+          "scope": "main",
+          "solver": "solved"
+        },
+        "problem": null,
+        "started": 1793062926756,
+        "state": "WAITING_BEFORE_ANSWER",
+        "tabId": 880030428
+      },
+      "video": {
+        "frameIds": [
+          0
+        ],
+        "index": 0,
+        "kind": "video",
+        "lastProgress": 1793062926835,
+        "lastTime": 0.0016,
+        "problem": null,
+        "rate": 2,
+        "started": 1793062926746,
+        "state": "PLAYING",
+        "tabId": 880030417
+      }
+    },
+    "muted": true,
+    "rate": 2,
+    "revision": 10,
+    "running": false,
+    "scan": {
+      "backAttempts": 2,
+      "backSince": 1793062926599,
+      "lastNavigationError": "LIST_FRAME_REMOVED",
+      "navigationInterruptions": 1,
+      "pages": 3,
+      "pending": null,
+      "pendingAt": 1793062926709,
+      "probe": {
+        "assignmentLinks": 3,
+        "navigation": {
+          "conflictingLabels": 0,
+          "next": {
+            "enabled": 0,
+            "found": 1,
+            "scoped": 0,
+            "sources": [
+              "text"
+            ],
+            "state": "disabled"
+          },
+          "previous": {
+            "enabled": 1,
+            "found": 1,
+            "scoped": 0,
+            "sources": [
+              "text"
+            ],
+            "state": "ready"
+          }
+        },
+        "next": false,
+        "page": 3,
+        "pages": 3,
+        "supportedRows": 3,
+        "todo": true
+      },
+      "seen": [
+        "1|",
+        "2|https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1|https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1|https://classroom.khanacademy.org/learner/class/OTHER/assignment/foreign",
+        "3|https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video2|https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise2|https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/video1"
+      ],
+      "since": 1793062926537
+    },
+    "scope": "https://classroom.khanacademy.org/learner/class/FIXTURE",
+    "sourceTab": 880030417,
+    "started": 1793062926537,
+    "startupStage": "READ_QUEUE",
+    "state": "STOPPED",
+    "version": "2.1.5"
+  },
+  "pageErrors": []
+}

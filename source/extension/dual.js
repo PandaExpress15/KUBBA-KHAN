@@ -6,14 +6,15 @@ import {mathQuillDOM} from './mq-dom.js';
 import {pageSnapshot,pageAction,mediaStep,stopMedia,readEditor} from './automation-page.js';
 import {paginationUI} from './pagination.js';
 const STORE='dual-run',ALARM='klr-dual-heartbeat';
-const idle=()=>({version:'2.1.4',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
+const idle=()=>({version:'2.1.5',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
 const cleanURL=u=>u.split(/[?#]/)[0];
 export function classScope(url){if(!isKhan(url))throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');const u=new URL(url),m=u.pathname.match(/^\/learner\/class\/[^/]+/);if(!m)throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');return u.origin+m[0];}
 export function collectJobs(items,scope){const seen=new Set(),out={video:[],exercise:[]};for(const x of items||[]){if(!['video','exercise'].includes(x.kind)||!inScope(x.url,scope)||!new URL(x.url).pathname.includes('/assignment/')||seen.has(cleanURL(x.url)))continue;seen.add(cleanURL(x.url));out[x.kind].push(cleanURL(x.url));}return out;}
 export async function problemKey(p){const s=[cleanURL(p.url),p.ordinal??'?',p.operation||'?',p.expression].join('|');const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(hash)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+export function answerDelaySeconds(random=Math.random){const value=random();if(!Number.isFinite(value)||value<0||value>=1)throw Error('INVALID_RANDOM_SOURCE');return 10+Math.floor(value*21);}
 export function algebraEqual(a,b){return equivalent(a,b);}
 export class DualRunner{
- constructor(api,now=()=>Date.now()){this.api=api;this.now=now;this.cancelled=false;this.cancelRevision=0;}
+ constructor(api,now=()=>Date.now(),random=Math.random){this.api=api;this.now=now;this.random=random;this.cancelled=false;this.cancelRevision=0;}
  cancel(){this.cancelled=true;this.cancelRevision++;}
  async get(){return (await this.api.storage.session.get(STORE))[STORE]||idle();}
  async save(s){await this.api.storage.session.set({[STORE]:s});}
@@ -21,7 +22,7 @@ export class DualRunner{
  async media(s,lane,func,args=[]){const out=[];for(const id of lane.frameIds||[0]){if(this.cancelled&&func!==stopMedia)break;try{out.push(await this.invoke(lane.tabId,func,args,'ISOLATED',id));}catch{/* Detached or inaccessible iframe. Remaining permitted frames are still inspected. */}}return out;}
  async signal(s){for(const id of new Set([s.sourceTab,...Object.values(s.lanes||{}).map(l=>l.tabId)].filter(Number.isInteger)))await this.api.tabs.sendMessage(id,{type:'AUTO_CONFIG',running:s.running,revision:s.revision}).catch(()=>{});}
  async stop(){this.cancel();const s=await this.get();s.running=false;s.state='STOPPED';s.revision++;await this.save(s);await this.api.alarms.clear(ALARM);await this.signal(s);for(const lane of Object.values(s.lanes))await this.media(s,lane,stopMedia);return {ok:true,run:this.public(s)};}
- public(s){return {version:s.version,running:s.running,state:s.state,counts:s.counts,startup:{stage:s.startupStage||'',pages:s.scan?.pages||0,probe:s.scan?.probe||null,navigationInterruptions:s.scan?.navigationInterruptions||0,lastNavigationError:s.scan?.lastNavigationError||''},queued:{video:s.jobs?.video.length||0,exercise:s.jobs?.exercise.length||0},lanes:Object.fromEntries(Object.entries(s.lanes).map(([k,l])=>[k,{tabId:l.tabId,state:l.state,error:l.error||'',index:l.index,total:s.jobs?.[k].length||0,rate:l.rate||0,probe:l.probe||null}])),errors:s.errors.slice(-5)};}
+ public(s){return {version:s.version,running:s.running,state:s.state,counts:s.counts,startup:{stage:s.startupStage||'',pages:s.scan?.pages||0,probe:s.scan?.probe||null,navigationInterruptions:s.scan?.navigationInterruptions||0,lastNavigationError:s.scan?.lastNavigationError||''},queued:{video:s.jobs?.video.length||0,exercise:s.jobs?.exercise.length||0},lanes:Object.fromEntries(Object.entries(s.lanes).map(([k,l])=>[k,{tabId:l.tabId,state:l.state,error:l.error||'',index:l.index,total:s.jobs?.[k].length||0,rate:l.rate||0,probe:l.probe||null,wait:l.state==='WAITING_BEFORE_ANSWER'&&l.delay?{seconds:l.delay.seconds,remainingSeconds:Math.max(0,Math.ceil((l.delay.until-this.now())/1000))}:null}])),errors:s.errors.slice(-5)};}
  async status(){return {ok:true,run:this.public(await this.get())};}
  async start(tabId,options={}){
   const cancelRevision=this.cancelRevision;
@@ -50,7 +51,7 @@ export class DualRunner{
  async finishIfDone(s){if(Object.values(s.lanes).every(l=>l.state==='DONE')){s.running=false;s.state='DONE';await this.save(s);await this.api.alarms.clear(ALARM);await this.signal(s);}}
  async advance(s,lane){
   if(this.cancelled||!s.running)return;
-  s.counts[lane.kind]++;lane.index++;lane.problem=null;lane.started=this.now();lane.error='';lane.frameIds=[0];delete lane.introClicked;delete lane.playFailures;delete lane.probe;delete lane.questionWait;
+  s.counts[lane.kind]++;lane.index++;lane.problem=null;lane.started=this.now();lane.error='';lane.frameIds=[0];delete lane.introClicked;delete lane.playFailures;delete lane.probe;delete lane.questionWait;delete lane.delay;
   if(lane.index>=s.jobs[lane.kind].length){lane.state='DONE';await this.save(s);await this.finishIfDone(s);return;}
   lane.state='NAVIGATING';await this.save(s);if(!this.cancelled)await this.api.tabs.update(lane.tabId,{url:s.jobs[lane.kind][lane.index]});
  }
@@ -155,6 +156,10 @@ export class DualRunner{
   if(checks!==1){await this.waitForQuestion(s,lane,'CHECK_CONTROL_MISSING_OR_AMBIGUOUS');return;}
   delete lane.questionWait;
   if(!lane.problem){
+   if(lane.delay&&lane.delay.key!==key){await this.pause(s,lane,'PROBLEM_CHANGED_DURING_WAIT');return;}
+   if(!lane.delay){const seconds=answerDelaySeconds(this.random);lane.delay={key,seconds,until:this.now()+seconds*1000};}
+   if(this.now()<lane.delay.until){lane.state='WAITING_BEFORE_ANSWER';await this.save(s);return;}
+   delete lane.delay;
    lane.problem={key,phase:'ENTERING',at:this.now()};lane.state='ENTERING_ANSWER';await this.save(s);if(this.cancelled)return;
    let entry=await this.invoke(lane.tabId,insertReviewed,[{answer:answer.answer,latex:answer.latex},p.token],'MAIN');
    if(entry?.error==='MATHQUILL_PUBLIC_API_UNAVAILABLE_COPY_MANUALLY'&&!this.cancelled)entry=await this.invoke(lane.tabId,mathQuillDOM,['insert',{token:p.token},answer],'MAIN');
@@ -181,9 +186,10 @@ export class DualRunner{
     if(lane.kind==='video')await this.video(s,lane);else await this.exercise(s,lane);
    }
   }catch(e){s.running=false;s.state='ERROR';s.errors.push({lane:'controller',code:/^[A-Z_0-9]+$/.test(e.message)?e.message:'BROWSER_ADAPTER_ERROR',at:this.now()});await this.save(s);await this.signal(s);for(const l of Object.values(s.lanes))await this.media(s,l,stopMedia);await this.api.alarms.clear(ALARM);}
-  return {ok:true,running:s.running};
+  const pending=s.lanes.exercise;const nextPulseMs=s.running&&pending?.state==='WAITING_BEFORE_ANSWER'&&pending.tabId===tabId?Math.min(4000,Math.max(50,pending.delay.until-this.now())):4000;
+  return {ok:true,running:s.running,nextPulseMs};
  }
- async resume(){const s=await this.get();if(!s.running)throw Error('START_A_NEW_RUN');this.cancelled=false;for(const l of Object.values(s.lanes))if(l.state==='PAUSED'){l.state='READING';l.error='';l.started=this.now();if(l.problem?.phase==='ENTERING')l.problem=null;}await this.save(s);await this.signal(s);return {ok:true,run:this.public(s)};}
+ async resume(){const s=await this.get();if(!s.running)throw Error('START_A_NEW_RUN');this.cancelled=false;for(const l of Object.values(s.lanes))if(l.state==='PAUSED'){if(l.error==='PROBLEM_CHANGED_DURING_WAIT')delete l.delay;l.state='READING';l.error='';l.started=this.now();if(l.problem?.phase==='ENTERING')l.problem=null;}await this.save(s);await this.signal(s);return {ok:true,run:this.public(s)};}
  async frame(sender){const s=await this.get();const lane=s.lanes.video;if(s.running&&lane?.tabId===sender.tab.id&&cleanURL(sender.tab.url)===s.jobs.video[lane.index]){lane.frameIds||=[0];if(!lane.frameIds.includes(sender.frameId)){lane.frameIds.push(sender.frameId);await this.save(s);}}return {ok:true};}
  async hello(sender){const s=await this.get();const active=s.running&&!this.cancelled&&(s.state==='DISCOVERING'&&s.sourceTab===sender.tab.id||Object.values(s.lanes).some(l=>l.tabId===sender.tab.id&&!['DONE','PAUSED'].includes(l.state)));return {ok:true,running:active,revision:s.revision};}
  async recoverAlarm(){const s=await this.get();if(s.running)await this.api.alarms.create(ALARM,{periodInMinutes:.5});}

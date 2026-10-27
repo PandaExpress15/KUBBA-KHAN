@@ -1,3 +1,13 @@
+# Answer pacing · 2.1.5
+
+The requested change is a fresh random integer delay of 10–30 seconds before every supported answer is entered. A saved per-question deadline prevents polling or worker restart from repeatedly choosing a different delay. The popup exposes a countdown; a deadline-aware content wakeup avoids adding a full ordinary polling interval unnecessarily.
+
+Stop changes the timer generation and cancels pending wakeups. The worker still checks run authority, class scope, problem identity, existing work and readback before any Check. A question changed during the pause stops with PROBLEM_CHANGED_DURING_WAIT; explicit Resume discards that stale deadline. The delay is not applied to video playback or used as a submission-feedback timeout.
+
+See TEST_REPORT.md for current release checks and real elapsed-time observations. Device sleep/browser timer throttling can delay execution. No new dependency, service, host permission, private API or security-control change is added. Project Sovereign and RADAR remain untouched.
+
+The following 2.1.4 analysis is retained as history; it is not a new live-site finding.
+
 # Exercise correction · 2.1.4
 
 The owner confirms the 2.1.3 extension watched the videos, but reports that it did not answer exercise boxes. No new exercise screenshot, DOM or diagnostic error was supplied for that failure, and the owner’s signed-in Chrome is not connected to this cloud workspace. Its exact exercise boundary remains unverified.

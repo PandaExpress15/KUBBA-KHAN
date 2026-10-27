@@ -1,0 +1,13 @@
+
+RUN node tests/browser-pacing.mjs
+PASS real-time integer pacing on consecutive questions, visible countdown, actual worker restart preserves deadline, verified entry/once-only Check/Next/Done [{"question":1,"selectedSeconds":29,"entryAfterDeadlineMs":6},{"question":2,"selectedSeconds":10,"entryAfterDeadlineMs":6}]
+PASS pointer Stop during countdown: no answer entry, Check or navigation after the original deadline
+file:///workspace/khan-runner-isolated/turn-pacing-v2.1.5/source/tests/browser-pacing.mjs:47
+ await exercise.locator('input#answer').fill('my work');
+                ^
+
+TypeError: Cannot read properties of undefined (reading 'locator')
+    at file:///workspace/khan-runner-isolated/turn-pacing-v2.1.5/source/tests/browser-pacing.mjs:47:17
+
+Node.js v24.19.0
+EXIT 1

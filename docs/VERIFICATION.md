@@ -1,47 +1,45 @@
-# Khan Runner 2.1.4 · actual verification
+# Khan Runner 2.1.5 · actual verification
 
-286 Node checks and 12 actual-browser test programs passed on the final extension source. Tests use actual isolated Chrome, MV3 APIs, native inputs, upstream MathQuill and decoded WebM. Classroom pages and grading responses are synthetic. The owner confirms 2.1.3 watched videos; actual Khan exercise acceptance remains unverified.
+The final release passed **293 Node checks** and **five targeted actual-Chrome test programs**. These exercise actual Chrome APIs, media and editors with synthetic classroom responses; actual Khan exercise acceptance remains unverified.
 
-## Exact released source
+## Source and runtime
 
-- Extension version: 2.1.4; 21 production files; no new runtime dependency or host permission.
-- Official verified Google Chrome: 156.0.8078.47; Playwright 1.62.1; Node v24.19.0.
-- Chrome-loaded extension tree SHA-256: `03543817edc022becbfe7c615f751335c947ab8969855ed03bbc854c2ab86ba1`.
-- The digest is SHA-256 of JSON.stringify of the sorted relative-file/SHA-256 map. Every Chrome-loaded production file matched source; packaging validates the same map.
-- Disposable profiles, ordinary Developer mode and unpacked loading, Chrome sandbox, TLS and package verification remained enabled. No owner profile, credential store or system policy was changed.
+- Extension: 2.1.5, 21 production files; no new dependency or permission.
+- Official verified Google Chrome 156.0.8078.47; Playwright 1.62.1; Node v24.19.0.
+- Chrome-loaded extension tree SHA-256: `7f4544f5d61b9b49bc687d22cfbe0cf18cb6d0b3f4c6c7515ae5fe6f60288291`.
+- Every loaded file matched the final source. Digest: SHA-256 of JSON.stringify of the sorted relative-file/SHA-256 map.
+- Isolated disposable profiles, ordinary Developer mode and unpacked loading, with Chrome sandbox and TLS verification retained. No owner profile, credential store, system policy or unrelated project was changed.
 
-## Actual commands and exits
+## Commands that ran on this source
 
-| Command | Exit | Result |
+| Command | Exit | Observation |
 |---|---:|---|
-| `node --test tests/*.test.mjs` | 0 | 286 passed; zero failures/skips/cancellations |
-| `node tests/browser-install.mjs` | 0 | Fresh enabled MV3; final version and all 21 loaded file hashes; host grants |
-| `node tests/browser-manual.mjs` | 0 | Actual popup Read/Solve/Insert; controlled native input; no Check |
-| `node tests/browser-popup.mjs` | 0 | Pointer Start/Stop; visible controls; cancellation during startup |
-| `node tests/browser-boundaries.mjs` | 0 | Question/feedback scope; sidebar/title/completion exclusions; existing work; stale actions; sender authority |
-| `node tests/browser-exercise-panels.mjs` | 0 | Eight mixed-format no-global MathQuill questions; delayed stem; labels/conflicts; once-only Check; seven Next and Done |
-| `node tests/browser-pagination-controls.mjs` | 0 | 23 actual DOM pagination control/label/disabled/safe-target cases |
-| `node tests/browser-pagination.mjs` | 0 | Five pages; return from page five; delayed controls; Stop while waiting |
-| `node tests/browser-document-navigation.mjs` | 0 | Three full-document scans; exact queues; interrupted replies without repeated navigation |
-| `node tests/browser-mathquill.mjs` | 0 | Seven actual upstream editor cases; fractions/radicals; restrictions; existing-work preservation |
-| `node tests/browser.mjs` | 0 | Both actual tabs; two real videos at 2×; native and MathQuill entry; four Check/feedback; Next/Done; Stop; rejected/unsupported pauses |
-| `node tests/browser-recovery.mjs` | 0 | Real worker stop/restart; no duplicate Check; delayed/unknown feedback; class departure; tab closure; identical questions; reload |
+| `npm test` | 0 | 293 passed; zero failures/skips/cancellations |
+| `node tests/browser-install.mjs` | 0 | Fresh enabled MV3; final version/path, all 21 loaded file hashes and host grants |
+| `node tests/browser-popup.mjs` | 0 | Actual pointer Start/Stop and rapid startup cancellation |
+| `node tests/browser-pacing.mjs` | 0 | Real-time integer delays on two questions, countdown, real worker restart, entry/Check/Next/Done, Stop past deadline, user-work preservation |
+| `node tests/browser.mjs` | 0 | Both work tabs; two real videos at 2×; native and real MathQuill entry; accepted fixture feedback; Next/Done; Stop and pause paths |
 | `node tests/browser-reload.mjs` | 0 | Actual extension reload and content reattachment for multipage discovery |
 
-The final source was verified in targeted batches; final-results.json indexes each passed program and its raw log. The evidence README distinguishes final successes from regression history and a corrected test-only locator error. Do not describe intermediate runs as final passing commands.
+Final-results.json identifies each passed program's log. The full 13-program browser catalog was not rerun for this pacing change. The older 2.1.4 results remain explicitly historical. Regression-harness corrections and their failed intermediate attempts are retained and explained in the evidence README.
 
-## Exercise observations
+## Actual elapsed-time observations
 
-The 2.1.3 browser regression failed because its deepest renderer contained the box but omitted the visible question stem and sibling Check/feedback. The fixed reader finds all three and excludes printed answer labels, sidebar math, unrelated titles and completion text. A six-second delayed stem was observed without premature entry or Check.
+The real Chrome pacing test uses the production RNG and actual wall clock, without changing its timer, selected duration, storage deadline or entered values. Every duration is a whole number in the requested inclusive range. The exact deadline survived an actual worker stop/restart, and the popup displayed its remaining seconds.
 
-The final mixed-format flow entered the screenshot-style 10x²+13x+4 quadratic, difference of squares, a higher-degree common-factor expression, rational reduction, a linear equation, an exact trig value, polynomial expansion and numeric fraction evaluation. It used real upstream MathQuill 0.10.1 with no global API, alternating plain/stateless clipboard modes. All eight entered values were read back, all eight fixture responses were correct, each question had exactly one Check, and seven Next actions plus Done completed the assignment.
+| Consecutive question | Chosen pause (seconds) | Entry after saved deadline (ms) |
+|---|---:|---:|
+| 1 | 24 | 5 |
+| 2 | 23 | 5 |
 
-The separate full two-lane flow again observed two actual 16-second videos reaching browser-trusted ended events at effective 2× without seeking, while two exercise assignments produced four once-only Checks and accepted fixture feedback. Native input survived controlled rerendering, public and no-global MathQuill passed, Stop prevented future actions and restored runner-started media, and worker restart preserved uncertain submission intent without a duplicate Check.
+Both entries occurred after the saved deadline, followed by exactly one Check each, accepted fixture feedback, one Next and Done. A separate pointer Stop was acknowledged, and the test waited beyond the cancelled deadline: no entry, Check or navigation followed. Work typed by the user during another countdown remained intact and was not checked automatically.
 
-## Remaining live boundary
+Node tests cover all 21 possible whole-second choices, minimum/maximum boundaries, no entry one millisecond before the deadline, later readback before Check, fresh choices for following questions, Stop, changed-problem pause, and restart without another random draw. Existing broader submission/recovery safeguards remain in the full Node suite.
 
-The owner's signed-in Chrome is not connected to this workspace. The exact owner-side exercise pause was not supplied in this turn. The reproduced nested-renderer defect is proven in Chrome, but its presence in the owner's page is unconfirmed. Load 2.1.4 and run from All assignments / To-do; if the exercise lane pauses, Copy diagnostics from that tab supplies sanitized reading/control counts and phase without names, class URLs, question text or answers. This is the precise remaining owner action; do not transfer passwords, cookies or browser profiles.
+The two-tab browser program observes actual video progress while the exercise countdown is active, then two browser-trusted video ended events at effective 2× without seeking. Two exercise assignments produce four once-only Checks with accepted fixture feedback, Next and Done through a controlled native field and actual upstream no-global MathQuill. The public MathQuill path, Stop, unsupported/wrong pauses and 15/15 in-browser selfchecks also pass.
 
-The solver remains restricted to validated polynomial algebra, one-variable linear equations, a single rational polynomial fraction, numeric fractions and common exact trig values. Graphs, multiple choice/fields, systems, general word problems and unsupported notation pause. No claim is made that every Khan exercise is supported or that a media end proves course credit.
+## Practical limits
 
-Project Sovereign and RADAR were untouched. Publishing this update and its complete source to KUBBA-KHAN follows the owner's existing authorization.
+The wait starts when a supported question and its Check control are readable. The selected deadline persists across worker suspension/restart; regular observations do not reroll it. Browser scheduling, a backgrounded/sleeping device or delayed page readiness can make entry late. Stop cancels future actions without waiting for the countdown. A changed problem pauses, existing work stays protected, and uncertain Check outcomes remain nonretryable until observed.
+
+The owner's signed-in Chrome is not attached to this workspace. No current live Khan exercise or course-credit claim is made. The restricted solver and its unsupported-format pauses are unchanged. Project Sovereign and RADAR remain untouched.

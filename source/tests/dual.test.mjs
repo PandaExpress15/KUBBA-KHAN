@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {DualRunner,classScope,collectJobs,problemKey,algebraEqual} from '../extension/dual.js';
+import {DualRunner,classScope,collectJobs,problemKey,algebraEqual,answerDelaySeconds} from '../extension/dual.js';
 import {pageSnapshot,pageAction,mediaStep,stopMedia,readEditor} from '../extension/automation-page.js';
 import {paginationUI} from '../extension/pagination.js';
 import {insertReviewed} from '../extension/input.js';
@@ -22,8 +22,12 @@ function fixture({pages=1,questions=2,wrong=false,unsupported=false,unknownSubmi
   else if(func===stopMedia){stops++;r={ok:true};}else if(func===readEditor)r={ok:false};else throw Error('unknown function');
   return [{result:r,frameId:target.frameIds[0]}];
  }}};
- const runner=new DualRunner(api,()=>time);
- return {runner,api,tabs,models,calls,alarms,storage,advance(ms=5000){time+=ms;},endVideos(){for(const [url,m]of models)if(url.includes('/video'))m.ended=true;},get checks(){return checks;},get insertions(){return insertions;},get plays(){return plays;},get stops(){return stops;},async tick(){time+=5000;await runner.tick();}};
+ const runner=new DualRunner(api,()=>time,()=>0);
+ return {runner,api,tabs,models,calls,alarms,storage,now:()=>time,advance(ms=5000){time+=ms;},endVideos(){for(const [url,m]of models)if(url.includes('/video'))m.ended=true;},get checks(){return checks;},get insertions(){return insertions;},get plays(){return plays;},get stops(){return stops;},async tick({waitForDelay=true}={}){time+=5000;await runner.tick();
+ // Unrelated flow tests advance the fake clock to the real persisted deadline.
+ // Dedicated pacing tests below disable this helper and observe every boundary.
+ if(waitForDelay){const lane=(await runner.get()).lanes.exercise;if(lane?.state==='WAITING_BEFORE_ANSWER'){time=Math.max(time,lane.delay.until);await runner.tick(lane.tabId);}}
+ }};
 }
 test('queue only accepts supported, same-class, unique assignment links',()=>{const q=collectJobs([{kind:'video',url:ROOT+'/assignment/1'},{kind:'video',url:ROOT+'/assignment/1#x'},{kind:'exercise',url:'https://evil.com/assignment/2'},{kind:'exercise',url:ROOT+'X/assignment/2'},{kind:'article',url:ROOT+'/assignment/3'}],ROOT);assert.equal(q.video.length,1);assert.equal(q.exercise.length,0);});
 test('class scope only on actual classroom URL',()=>{assert.equal(classScope(ROOT+'/assignment/1'),ROOT);assert.throws(()=>classScope('https://www.khanacademy.org/math'));});
@@ -118,4 +122,36 @@ test('missing Check is observed before entry instead of persisting an uncertain 
  const f=fixture(),original=f.api.scripting.executeScript;let missing=true;
  f.api.scripting.executeScript=async args=>{const r=await original(args);if(missing&&args.func===pageSnapshot&&f.tabs.get(args.target.tabId)?.url.includes('/assignment/exercise'))r[0].result.controls=[];return r;};
  await f.runner.start(7);await f.tick();assert.equal(f.insertions,0);assert.equal(f.checks,0);missing=false;await f.tick();assert.equal(f.insertions,1);await f.tick();assert.equal(f.checks,1);
+});
+
+test('answer pacing draws every whole second from 10 through 30 inclusive',()=>{
+ assert.deepEqual(Array.from({length:21},(_,i)=>answerDelaySeconds(()=>(i+0.5)/21)),Array.from({length:21},(_,i)=>10+i));
+ assert.equal(answerDelaySeconds(()=>0),10);assert.equal(answerDelaySeconds(()=>1-Number.EPSILON),30);
+ for(const bad of [-1,1,NaN,Infinity])assert.throws(()=>answerDelaySeconds(()=>bad),/INVALID_RANDOM_SOURCE/);
+});
+test('no entry or Check before the exact saved deadline; readback still precedes Check',async()=>{
+ const f=fixture();await f.runner.start(7);await f.tick({waitForDelay:false});const lane=(await f.runner.get()).lanes.exercise;
+ assert.equal(lane.state,'WAITING_BEFORE_ANSWER');assert.equal(lane.delay.seconds,10);assert.equal(f.insertions,0);assert.equal(f.checks,0);
+ f.advance(9999);const wake=await f.runner.tick(lane.tabId);assert.equal(f.insertions,0);assert.equal(wake.nextPulseMs,50);
+ f.advance(1);await f.runner.tick(lane.tabId);assert.equal(f.insertions,1);assert.equal(f.checks,0);assert.equal((await f.runner.get()).lanes.exercise.delay,undefined);
+ await f.runner.tick(lane.tabId);assert.equal(f.checks,1);
+});
+test('restart preserves the original deadline without another random draw',async()=>{
+ const f=fixture();let draws=0;f.runner.random=()=>{draws++;return 1-Number.EPSILON;};await f.runner.start(7);await f.tick({waitForDelay:false});
+ const before=(await f.runner.get()).lanes.exercise;assert.equal(before.delay.seconds,30);
+ const restarted=new DualRunner(f.api,f.now,()=>{throw Error('Must not draw again');});await restarted.tick(before.tabId);assert.deepEqual((await restarted.get()).lanes.exercise.delay,before.delay);assert.equal(draws,1);assert.equal(f.insertions,0);
+ f.advance(30000);await restarted.tick(before.tabId);assert.equal(f.insertions,1);assert.equal(f.checks,0);
+});
+test('Stop during pacing prevents entry and Check even after the deadline',async()=>{
+ const f=fixture();await f.runner.start(7);await f.tick({waitForDelay:false});await f.runner.stop();f.advance(31000);await f.runner.tick();assert.equal(f.insertions,0);assert.equal(f.checks,0);assert.equal((await f.runner.get()).state,'STOPPED');
+});
+test('a changed question during pacing pauses without submitting either problem',async()=>{
+ const f=fixture(),original=f.api.scripting.executeScript;let changed=false;
+ f.api.scripting.executeScript=async args=>{const r=await original(args);if(changed&&args.func===pageSnapshot&&f.tabs.get(args.target.tabId)?.url.includes('/assignment/exercise'))r[0].result.expression='x^2-1';return r;};
+ await f.runner.start(7);await f.tick({waitForDelay:false});changed=true;f.advance(11000);await f.runner.tick();assert.equal((await f.runner.get()).lanes.exercise.error,'PROBLEM_CHANGED_DURING_WAIT');assert.equal(f.insertions,0);assert.equal(f.checks,0);
+});
+test('each following question draws a fresh pause',async()=>{
+ const f=fixture();let draws=0;f.runner.random=()=>{draws++;return 0;};await f.runner.start(7);
+ for(let i=0;i<8&&draws<2;i++)await f.tick();
+ assert.equal(draws,2);assert.equal(f.checks,1);assert.equal((await f.runner.get()).counts.answers,1);
 });

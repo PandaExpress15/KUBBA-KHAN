@@ -1,0 +1,21 @@
+
+RUN node tests/browser-pacing.mjs
+PASS real-time integer pacing on consecutive questions, visible countdown, actual worker restart preserves deadline, verified entry/once-only Check/Next/Done [{"question":1,"selectedSeconds":24,"entryAfterDeadlineMs":5},{"question":2,"selectedSeconds":23,"entryAfterDeadlineMs":5}]
+PASS pointer Stop during countdown: no answer entry, Check or navigation after the original deadline
+PASS user work entered during the pause stays intact; no Check
+EXIT 0
+
+RUN node tests/browser.mjs
+Browser 156.0.8078.47 extension 2.1.5 source chrome-extension://lkmpdncebknpiicnhjglmgpincgiamel/
+PASS SPA multipage reset/article-only/dedupe/same-class, two actual tabs, two real media ends at effective 2x (top + iframe), native controlled input + actual fallback MathQuill, four once-only Checks, Next/Done, next assignments
+PASS actual upstream public MathQuill API entry/readback/Check/Done
+PASS pointer Stop during real media and pending exercise; media paused/restored; no Check or navigation for two pulse intervals
+PASS unsupported math pauses visibly above fold, no Check or completion count
+PASS wrong site feedback pauses, no resubmit or completion
+PASS full-navigation queue discovery as well as SPA rendering
+PASS 15/15 in-browser selfchecks; no page errors
+EXIT 0
+
+RUN node tests/browser-reload.mjs
+PASS real extension reload, existing class-list tab, immediate pointer Start, multipage queue via live content pulses
+EXIT 0

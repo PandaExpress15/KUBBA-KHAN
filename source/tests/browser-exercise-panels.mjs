@@ -58,7 +58,7 @@ try{
  delayStem=true;await page.goto(ROOT);await page.bringToFront();controls=await popup(b);await until(()=>controls.evaluate(()=>!document.getElementById('start').disabled));await controls.click('#start');
  const waiting=await until(async()=>{const s=await state();return s?.lanes?.exercise?.state==='WAITING_FOR_QUESTION'?s:false;},{timeout:10000,label:'delayed question waits without inserting'});
  assert.equal(events.filter(e=>e.kind==='check').length,0);assert.equal(waiting.lanes.exercise.probe.readState,'NO_QUESTION_MATH');
- const result=await until(async()=>{const s=await state();if(s?.state==='ERROR'||s?.lanes?.exercise?.state==='PAUSED')throw Error(JSON.stringify(s));return s?.state==='DONE'?s:false;},{timeout:240000,label:'eight mixed-format nested MathQuill questions'});
+ const result=await until(async()=>{const s=await state();if(s?.state==='ERROR'||s?.lanes?.exercise?.state==='PAUSED')throw Error(JSON.stringify(s));return s?.state==='DONE'?s:false;},{timeout:510000,label:'eight mixed-format nested MathQuill questions'});
  assert.deepEqual(result.counts,{video:0,exercise:1,answers:questions.length});
  assert.equal(events.filter(e=>e.kind==='check').length,questions.length);assert.ok(events.filter(e=>e.kind==='check').every(e=>e.correct));
  assert.deepEqual(events.filter(e=>e.kind==='check').map(e=>e.q),questions.map((_,i)=>i));

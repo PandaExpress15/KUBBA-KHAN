@@ -1,4 +1,4 @@
-# Khan Runner for Chrome · 2.1.4
+# Khan Runner for Chrome · 2.1.5
 
 A standalone, local MV3 extension for two coordinated classroom tabs. Runtime dependencies: none. No helper server, account transfer, paid API, remote solver, cookie access or grade/progress API is used.
 
@@ -7,14 +7,22 @@ A standalone, local MV3 extension for two coordinated classroom tabs. Runtime de
 ## Install or update
 
 1. Stop and remove the previous Khan Runner in `chrome://extensions` so two versions cannot compete. Removal clears its temporary run state.
-2. Extract `Khan-Runner-Chrome-v2.1.4.zip` to a permanent folder.
+2. Extract `Khan-Runner-Chrome-v2.1.5.zip` to a permanent folder.
 3. In `chrome://extensions`, enable Developer mode, choose **Load unpacked**, and select the extracted `extension` folder containing `manifest.json`.
-4. Confirm the extension card says **2.1.4**, pin its icon, and refresh your classroom tab once.
+4. Confirm the extension card says **2.1.5**, pin its icon, and refresh your classroom tab once.
 5. On your classroom **All assignments / To-do** list, open the extension and press **Start both tabs**. This authorizes supported automatic answer entry, Check and progression in that class.
 6. The list returns to page one and scans its queue. Where both types exist, the list tab becomes the video tab and one additional exercise tab opens. Keep both tabs in the selected class.
 7. **Stop all** cancels pending startup and future automatic actions and pauses runner-started media. An already-delivered action cannot be undone.
 
 The ZIP is an unpacked extension distribution, not a Chrome Web Store publication or a signed CRX. Keep the extracted folder. Chrome 120+ is targeted by the manifest; the browser verification used Chrome 156.0.8078.47 on Linux. Other Chrome versions have not independently passed these checks.
+
+## Answer pacing in 2.1.5
+
+Each supported question gets a fresh, uniformly selected whole-number pause from **10 through 30 seconds**, inclusive, before automatic answer entry. The pause begins when the question and its Check control are readable. The popup displays the remaining seconds. The chosen deadline stays in session storage across worker suspension/restart; ordinary polling does not draw again or restart the wait.
+
+The content ticker requests a wakeup near the deadline while continuing regular observations. Stop invalidates pending wakeups and prevents future entry/Check. The current question is read again before insertion; a changed problem pauses, and work you enter during the pause stays protected. Entry readback and the later once-only Check retain their existing verification. The video lane continues independently.
+
+Browser scheduling or a sleeping/backgrounded device can make a wakeup late. The extension never intentionally enters an answer before its saved deadline. Existing grading, readback and feedback checks are retained. Actual Khan exercise acceptance remains unverified.
 
 ## Exercise reading correction in 2.1.4
 

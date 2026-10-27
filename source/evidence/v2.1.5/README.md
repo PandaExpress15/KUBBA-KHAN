@@ -1,0 +1,7 @@
+# Version 2.1.5 evidence
+
+final-results.json indexes 293 passing Node checks and the five targeted passing actual-Chrome programs on the final release. installed-source.json attests all 21 Chrome-loaded production files. browser-final.log supplies installation/popup successes; browser-completed.log supplies final pacing, both-tab/media/editor and reload successes. Each indexed program exited 0.
+
+The initial pacing harness read stored state immediately after an asynchronous pointer Stop, before the worker acknowledgement; it was corrected to await STOPPED with a 3-second bound and retained the full no-action-after-deadline assertion. A subsequent harness run mistook a stopped run's retained WAITING lane for a fresh run; it was corrected to require a running, higher revision and the actual new work tab. browser-final.log and browser-continued.log retain those test-only failures as history. Their individual pacing runs are not described as final successes. Production source did not change during these harness corrections.
+
+node-initial.log is the earlier 286-check run before seven dedicated pacing/countdown checks were added. Current test catalog has 13 browser programs; five relevant programs were run for this change. Older 2.1.4 evidence is historical, not a current-release run. All published pages/events are synthetic; no owner credentials, class data or screenshot is included. Actual Khan exercise acceptance remains unverified.

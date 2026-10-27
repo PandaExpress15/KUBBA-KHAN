@@ -1,0 +1,62 @@
+{
+  "version": "2.1.5",
+  "extensionTreeSHA256": "7f4544f5d61b9b49bc687d22cfbe0cf18cb6d0b3f4c6c7515ae5fe6f60288291",
+  "node": {
+    "command": "npm test",
+    "exit": 0,
+    "passed": 293,
+    "failed": 0,
+    "skipped": 0,
+    "log": "node-final.log"
+  },
+  "browser": [
+    {
+      "command": "node tests/browser-install.mjs",
+      "exit": 0,
+      "log": "browser-final.log"
+    },
+    {
+      "command": "node tests/browser-popup.mjs",
+      "exit": 0,
+      "log": "browser-final.log"
+    },
+    {
+      "command": "node tests/browser-pacing.mjs",
+      "exit": 0,
+      "log": "browser-completed.log"
+    },
+    {
+      "command": "node tests/browser.mjs",
+      "exit": 0,
+      "log": "browser-completed.log"
+    },
+    {
+      "command": "node tests/browser-reload.mjs",
+      "exit": 0,
+      "log": "browser-completed.log"
+    }
+  ],
+  "browserVersion": "156.0.8078.47",
+  "liveClassroomVerified": false,
+  "pacing": {
+    "version": "2.1.5",
+    "browser": "156.0.8078.47",
+    "syntheticSite": true,
+    "liveKhanVerified": false,
+    "timings": [
+      {
+        "question": 1,
+        "selectedSeconds": 24,
+        "entryAfterDeadlineMs": 5
+      },
+      {
+        "question": 2,
+        "selectedSeconds": 23,
+        "entryAfterDeadlineMs": 5
+      }
+    ],
+    "workerDeadlinePreserved": true,
+    "stopPastDeadlineVerified": true,
+    "existingWorkPreserved": true
+  }
+}
