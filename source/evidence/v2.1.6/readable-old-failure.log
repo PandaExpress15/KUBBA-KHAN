@@ -1,0 +1,19 @@
+OLD2.1.5 SNAPSHOT {"probe":{"fields":1,"mathAnnotations":0,"expressions":0,"answerLabels":0,"operation":"factor","checkControls":0,"scope":"main","readState":"NO_QUESTION_MATH"},"url":"https://classroom.khanacademy.org/learner/class/BASELINE/assignment/1","token":"https://classroom.khanacademy.org/learner/class/BASELINE/assignment/1|","expression":"","operation":"factor","fieldCount":1,"fieldValue":"","mathquill":false,"ordinal":null,"total":null,"accepted":false,"negative":false,"done":false,"controls":[],"items":[],"assignmentCount":0,"page":null,"pages":null,"isTodo":null,"radioCount":0}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'' !== '10x^2+13x+4'
+
+    at file:///workspace/khan-runner-isolated/turn-reader-v2.1.6/baseline-readable.mjs:4:511 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '',
+  expected: '10x^2+13x+4',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -1,45 +1,13 @@
-# Khan Runner 2.1.5 · actual verification
+# KUBLA KHAN 2.1.6 · verification
 
-The final release passed **293 Node checks** and **five targeted actual-Chrome test programs**. These exercise actual Chrome APIs, media and editors with synthetic classroom responses; actual Khan exercise acceptance remains unverified.
+The owner screenshot identifies NO_QUESTION_MATH on a visible quadratic. The old reader required application/x-tex annotations, so other public representations were unreadable. The exact owner DOM remains unavailable. A real Chrome regression reproduced the old2.1.5 empty-expression failure, then verified the corrected reader on six representations: data-tex, MathJax math/tex with visible output, accessible role=math TeX, rendered superscripts, native MathML fractions/powers, and hidden accessible annotation behind visible KaTeX.
 
-## Source and runtime
+The regression exposed a second boundary: Check and accepted feedback in a detached footer. The corrected adapter observes a single associated footer/toolbar; one real extension exercise entered the independently expected (2x+1)(5x+4), clicked Check once, observed Correct, clicked Done once, and recorded one question and one exercise complete. Production10–30-second pacing remained enabled. Stale public-math changes rejected entry and Check across allsix cases. Existing work and editor restrictions remain protected.
 
-- Extension: 2.1.5, 21 production files; no new dependency or permission.
-- Official verified Google Chrome 156.0.8078.47; Playwright 1.62.1; Node v24.19.0.
-- Chrome-loaded extension tree SHA-256: `7f4544f5d61b9b49bc687d22cfbe0cf18cb6d0b3f4c6c7515ae5fe6f60288291`.
-- Every loaded file matched the final source. Digest: SHA-256 of JSON.stringify of the sorted relative-file/SHA-256 map.
-- Isolated disposable profiles, ordinary Developer mode and unpacked loading, with Chrome sandbox and TLS verification retained. No owner profile, credential store, system policy or unrelated project was changed.
+Commands: npm test (293 passed, zero failed); node tests/browser-install.mjs; node tests/browser-boundaries.mjs; node tests/browser-mathquill.mjs; node tests/browser-readable-math.mjs. Each browser program exited0. Chrome156.0.8078.47, Playwright1.62.1, Node24.19.0; isolated profiles with Chrome sandbox enabled. Real Chrome APIs and upstream MathQuill were used with synthetic classroom HTML and feedback. No signed-in Khan acceptance or credit is claimed.
 
-## Commands that ran on this source
+Loaded extension tree SHA-256: 600d7fdec88781c8e39d66b4b0c9f9e2ce6dea8f3166877802b7dd2dbfa2177d. All21 loaded files match the release. Raw evidence is under evidence/v2.1.6; readable-old-failure.log is the genuine old-version regression; readable-before.log is an intermediate detached-feedback failure, and readable-five-pass.log is an earlier candidate success. Final results are readable-final.log plus browser-support.log and node-final.log.
 
-| Command | Exit | Observation |
-|---|---:|---|
-| `npm test` | 0 | 293 passed; zero failures/skips/cancellations |
-| `node tests/browser-install.mjs` | 0 | Fresh enabled MV3; final version/path, all 21 loaded file hashes and host grants |
-| `node tests/browser-popup.mjs` | 0 | Actual pointer Start/Stop and rapid startup cancellation |
-| `node tests/browser-pacing.mjs` | 0 | Real-time integer delays on two questions, countdown, real worker restart, entry/Check/Next/Done, Stop past deadline, user-work preservation |
-| `node tests/browser.mjs` | 0 | Both work tabs; two real videos at 2×; native and real MathQuill entry; accepted fixture feedback; Next/Done; Stop and pause paths |
-| `node tests/browser-reload.mjs` | 0 | Actual extension reload and content reattachment for multipage discovery |
+The application is renamed KUBLA KHAN. It retains one exercise lane and the existing independent video lane; it does not create two simultaneous exercise solvers. Queue types guide discovery, while each actual question and editor must be read and verified before entry. The local exact solver already supports the pictured quadratic; no paid API, model service or image upload is needed for these readable math sources.
 
-Final-results.json identifies each passed program's log. The full 13-program browser catalog was not rerun for this pacing change. The older 2.1.4 results remain explicitly historical. Regression-harness corrections and their failed intermediate attempts are retained and explained in the evidence README.
-
-## Actual elapsed-time observations
-
-The real Chrome pacing test uses the production RNG and actual wall clock, without changing its timer, selected duration, storage deadline or entered values. Every duration is a whole number in the requested inclusive range. The exact deadline survived an actual worker stop/restart, and the popup displayed its remaining seconds.
-
-| Consecutive question | Chosen pause (seconds) | Entry after saved deadline (ms) |
-|---|---:|---:|
-| 1 | 24 | 5 |
-| 2 | 23 | 5 |
-
-Both entries occurred after the saved deadline, followed by exactly one Check each, accepted fixture feedback, one Next and Done. A separate pointer Stop was acknowledged, and the test waited beyond the cancelled deadline: no entry, Check or navigation followed. Work typed by the user during another countdown remained intact and was not checked automatically.
-
-Node tests cover all 21 possible whole-second choices, minimum/maximum boundaries, no entry one millisecond before the deadline, later readback before Check, fresh choices for following questions, Stop, changed-problem pause, and restart without another random draw. Existing broader submission/recovery safeguards remain in the full Node suite.
-
-The two-tab browser program observes actual video progress while the exercise countdown is active, then two browser-trusted video ended events at effective 2× without seeking. Two exercise assignments produce four once-only Checks with accepted fixture feedback, Next and Done through a controlled native field and actual upstream no-global MathQuill. The public MathQuill path, Stop, unsupported/wrong pauses and 15/15 in-browser selfchecks also pass.
-
-## Practical limits
-
-The wait starts when a supported question and its Check control are readable. The selected deadline persists across worker suspension/restart; regular observations do not reroll it. Browser scheduling, a backgrounded/sleeping device or delayed page readiness can make entry late. Stop cancels future actions without waiting for the countdown. A changed problem pauses, existing work stays protected, and uncertain Check outcomes remain nonretryable until observed.
-
-The owner's signed-in Chrome is not attached to this workspace. No current live Khan exercise or course-credit claim is made. The restricted solver and its unsupported-format pauses are unchanged. Project Sovereign and RADAR remain untouched.
+Pure image/canvas questions still require dependable math OCR that is not bundled. General text OCR can misread powers and fractions; no unverified model or localhost service was added. Graphs, multiple fields, systems and other unsupported formats remain explicit pauses. This release is not a universal solver. If your live page still pauses, Copy diagnostics identifies the remaining exact boundary without passwords, cookies or student details. Project Sovereign and RADAR remain untouched.

@@ -21,7 +21,7 @@ try{
   }return Object.fromEntries(entries);
  },names);
  assert.deepEqual(loaded,local,'all loaded extension bytes match final source');
- const manifest=await b.worker.evaluate(()=>chrome.runtime.getManifest());assert.equal(manifest.version,'2.1.5');
+ const manifest=await b.worker.evaluate(()=>chrome.runtime.getManifest());assert.equal(manifest.version,'2.1.6');
  assert.ok(await b.worker.evaluate(()=>chrome.permissions.contains({origins:['https://classroom.khanacademy.org/*','https://www.khanacademy.org/*','https://www.youtube.com/*','https://www.youtube-nocookie.com/*']})));
  const page=await b.context.newPage();await page.goto('chrome://extensions/');
  const info=await page.evaluate(async id=>(await chrome.developerPrivate.getExtensionsInfo({includeDisabled:true})).find(e=>e.id===id),b.id);

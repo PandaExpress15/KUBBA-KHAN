@@ -11,15 +11,28 @@ export function pageSnapshot(){
  const mains=withFields.filter(e=>e.matches('main,[role=main]'));
  const root=mains.sort(byDepth)[0]||withFields.filter(e=>!e.matches('.perseus-renderer')).sort(byDepth)[0]||withFields.sort((a,b)=>-byDepth(a,b))[0]||roots[0]||document;
  const irrelevant=e=>!!e.closest('aside,nav,[role=complementary],[role=navigation],[hidden],[inert]');
- const controls=[...root.querySelectorAll('button,a,[role=button]')].filter(e=>visible(e)&&!irrelevant(e)&&!e.disabled&&e.getAttribute('aria-disabled')!=='true').map(e=>(e.getAttribute('aria-label')||text(e)).replace(/\s+/g,' ').trim());
+ let controls=[...root.querySelectorAll('button,a,[role=button]')].filter(e=>visible(e)&&!irrelevant(e)&&!e.disabled&&e.getAttribute('aria-disabled')!=='true').map(e=>(e.getAttribute('aria-label')||text(e)).replace(/\s+/g,' ').trim());
+ if(!controls.some(s=>/^(check|check answer|check answers|submit answer)$/i.test(s))){const outside=[...document.querySelectorAll('button,[role=button]')].filter(e=>visible(e)&&!irrelevant(e)&&!e.disabled&&e.getAttribute('aria-disabled')!=='true').map(e=>e.getAttribute('aria-label')||text(e)).filter(s=>/^(check|check answer|check answers|submit answer|next question|done|finish exercise)$/i.test(s.trim()));if(outside.length===1)controls.push(outside[0]);}
  const raw=[...root.querySelectorAll(fieldSelector)];
  const fields=raw.filter(e=>visible(e)&&!irrelevant(e)&&!e.disabled&&!e.readOnly&&!(e.matches('input,textarea')&&e.closest('.mq-editable-field'))&&!e.closest('[role=search]')&&!/search|message|chat/i.test(e.getAttribute('aria-label')||''));
- const anns=[...root.querySelectorAll('annotation[encoding="application/x-tex"]')].filter(e=>!e.closest('.mq-editable-field')&&!irrelevant(e)&&visible(e.closest('math')||e.parentElement||e));
+ const anns=[...root.querySelectorAll('annotation[encoding="application/x-tex"]')].filter(e=>!e.closest('.mq-editable-field')&&!irrelevant(e)&&visible(e.closest('.katex,.MathJax,[role=math]')||e.closest('math')||e.parentElement||e));
  // A printed '=' or 'x =' next to an answer box is a label, not a second
  // problem. Every other distinct expression remains an ambiguity.
  const labels=s=>/^(?:[a-z](?:\([a-z]\))?)?\s*=\s*$/i.test(s.replace(/\\(?:left|right)/g,''));
- const expressions=[...new Set(anns.map(e=>text(e)).filter(s=>s&&!labels(s)))];
- const mathToken=Array.from(document.querySelectorAll('annotation[encoding="application/x-tex"],.katex-mathml math')).filter(e=>!e.closest('.mq-editable-field')).map(e=>e.textContent).join('|').slice(0,2000);
+ const readMath=e=>{
+  const tag=e.tagName?.toLowerCase(),children=[...(e.children||[])];
+  if(tag==='annotation')return '';
+  if(tag==='msup'&&children.length===2)return '('+readMath(children[0])+')^('+readMath(children[1])+')';
+  if(tag==='mfrac'&&children.length===2)return '('+readMath(children[0])+')/('+readMath(children[1])+')';
+  if(tag==='msqrt')return '\\sqrt{'+children.map(readMath).join('')+'}';
+  if(tag==='sup')return '^('+text(e)+')';
+  return children.length?[...e.childNodes].map(n=>n.nodeType===3?n.textContent:readMath(n)).join(''):text(e);
+ };
+ const extra=[...root.querySelectorAll('[data-tex],[data-latex],[role=math],script[type="math/tex"],.katex,math')].filter(e=>!e.closest('.mq-editable-field')&&!irrelevant(e)&&!e.querySelectorAll('annotation[encoding="application/x-tex"]').length&&(visible(e)||e.matches('script[type="math/tex"]')&&visible(e.previousElementSibling)));
+ const fallback=extra.map(e=>e.getAttribute('data-tex')||e.getAttribute('data-latex')||(e.matches('[role=math]')?e.getAttribute('aria-label'):null)||readMath(e)).map(s=>s.trim()).filter(s=>s&&!labels(s));
+ const normalizeMath=s=>s.replace(/\s/g,'').replace(/−/g,'-').replace(/²/g,'^2').replace(/³/g,'^3').replace(/\^\((\d+)\)/g,'^$1').replace(/\(([a-z])\)/g,'$1');
+ const expressions=[...new Set([...anns.map(e=>text(e)),...fallback].filter(s=>s&&!labels(s)).map(normalizeMath))];
+ const mathToken=Array.from(document.querySelectorAll('annotation[encoding="application/x-tex"],.katex-mathml math,[data-tex],[data-latex],[role=math],script[type="math/tex"],.katex,math')).filter(e=>!e.closest('.mq-editable-field')).map(e=>(e.getAttribute('data-tex')||e.getAttribute('data-latex')||e.getAttribute('aria-label')||e.textContent)+(e.querySelectorAll('sup,msup,mfrac').length?e.innerHTML:'')).join('|').slice(0,2000);
  const body=text(document.body);const prompt=root===document?'':text(root);
  const ordinal=body.match(/\b(\d+)\s*(?:of|\/)\s*(\d+)\s*questions?\b/i);
  const mode=s=>/^\s*(?:please\s+)?factor(?:ize|ise|ing)?\b/i.test(s)?'factor':/^\s*(?:please\s+)?expand\b/i.test(s)?'expand':/^\s*(?:please\s+)?solve\b/i.test(s)?'equation':/^\s*(?:please\s+)?(?:evaluate|calculate|find (?:the )?(?:exact )?value|what is (?:the )?(?:exact )?value)\b/i.test(s)?'evaluate':/^\s*(?:please\s+)?(?:simplify|combine like|reduce (?:the |this )?rational)\b/i.test(s)?'simplify':null;
@@ -28,7 +41,9 @@ export function pageSnapshot(){
  // Paragraph directives take priority over an assignment title. If a simple
  // fixture/accessible renderer has no paragraphs, accept its opening directive.
  const operation=modes.length===1?modes[0]:modes.length>1?null:(!root.querySelectorAll('h1,h2,h3').length?mode(prompt):null)||(expressions.length===1&&/^(?:\\)?(?:sin|cos|tan)\s*(?:\\left)?\(/.test(expressions[0])?'evaluate':null);
- const feedback=[...root.querySelectorAll('[role=status],[role=alert],[data-testid*=feedback],.perseus-correctness')].filter(e=>visible(e)&&!irrelevant(e)).map(text).join(' ');
+ const detached=[...document.querySelectorAll('footer,[role=toolbar],[data-testid*=footer]')].filter(e=>!root.contains(e)&&visible(e)&&!irrelevant(e)&&[...e.querySelectorAll('button,[role=button]')].some(b=>visible(b)&&/^(check|check answer|check answers|submit answer|next question|done|finish exercise)$/i.test(b.getAttribute('aria-label')||text(b))));
+ const footer=detached.filter(e=>!detached.some(other=>other!==e&&e.contains(other)));
+ const feedback=[...root.querySelectorAll('[role=status],[role=alert],[data-testid*=feedback],.perseus-correctness'),...(footer.length===1?[...footer[0].querySelectorAll('[role=status],[role=alert],[data-testid*=feedback],.perseus-correctness')]:[])].filter(e=>visible(e)&&!irrelevant(e)).map(text).join(' ');
  const negative=/\bincorrect\b|not correct|not quite|try again|wrong answer/i.test(feedback);
  const hasCheck=controls.some(s=>/^(check|check answer|check answers|submit answer)$/i.test(s));
  const accepted=!negative&&!hasCheck&&/\bcorrect[!.]?\b|well done|great job|nice work/i.test(feedback);
@@ -44,13 +59,13 @@ export function pageSnapshot(){
  const page=body.match(/current page:\s*(\d+)\s*(?:of|\/)\s*(\d+)/i);
  const statusSelect=[...document.querySelectorAll('select')].find(e=>[...e.options].some(o=>/^to[ -]?do$/i.test(o.textContent.trim())));
  const isTodo=statusSelect?/^to[ -]?do$/i.test(statusSelect.selectedOptions[0]?.textContent.trim()||''):null;
- return {probe:{fields:fields.length,mathAnnotations:anns.length,expressions:expressions.length,answerLabels:anns.filter(e=>labels(text(e))).length,operation:operation||'unknown',checkControls:controls.filter(s=>/^(check|check answer|check answers|submit answer)$/i.test(s)).length,scope:root===document?'document':root.matches('main,[role=main]')?'main':'question',readState:!expressions.length?'NO_QUESTION_MATH':expressions.length>1?'MULTIPLE_QUESTION_EXPRESSIONS':!operation?'QUESTION_OPERATION_UNCLEAR':'READY'},url:location.href,token:location.href+'|'+mathToken,expression:expressions.length===1?expressions[0].replace(/=\s*$/,''):'',operation,fieldCount:fields.length,fieldValue:fields.length===1&&!fields[0].matches('.mq-editable-field')?fields[0].value:null,mathquill:fields[0]?.matches('.mq-editable-field')||false,ordinal:ordinal?Number(ordinal[1]):null,total:ordinal?Number(ordinal[2]):null,accepted,negative,done,controls,items,assignmentCount:document.querySelectorAll('a[href*="/assignment/"]').length,page:page?Number(page[1]):null,pages:page?Number(page[2]):null,isTodo,radioCount:[...document.querySelectorAll('input[type=radio],[role=radio]')].filter(visible).length};
+ return {probe:{fields:fields.length,mathAnnotations:anns.length,publicMathCandidates:extra.length,expressions:expressions.length,answerLabels:anns.filter(e=>labels(text(e))).length,operation:operation||'unknown',checkControls:controls.filter(s=>/^(check|check answer|check answers|submit answer)$/i.test(s)).length,scope:root===document?'document':root.matches('main,[role=main]')?'main':'question',readState:!expressions.length?'NO_QUESTION_MATH':expressions.length>1?'MULTIPLE_QUESTION_EXPRESSIONS':!operation?'QUESTION_OPERATION_UNCLEAR':'READY'},url:location.href,token:location.href+'|'+mathToken,expression:expressions.length===1?expressions[0].replace(/=\s*$/,''):'',operation,fieldCount:fields.length,fieldValue:fields.length===1&&!fields[0].matches('.mq-editable-field')?fields[0].value:null,mathquill:fields[0]?.matches('.mq-editable-field')||false,ordinal:ordinal?Number(ordinal[1]):null,total:ordinal?Number(ordinal[2]):null,accepted,negative,done,controls,items,assignmentCount:document.querySelectorAll('a[href*="/assignment/"]').length,page:page?Number(page[1]):null,pages:page?Number(page[2]):null,isTodo,radioCount:[...document.querySelectorAll('input[type=radio],[role=radio]')].filter(visible).length};
 }
 
 export function pageAction(action,expected){
  const visible=e=>e&&e.getClientRects().length&&getComputedStyle(e).visibility!=='hidden';
  if(location.href!==expected.url)return {ok:false,error:'STALE_PAGE'};
- const math=Array.from(document.querySelectorAll('annotation[encoding="application/x-tex"],.katex-mathml math')).filter(e=>!e.closest('.mq-editable-field')).map(e=>e.textContent).join('|').slice(0,2000);
+ const math=Array.from(document.querySelectorAll('annotation[encoding="application/x-tex"],.katex-mathml math,[data-tex],[data-latex],[role=math],script[type="math/tex"],.katex,math')).filter(e=>!e.closest('.mq-editable-field')).map(e=>(e.getAttribute('data-tex')||e.getAttribute('data-latex')||e.getAttribute('aria-label')||e.textContent)+(e.querySelectorAll('sup,msup,mfrac').length?e.innerHTML:'')).join('|').slice(0,2000);
  if(expected.token&&expected.token!==location.href+'|'+math)return {ok:false,error:'STALE_PROBLEM'};
  if(action==='FILTER_TODO'){
   const select=[...document.querySelectorAll('select')].find(e=>[...e.options].some(o=>/^to[ -]?do$/i.test(o.textContent.trim())));if(!select)return {ok:false,error:'TODO_FILTER_UNAVAILABLE'};
@@ -65,7 +80,8 @@ export function pageAction(action,expected){
   const depth=(a,b)=>a.contains(b)?1:b.contains(a)?-1:0;
   root=withFields.filter(e=>e.matches('main,[role=main]')).sort(depth)[0]||withFields.filter(e=>!e.matches('.perseus-renderer')).sort(depth)[0]||withFields.sort((a,b)=>-depth(a,b))[0]||roots[0]||document;
  }
- const controls=[...root.querySelectorAll('button,a,[role=button]')].filter(e=>visible(e)&&!e.closest('aside,nav,[role=complementary],[role=navigation],[hidden],[inert]')&&!e.disabled&&e.getAttribute('aria-disabled')!=='true'&&pattern.test((e.getAttribute('aria-label')||e.innerText||e.textContent||'').replace(/\s+/g,' ').trim()));
+ let controls=[...root.querySelectorAll('button,a,[role=button]')].filter(e=>visible(e)&&!e.closest('aside,nav,[role=complementary],[role=navigation],[hidden],[inert]')&&!e.disabled&&e.getAttribute('aria-disabled')!=='true'&&pattern.test((e.getAttribute('aria-label')||e.innerText||e.textContent||'').replace(/\s+/g,' ').trim()));
+ if(!controls.length&&root!==document)controls=[...document.querySelectorAll('button,[role=button]')].filter(e=>visible(e)&&!e.closest('aside,nav,[role=complementary],[role=navigation],[hidden],[inert]')&&!e.disabled&&e.getAttribute('aria-disabled')!=='true'&&pattern.test((e.getAttribute('aria-label')||e.innerText||e.textContent||'').trim()));
  if(controls.length!==1)return {ok:false,error:'CONTROL_MISSING_OR_AMBIGUOUS'};
  controls[0].click();return {ok:true};
 }

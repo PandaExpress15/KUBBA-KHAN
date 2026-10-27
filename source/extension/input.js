@@ -2,7 +2,7 @@
 // This MAIN-world function is self-contained. It uses public MathQuill API only.
 export function insertReviewed(answer,expectedToken){
   const visible=e=>!!(e.getClientRects().length)&&getComputedStyle(e).visibility!=='hidden';
-  const token=()=>location.href+'|'+Array.from(document.querySelectorAll('annotation[encoding="application/x-tex"],.katex-mathml math')).filter(e=>!e.closest('.mq-editable-field')).map(e=>e.textContent).join('|').slice(0,2000);
+  const token=()=>location.href+'|'+Array.from(document.querySelectorAll('annotation[encoding="application/x-tex"],.katex-mathml math,[data-tex],[data-latex],[role=math],script[type="math/tex"],.katex,math')).filter(e=>!e.closest('.mq-editable-field')).map(e=>(e.getAttribute('data-tex')||e.getAttribute('data-latex')||e.getAttribute('aria-label')||e.textContent)+(e.querySelectorAll('sup,msup,mfrac').length?e.innerHTML:'')).join('|').slice(0,2000);
   if(token()!==expectedToken)return {ok:false,error:'PAGE_CHANGED_READ_AGAIN'};
   const editors=[...document.querySelectorAll('.mq-editable-field')].filter(visible);
   const inputs=[...document.querySelectorAll('input:not([type]),input[type=text],input[type=number],textarea')].filter(e=>visible(e)&&!e.disabled&&!e.readOnly&&!e.closest('.mq-editable-field')&&!e.closest('[role=search]')&&!/search/i.test(e.getAttribute('aria-label')||'') );

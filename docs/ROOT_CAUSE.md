@@ -1,31 +1,13 @@
-# Answer pacing · 2.1.5
+# KUBLA KHAN 2.1.6 · verification
 
-The requested change is a fresh random integer delay of 10–30 seconds before every supported answer is entered. A saved per-question deadline prevents polling or worker restart from repeatedly choosing a different delay. The popup exposes a countdown; a deadline-aware content wakeup avoids adding a full ordinary polling interval unnecessarily.
+The owner screenshot identifies NO_QUESTION_MATH on a visible quadratic. The old reader required application/x-tex annotations, so other public representations were unreadable. The exact owner DOM remains unavailable. A real Chrome regression reproduced the old2.1.5 empty-expression failure, then verified the corrected reader on six representations: data-tex, MathJax math/tex with visible output, accessible role=math TeX, rendered superscripts, native MathML fractions/powers, and hidden accessible annotation behind visible KaTeX.
 
-Stop changes the timer generation and cancels pending wakeups. The worker still checks run authority, class scope, problem identity, existing work and readback before any Check. A question changed during the pause stops with PROBLEM_CHANGED_DURING_WAIT; explicit Resume discards that stale deadline. The delay is not applied to video playback or used as a submission-feedback timeout.
+The regression exposed a second boundary: Check and accepted feedback in a detached footer. The corrected adapter observes a single associated footer/toolbar; one real extension exercise entered the independently expected (2x+1)(5x+4), clicked Check once, observed Correct, clicked Done once, and recorded one question and one exercise complete. Production10–30-second pacing remained enabled. Stale public-math changes rejected entry and Check across allsix cases. Existing work and editor restrictions remain protected.
 
-See TEST_REPORT.md for current release checks and real elapsed-time observations. Device sleep/browser timer throttling can delay execution. No new dependency, service, host permission, private API or security-control change is added. Project Sovereign and RADAR remain untouched.
+Commands: npm test (293 passed, zero failed); node tests/browser-install.mjs; node tests/browser-boundaries.mjs; node tests/browser-mathquill.mjs; node tests/browser-readable-math.mjs. Each browser program exited0. Chrome156.0.8078.47, Playwright1.62.1, Node24.19.0; isolated profiles with Chrome sandbox enabled. Real Chrome APIs and upstream MathQuill were used with synthetic classroom HTML and feedback. No signed-in Khan acceptance or credit is claimed.
 
-The following 2.1.4 analysis is retained as history; it is not a new live-site finding.
+Loaded extension tree SHA-256: 600d7fdec88781c8e39d66b4b0c9f9e2ce6dea8f3166877802b7dd2dbfa2177d. All21 loaded files match the release. Raw evidence is under evidence/v2.1.6; readable-old-failure.log is the genuine old-version regression; readable-before.log is an intermediate detached-feedback failure, and readable-five-pass.log is an earlier candidate success. Final results are readable-final.log plus browser-support.log and node-final.log.
 
-# Exercise correction · 2.1.4
+The application is renamed KUBLA KHAN. It retains one exercise lane and the existing independent video lane; it does not create two simultaneous exercise solvers. Queue types guide discovery, while each actual question and editor must be read and verified before entry. The local exact solver already supports the pictured quadratic; no paid API, model service or image upload is needed for these readable math sources.
 
-The owner confirms the 2.1.3 extension watched the videos, but reports that it did not answer exercise boxes. No new exercise screenshot, DOM or diagnostic error was supplied for that failure, and the owner’s signed-in Chrome is not connected to this cloud workspace. Its exact exercise boundary remains unverified.
-
-## Reproduced failure
-
-An actual Chrome regression used a question stem and answer box in separate nested renderer panels, with Check and feedback in a sibling footer. The 2.1.3 reader chose the deepest renderer containing a field. Its result was one MathQuill field, no expression, no operation, and no Check controls. The test exited 1 at the assertion requiring the visible quadratic to be readable. See evidence/v2.1.4/panels-before.log. This is a proven source defect and a plausible explanation for the owner’s symptom, not an observation of the owner’s DOM.
-
-## Correction
-
-The reader and action adapter keep the enclosing main region, including the stem and footer, while excluding sidebars/navigation/hidden content. Explicit paragraph directives override unrelated assignment headings; conflicting instructions remain unsupported. Printed answer prefixes (=, x = and f(x) =) no longer become competing expressions. All other distinct expressions remain ambiguous.
-
-Delayed question content and unavailable Check controls are observed for up to 12 seconds before pausing. A single enabled Check is required before entry. Existing work, algebraic readback, durable Check intent, accepted-feedback progression, class scope and Stop remain protected. Exercise diagnostics expose counts and stable categories without problem text or answers.
-
-## Verification and limits
-
-The new Chrome test completes eight supported formats through real no-global upstream MathQuill, alternating clipboard modes, once-only Check, correct fixture feedback and Next/Done. Tests also cover delayed content, labels, ambiguity, unrelated headings/completion, both actual work tabs, media, Stop and restart recovery. Exact final commands, exits and loaded source hashes are in TEST_REPORT.md and evidence/v2.1.4/.
-
-The engine already supported the shown quadratic. This release fixes reading and control association, rather than claiming a universal solver. Graphs, multiple choice/fields, systems, general word problems and unsupported expressions still pause. Actual Khan exercise acceptance is unverified; Copy diagnostics on the paused exercise tab identifies the next owner-side boundary without transferring credentials.
-
-The prior video/pagination fixes are retained. No host permissions, paid dependency, helper server, remote solver, credential access, grade API, browser security setting or unrelated project is added or changed. Project Sovereign and RADAR remain untouched.
+Pure image/canvas questions still require dependable math OCR that is not bundled. General text OCR can misread powers and fractions; no unverified model or localhost service was added. Graphs, multiple fields, systems and other unsupported formats remain explicit pauses. This release is not a universal solver. If your live page still pauses, Copy diagnostics identifies the remaining exact boundary without passwords, cookies or student details. Project Sovereign and RADAR remain untouched.

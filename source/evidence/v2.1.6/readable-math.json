@@ -1,0 +1,111 @@
+{
+  "browser": "156.0.8078.47",
+  "syntheticSite": true,
+  "liveClassroomVerified": false,
+  "results": [
+    {
+      "source": "hidden-accessible-math",
+      "expression": "10x^2+13x+4",
+      "probe": {
+        "fields": 1,
+        "mathAnnotations": 1,
+        "publicMathCandidates": 0,
+        "expressions": 1,
+        "answerLabels": 0,
+        "operation": "factor",
+        "checkControls": 1,
+        "scope": "main",
+        "readState": "READY"
+      }
+    },
+    {
+      "source": "data-tex",
+      "expression": "10x^2+13x+4",
+      "probe": {
+        "fields": 1,
+        "mathAnnotations": 0,
+        "publicMathCandidates": 1,
+        "expressions": 1,
+        "answerLabels": 0,
+        "operation": "factor",
+        "checkControls": 1,
+        "scope": "main",
+        "readState": "READY"
+      }
+    },
+    {
+      "source": "mathjax-script",
+      "expression": "10x^2+13x+4",
+      "probe": {
+        "fields": 1,
+        "mathAnnotations": 0,
+        "publicMathCandidates": 1,
+        "expressions": 1,
+        "answerLabels": 0,
+        "operation": "factor",
+        "checkControls": 1,
+        "scope": "main",
+        "readState": "READY"
+      }
+    },
+    {
+      "source": "accessible-math",
+      "expression": "10x^2+13x+4",
+      "probe": {
+        "fields": 1,
+        "mathAnnotations": 0,
+        "publicMathCandidates": 1,
+        "expressions": 1,
+        "answerLabels": 0,
+        "operation": "factor",
+        "checkControls": 1,
+        "scope": "main",
+        "readState": "READY"
+      }
+    },
+    {
+      "source": "rendered-sup",
+      "expression": "10x^2+13x+4",
+      "probe": {
+        "fields": 1,
+        "mathAnnotations": 0,
+        "publicMathCandidates": 1,
+        "expressions": 1,
+        "answerLabels": 0,
+        "operation": "factor",
+        "checkControls": 1,
+        "scope": "main",
+        "readState": "READY"
+      }
+    },
+    {
+      "source": "mathml",
+      "expression": "(10)/(1)x^2+13x+4",
+      "probe": {
+        "fields": 1,
+        "mathAnnotations": 0,
+        "publicMathCandidates": 1,
+        "expressions": 1,
+        "answerLabels": 0,
+        "operation": "factor",
+        "checkControls": 1,
+        "scope": "main",
+        "readState": "READY"
+      }
+    }
+  ],
+  "events": [
+    {
+      "kind": "check",
+      "value": "(2*x + 1)*(5*x + 4)"
+    },
+    {
+      "kind": "done"
+    }
+  ],
+  "counts": {
+    "answers": 1,
+    "exercise": 1,
+    "video": 0
+  }
+}

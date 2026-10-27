@@ -1,0 +1,15 @@
+{
+  "version": "2.1.6",
+  "node": {
+    "passed": 293,
+    "exit": 0
+  },
+  "browser": [
+    "browser-install.mjs",
+    "browser-boundaries.mjs",
+    "browser-mathquill.mjs",
+    "browser-readable-math.mjs"
+  ],
+  "extensionTreeSHA256": "600d7fdec88781c8e39d66b4b0c9f9e2ce6dea8f3166877802b7dd2dbfa2177d",
+  "liveClassroomVerified": false
+}

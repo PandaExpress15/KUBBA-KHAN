@@ -3,7 +3,7 @@
 export async function mathQuillDOM(action,expected,answer){
  const wait=()=>new Promise(resolve=>setTimeout(resolve,0));
  const visible=e=>e.getClientRects().length&&getComputedStyle(e).visibility!=='hidden';
- const token=()=>location.href+'|'+Array.from(document.querySelectorAll('annotation[encoding="application/x-tex"],.katex-mathml math')).filter(e=>!e.closest('.mq-editable-field')).map(e=>e.textContent).join('|').slice(0,2000);
+ const token=()=>location.href+'|'+Array.from(document.querySelectorAll('annotation[encoding="application/x-tex"],.katex-mathml math,[data-tex],[data-latex],[role=math],script[type="math/tex"],.katex,math')).filter(e=>!e.closest('.mq-editable-field')).map(e=>(e.getAttribute('data-tex')||e.getAttribute('data-latex')||e.getAttribute('aria-label')||e.textContent)+(e.querySelectorAll('sup,msup,mfrac').length?e.innerHTML:'')).join('|').slice(0,2000);
  if(token()!==expected.token)return {ok:false,error:'PAGE_CHANGED_READ_AGAIN'};
  const editors=[...document.querySelectorAll('.mq-editable-field')].filter(visible);
  if(editors.length!==1)return {ok:false,error:'MATHQUILL_EDITOR_AMBIGUOUS'};

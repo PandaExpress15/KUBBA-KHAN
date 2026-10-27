@@ -46,7 +46,7 @@
     const fields=answerFields();
     const anns=[...document.querySelectorAll('annotation[encoding="application/x-tex"]')].filter(e=>!e.closest('.mq-editable-field'));
     const expressions=[...new Set(anns.map(e=>e.textContent.trim()).filter(Boolean))];
-    const mathText=Array.from(document.querySelectorAll('annotation[encoding="application/x-tex"],.katex-mathml math')).filter(e=>!e.closest('.mq-editable-field')).map(e=>e.textContent).join('|').slice(0,2000);
+    const mathText=Array.from(document.querySelectorAll('annotation[encoding="application/x-tex"],.katex-mathml math,[data-tex],[data-latex],[role=math],script[type="math/tex"],.katex,math')).filter(e=>!e.closest('.mq-editable-field')).map(e=>(e.getAttribute('data-tex')||e.getAttribute('data-latex')||e.getAttribute('aria-label')||e.textContent)+(e.querySelectorAll('sup,msup,mfrac').length?e.innerHTML:'')).join('|').slice(0,2000);
     const prompt=[...document.querySelectorAll('main,[role=main],[data-testid*=question],.perseus-renderer')].find(e=>visible(e)&&/factor|expand|simplify|solve|evaluate/i.test(e.innerText))?.innerText||'';
     const mode=/factor/i.test(prompt)?'factor':/expand/i.test(prompt)?'expand':/solve/i.test(prompt)?'equation':/evaluate/i.test(prompt)?'evaluate':'simplify';
     return {ok:true,fieldCount:fields.length,kind:fields[0]?.matches('.mq-editable-field')?'mathquill':'plain',expression:expressions.length===1?expressions[0].replace(/=\s*$/,''):'',mode,token:location.href+'|'+mathText,code:expressions.length===1?'EXPRESSION_READ':'TYPE_EXPRESSION_MANUALLY'};

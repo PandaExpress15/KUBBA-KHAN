@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Khan Local Runner \u00b7 Study Assist",
-  "version": "2.1.5",
+  "name": "KUBLA KHAN",
+  "version": "2.1.6",
   "minimum_chrome_version": "120",
   "description": "Two coordinated Khan classroom tabs: queued 2x video playback and automatic supported algebra entry/check/next with explicit pause diagnostics.",
   "permissions": [
@@ -21,7 +21,7 @@
     "type": "module"
   },
   "action": {
-    "default_title": "Khan Local Runner",
+    "default_title": "KUBLA KHAN",
     "default_popup": "popup.html"
   },
   "icons": {
