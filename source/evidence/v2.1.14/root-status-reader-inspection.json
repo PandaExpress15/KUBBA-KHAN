@@ -1,0 +1,22 @@
+{
+  "source": "https://github.com/Khan/wonder-blocks/tree/main/packages/wonder-blocks-dropdown/src/components",
+  "inspection": "public source only; not a deployed owner DOM capture; no downloaded component executed",
+  "ownerEvidence": {
+    "build": "2.1.13",
+    "requestError": "SURVEY_FAILED",
+    "stage": "ERROR",
+    "captured": 0,
+    "pages": 0,
+    "surveyError": "SELECT_TO_DO_BEFORE_SURVEY",
+    "ownerConfirmedVisibleStatus": "To-do"
+  },
+  "confirmedBoundary": "false rejection at survey assignment-status preflight before queue discovery",
+  "upstreamFinding": "SingleSelect documents LabeledField, associated label, aria-label, aria-labelledby; default SelectOpener renders combobox with label association and selected content",
+  "limits": "Specific owner control DOM remains unobserved; no signed-in classroom acceptance claim",
+  "files": {
+    "dropdown-core.tsx": "5342c403a6d5c46e9cf6f6b07da5db16996c8e59fdeaf163cf52286c5b7d64b9",
+    "dropdown-opener.tsx": "33bfae30db98957feb26319691d70f663e082766cfbe42ef12cbf9c18c4932d4",
+    "select-opener.tsx": "c63772116b2a3111834de93bc9639316f8bc8abf9116537fbac59b876bba8e85",
+    "single-select.tsx": "9c4794c2c88507f9265483b8fee657abdb992ea1a165a0a8d683785c76f705c5"
+  }
+}

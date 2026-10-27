@@ -1,0 +1,24 @@
+BASELINE actual Chrome compound aria-labelledby To-do unreadable {"url":"https://classroom.khanacademy.org/learner/class/PREFLIGHT","isTodo":null,"items":[{"url":"https://classroom.khanacademy.org/learner/class/PREFLIGHT/assignment/math","kind":"exercise","title":"Practice arithmetic"}],"page":1,"pages":1}
+PREFLIGHT FAILURE {"error":"","index":1,"plan":{"createdAt":1793144872816,"items":[{"classification":"single-box","kind":"exercise","reason":"FIRST_VISIBLE_QUESTION_SUPPORTED","solver":"builtin-exact","status":"ready","title":"Practice arithmetic","url":"https://classroom.khanacademy.org/learner/class/PREFLIGHT/assignment/math","visibleQuestionOnly":true}],"schema":"kubla-khan-plan-v1","scope":"https://classroom.khanacademy.org/learner/class/PREFLIGHT"},"previewSince":1793144872835,"previewTab":null,"previewURL":"https://classroom.khanacademy.org/learner/class/PREFLIGHT/assignment/math","revision":1,"running":false,"scan":{"pages":1,"pending":null,"seen":["1|https://classroom.khanacademy.org/learner/class/PREFLIGHT/assignment/math"],"statusProbe":{"candidates":1,"controls":1,"namedCandidates":1,"optionCandidates":0,"source":"aria-labelledby","state":"todo","valueSources":["labelledby-value","control-text"]}},"sourceTab":840769032,"stage":"READY","started":1793144872816}
+RUN FAILURE undefined
+EVENTS []
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 840769034
+- null
+
+    at file:///workspace/khan-runner-isolated/turn-survey-fix-v2.1.14/source/tests/browser-survey-preflight.mjs:18:398 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 840769034,
+  expected: null,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

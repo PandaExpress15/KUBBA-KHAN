@@ -1,15 +1,13 @@
-# KUBLA KHAN · 2.1.13
+# KUBLA KHAN · 2.1.14
 
-[Download Chrome extension + optional local helper](https://github.com/PandaExpress15/KUBLA-KHAN/raw/refs/heads/main/downloads/KUBLA-KHAN-Chrome-v2.1.13.zip)
+[Download Chrome extension + optional local helper](https://github.com/PandaExpress15/KUBLA-KHAN/raw/refs/heads/main/downloads/KUBLA-KHAN-Chrome-v2.1.14.zip)
 
-Survey first, then run a local plan. The survey visits every captured To-do assignment in one preview tab without starting exercises, selecting answers, typing, checking, advancing questions or playing videos. It reports only the first visible question. Later questions remain unknown; an intro page stays unknown until you authorize Run plan. Articles require manual reading.
+Fixes survey rejecting a visibly selected To-do filter before it reaches any assignments or mathematics. Custom status controls now support associated labels and aria-labelledby, including compound label/current-value references. Unknown or conflicting controls still stop safely and explain the actual reason. Run without survey also fixes its startup scope error.
 
-Extract the ZIP into a permanent folder. Open chrome://extensions → Developer mode → remove the old runner → Load unpacked → extension. Confirm2.1.13 and refresh Khan. Open your classroom All assignments / To-do / All activities list. Click Survey all assignments, review the classifications, then Run plan. Export plan JSON saves a private local summary with assignment links; it is declarative data, not generated code. Every actual question is re-read during execution. Run without survey remains a secondary compatibility option.
+Extract the ZIP into a permanent folder. Open chrome://extensions → Developer mode → remove the old runner → Load unpacked → extension. Confirm2.1.14 and refresh Khan. On All assignments / To-do, click Survey all assignments. Review the local plan, then Run plan. Run without survey remains available. If a survey fails, Copy diagnostics now refreshes the current status-reader probe before copying.
 
-New multiple-choice support selects only one independently verified formal answer in one supported single-answer group. Native radios, ARIA radios and Khan's public Perseus toggle-button markup are supported. Ambiguous equivalent choices, unparsed text, graphs, multiple answers, disabled/review controls and existing selections require review. Factor-choice support remains conservative; do not assume every factor question is supported.
+The reported failure happened before queue discovery, so no math solver or model had been reached. The normal solver order remains built-in exact mathematics, optional local SymPy, then review-only model suggestions. This update does not install or start Ollama, and unverified model output still cannot automatically Check an answer. Runtime/model weights are not bundled.
 
-One exercise runs alongside one discovered video. Accepted finished work advances to the next planned assignment. The integer10–30-second pause remains before each answer. Needs-review work never counts as completed. Stop cancels future actions; uncertain submissions are retained and never blindly retried. A completed plan remains available for export after Stop.
+The optional Linux helper still uses a configurable local port, default9000: `sh helper/start.sh YOUR_EXTENSION_ID 9000`. If loading a new folder changes the extension ID, restart the helper with that ID and pair its token again. See helper/README.md.
 
-Optional Linux exact helper: `sh helper/start.sh YOUR_EXTENSION_ID 9000`. Pair its local token in the popup and use the same available port in both places. Do not terminate another service;8765/8766 are not defaults. See helper/README.md for the separate optional Ollama setup. Model runtime/weights are not included; real inference remains unverified here because weight downloads returned403. Unverified model suggestions are review-only. Signed-in owner Chrome is not attached.
-
-See TEST_REPORT.md for actual Chrome evidence, supported scope and failed-test history. Project Sovereign, RADAR, MasterChess and frozen releases are untouched.
+One exercise plus one video, integer10–30-second answer pauses, existing-work protection, durable once-only Check, needs-review counts and Stop remain. See TEST_REPORT.md for actual Chrome verification and limits. Owner's signed-in Chrome remains unattached. Project Sovereign, RADAR, MasterChess, unrelated services and frozen releases remain untouched.

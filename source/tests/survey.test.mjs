@@ -5,11 +5,11 @@ import {choiceDOM} from '../extension/choice-dom.js';
 import {pageSnapshot} from '../extension/automation-page.js';import {paginationUI} from '../extension/pagination.js';
 const ROOT='https://classroom.khanacademy.org/learner/class/SURVEY';
 const row=(id,kind='exercise')=>({url:ROOT+'/assignment/'+id,kind,title:id});
-function fixture({pages=[[row('one')]],initialPage=1,todo=true,framesRemoved=false}={}){
+function fixture({pages=[[row('one')]],initialPage=1,todo=true,statusProbe,framesRemoved=false}={}){
  let store={},clock=100000,page=initialPage,id=10,reads=0;const tabs=new Map([[7,{id:7,url:ROOT}]]),calls=[],visits=[],closed=[],alarms=new Set();
  const snapshots={};let removed=false;
  const api={storage:{session:{async get(k){return {[k]:structuredClone(store[k])};},async set(v){Object.assign(store,structuredClone(v));}}},alarms:{async create(n){alarms.add(n);},async clear(n){alarms.delete(n);}},tabs:{async get(n){return tabs.get(n);},async update(n,p){Object.assign(tabs.get(n),p);visits.push(p.url);return tabs.get(n);},async create(p){const t={id:id++,...p};tabs.set(t.id,t);return t;},async remove(n){closed.push(n);tabs.delete(n);},async sendMessage(){}},scripting:{async executeScript({target,func,args=[],files}){calls.push({name:func?.name||'files',args,target});if(files)return [{}];let result;const url=tabs.get(target.tabId).url;
- if(func===surveyListSnapshot)result={url:ROOT,isTodo:todo,items:pages[page-1],page,pages:pages.length};
+ if(func===surveyListSnapshot)result={url:ROOT,isTodo:todo,...(statusProbe?{statusProbe}:{}),items:pages[page-1],page,pages:pages.length};
  else if(func===paginationUI){if(args[0]==='next'){page++;if(framesRemoved&&!removed){removed=true;throw Error('Frame was removed');}}if(args[0]==='previous')page--;result={ok:true,page,pages:pages.length,next:{state:page<pages.length?'ready':'disabled',enabled:page<pages.length?1:0},previous:{state:page>1?'ready':'disabled',enabled:page>1?1:0}};}
  else if(func===choiceDOM)result=snapshots[url]?.choices||{ok:false,error:'NO_CHOICE_GROUP'};
  else if(func===pageSnapshot){reads++;result={url,expression:'10x^2+13x+4',operation:'factor',fieldCount:1,radioCount:0,controls:['Check'],...(snapshots[url]?.p||{})};}
@@ -47,4 +47,8 @@ test('a same-class manual navigation during pending exact CAS cannot trigger the
   await f.runner.start(7);const s=await f.runner.get(),work=f.runner.tick();await gate;f.tabs.get(s.previewTab).url=ROOT+'/assignment/manually-opened';release();await work;
   const after=await f.runner.get();assert.equal(after.stage,'ERROR');assert.equal(after.error,'SURVEY_PREVIEW_CHANGED_BY_USER');assert.deepEqual(f.visits,[ROOT+'/assignment/one']);assert.equal(f.closed.length,0);assert.equal(f.tabs.get(s.previewTab).url,ROOT+'/assignment/manually-opened');
  }}finally{globalThis.fetch=original;}
+});
+
+test('preflight returns exact stored status failure and sanitized probe before any preview',async()=>{
+ for(const [todo,state,code]of [[false,'other','SELECT_TO_DO_BEFORE_SURVEY'],[null,'unknown','SURVEY_STATUS_UNREADABLE'],[null,'ambiguous','SURVEY_STATUS_AMBIGUOUS']]){const statusProbe={state,candidates:state==='ambiguous'?2:state==='other'?1:0,source:state==='ambiguous'?'ambiguous':'none'};const f=fixture({todo,statusProbe});const r=await f.runner.start(7);assert.equal(r.ok,false);assert.equal(r.error,code);assert.equal(r.survey.error,code);assert.deepEqual(r.survey.statusProbe,statusProbe);assert.equal(f.tabs.size,1);assert.equal(f.visits.length,0);assert.equal(f.reads,0);}
 });

@@ -1,0 +1,18 @@
+{
+  "browser": "156.0.8078.47",
+  "syntheticDOM": true,
+  "ownerDOMConfirmed": false,
+  "before": {
+    "url": "https://classroom.khanacademy.org/learner/class/PREFLIGHT",
+    "isTodo": null,
+    "items": [
+      {
+        "url": "https://classroom.khanacademy.org/learner/class/PREFLIGHT/assignment/math",
+        "kind": "exercise",
+        "title": "Practice arithmetic"
+      }
+    ],
+    "page": 1,
+    "pages": 1
+  }
+}
