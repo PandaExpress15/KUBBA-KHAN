@@ -1,0 +1,49 @@
+{
+  "browser": "156.0.8078.47",
+  "syntheticSite": true,
+  "liveClassroomVerified": false,
+  "lostScopeAcceptanceRejected": true,
+  "negativeExternalNextRejected": true,
+  "lostProbe": {
+    "feedbackCandidates": 0,
+    "semanticFeedbackCandidates": 0,
+    "visualFeedbackCandidates": 1,
+    "positiveFeedback": false,
+    "negativeFeedback": false,
+    "nextCandidates": 0,
+    "progressionNameSources": [],
+    "fields": 1,
+    "mathAnnotations": 0,
+    "publicMathCandidates": 1,
+    "expressions": 1,
+    "answerLabels": 0,
+    "operation": "factor",
+    "checkControls": 0,
+    "scope": "document",
+    "readState": "READY"
+  },
+  "negativeProbe": {
+    "feedbackCandidates": 1,
+    "semanticFeedbackCandidates": 0,
+    "visualFeedbackCandidates": 1,
+    "positiveFeedback": false,
+    "negativeFeedback": true,
+    "nextCandidates": 1,
+    "progressionNameSources": [
+      "aria-label"
+    ],
+    "fields": 1,
+    "mathAnnotations": 0,
+    "publicMathCandidates": 1,
+    "expressions": 1,
+    "answerLabels": 0,
+    "operation": "factor",
+    "checkControls": 0,
+    "scope": "main",
+    "readState": "READY"
+  },
+  "action": {
+    "error": "CONTROL_MISSING_OR_AMBIGUOUS",
+    "ok": false
+  }
+}

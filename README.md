@@ -1,9 +1,9 @@
-# KUBLA KHAN · 2.1.7
+# KUBLA KHAN · 2.1.8
 
-[Download KUBLA KHAN for Chrome](https://github.com/PandaExpress15/KUBLA-KHAN/raw/refs/heads/main/downloads/KUBLA-KHAN-Chrome-v2.1.7.zip)
+[Download KUBLA KHAN for Chrome](https://github.com/PandaExpress15/KUBLA-KHAN/raw/refs/heads/main/downloads/KUBLA-KHAN-Chrome-v2.1.8.zip)
 
-This release fixes stopping after the first answer when the detached question footer switches from Check to Next or Continue. A real Chrome regression reproduced2.1.6 losing the footer's Correct feedback. The corrected flow completed THREE consecutive questions, including a repeated expression, with3 once-only Checks,2 Next/Continue actions and1 Done. See [verification](docs/VERIFICATION.md) for exact checks and live-site limits.
+This release fixes the split layout shown in the owner's screenshot: a plain Correct banner in the question card and an independent Next button in the right rail. Earlier footer-based fixtures missed this layout. The corrected real-Chrome flow completed THREE consecutive questions with3 correct Checks,2 Next actions and1 Done. See [verification](docs/VERIFICATION.md) for exact evidence and live-site limits.
 
-Stop/remove the old extension, extract the ZIP into a permanent folder, and use chrome://extensions → Developer mode → Load unpacked → extension. Confirm KUBLA KHAN2.1.7 and refresh Khan. Start from All assignments / To-do. One exercise runs at a time alongside the independent video lane. Random10–30-second pacing, Stop, verified readback and existing-work protection remain.
+Stop/remove the old extension, extract the ZIP into a permanent folder, and use chrome://extensions → Developer mode → Load unpacked → extension. Confirm KUBLA KHAN2.1.8 and refresh Khan. Start from All assignments / To-do. One exercise runs at a time alongside the independent video lane. Random10–30-second pacing, Stop, verified readback and existing-work protection remain.
 
-The local restricted math solver is unchanged. Unsupported/image-only formats pause. The current release passed296 Node checks and3 targeted actual-Chrome programs on synthetic classroom pages. The owner's signed-in Chrome is not attached, so live Khan exercise acceptance and course credit remain unverified. No helper service, paid API, private app state or expanded permission is added. Project Sovereign and RADAR are untouched.
+The current release passed296 Node checks and4 targeted actual-Chrome programs on synthetic classroom pages. Negative/hidden/unrelated feedback, ambiguous Next, and loss of the active-question scope cannot authorize progression. New sanitized diagnostics expose feedback and progression-control counts/sources. The owner's Chrome remains unattached, so live-site acceptance and course credit are unverified. No helper service, paid API, private application state or expanded permission is added. Project Sovereign and RADAR are untouched.

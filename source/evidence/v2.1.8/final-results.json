@@ -1,0 +1,15 @@
+{
+  "version": "2.1.8",
+  "node": {
+    "passed": 296,
+    "exit": 0
+  },
+  "browser": [
+    "browser-install.mjs",
+    "browser-boundaries.mjs",
+    "browser-split-feedback.mjs",
+    "browser-feedback-safety.mjs"
+  ],
+  "extensionTreeSHA256": "ef9108da0133215ba7a2a841be5b5fca0f1534eb82a2537c3f86961a95e61e7d",
+  "liveClassroomVerified": false
+}

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "KUBLA KHAN",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "minimum_chrome_version": "120",
   "description": "Two coordinated Khan classroom tabs: queued 2x video playback and automatic supported algebra entry/check/next with explicit pause diagnostics.",
   "permissions": [

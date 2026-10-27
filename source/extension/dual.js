@@ -6,7 +6,7 @@ import {mathQuillDOM} from './mq-dom.js';
 import {pageSnapshot,pageAction,mediaStep,stopMedia,readEditor} from './automation-page.js';
 import {paginationUI} from './pagination.js';
 const STORE='dual-run',ALARM='klr-dual-heartbeat';
-const idle=()=>({version:'2.1.7',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
+const idle=()=>({version:'2.1.8',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
 const cleanURL=u=>u.split(/[?#]/)[0];
 export function classScope(url){if(!isKhan(url))throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');const u=new URL(url),m=u.pathname.match(/^\/learner\/class\/[^/]+/);if(!m)throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');return u.origin+m[0];}
 export function collectJobs(items,scope){const seen=new Set(),out={video:[],exercise:[]};for(const x of items||[]){if(!['video','exercise'].includes(x.kind)||!inScope(x.url,scope)||!new URL(x.url).pathname.includes('/assignment/')||seen.has(cleanURL(x.url)))continue;seen.add(cleanURL(x.url));out[x.kind].push(cleanURL(x.url));}return out;}
@@ -122,7 +122,7 @@ export class DualRunner{
   if(this.now()-(lane.lastProgress||lane.started)>120000){await this.pause(s,lane,'MEDIA_STALLED');return;}
   lane.state='PLAYING';await this.save(s);
  }
- async click(s,lane,p,action){if(this.cancelled)return false;const r=await this.invoke(lane.tabId,pageAction,[action,{url:p.url,token:p.token}]);if(!r?.ok){await this.pause(s,lane,r?.error||'ACTION_NOT_OBSERVED');return false;}return true;}
+ async click(s,lane,p,action){if(this.cancelled)return false;const r=await this.invoke(lane.tabId,pageAction,[action,{url:p.url,token:p.token,accepted:p.accepted===true}]);if(!r?.ok){await this.pause(s,lane,r?.error||'ACTION_NOT_OBSERVED');return false;}return true;}
  async waitForQuestion(s,lane,code){
   lane.questionWait??=this.now();lane.state='WAITING_FOR_QUESTION';
   if(this.now()-lane.questionWait>=12000)await this.pause(s,lane,code);else await this.save(s);
