@@ -181,3 +181,13 @@ test('an unsupported requested output unit pauses before entry or Check',async()
  f.api.scripting.executeScript=async args=>{const r=await original(args);if(args.func===pageSnapshot&&r[0]?.result?.expression)Object.assign(r[0].result,{expression:'asin(1/2)',unsupportedAnswerFormat:true});return r;};
  await f.runner.start(7,{continueBlocked:false});for(let i=0;i<4;i++)await f.tick();assert.equal((await f.runner.get()).lanes.exercise.state,'PAUSED');assert.equal(f.insertions,0);assert.equal(f.checks,0);
 });
+test('validated captured-plan jobs execute without rediscovering the assignment list',async()=>{
+ const f=fixture();await f.runner.startPlan(7,{video:[ROOT+'/assignment/video0'],exercise:[ROOT+'/assignment/exercise0']});for(let i=0;i<20;i++){f.endVideos();await f.tick();if(!(await f.runner.get()).running)break;}const s=await f.runner.get();assert.equal(s.state,'DONE');assert.deepEqual(s.counts,{video:1,exercise:1,answers:2});assert.equal(f.checks,2);assert.equal(f.calls.filter(c=>c.name==='paginationUI').length,0);
+});
+test('captured plan rejects cross-class or duplicate assignment jobs before navigation',async()=>{
+ for(const jobs of [{video:[],exercise:['https://evil.example/assignment/1']},{video:[ROOT+'/assignment/1'],exercise:[ROOT+'/assignment/1']}]){const f=fixture();await assert.rejects(()=>f.runner.startPlan(7,jobs),/INVALID_PLAN/);assert.equal(f.tabs.size,1);assert.equal((await f.runner.get()).running,false);}
+});
+test('Stop during plan tab creation prevents late navigation or run resurrection',async()=>{
+ const f=fixture(),create=f.api.tabs.create;let release,notify;const called=new Promise(r=>notify=r);f.api.tabs.create=async options=>{notify();await new Promise(r=>release=r);return create(options);};f.api.tabs.remove=async id=>f.tabs.delete(id);
+ const pending=f.runner.startPlan(7,{video:[],exercise:[ROOT+'/assignment/exercise0']});await called;await f.runner.stop();release();assert.equal((await pending).ok,false);assert.equal((await f.runner.get()).state,'STOPPED');assert.equal(f.tabs.size,1);assert.equal(f.checks,0);
+});

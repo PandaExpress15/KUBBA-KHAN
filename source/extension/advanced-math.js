@@ -1,4 +1,4 @@
-import {Q,parse,normalize,format,mul,add,solve,latex} from './math.js';
+import {Q,parse,normalize,format,mul,add,solve,latex,isAmbiguousMixedNumber} from './math.js';
 const zero=()=>new Q(0),one=()=>new Q(1),trim=p=>{while(p.length>1&&!p.at(-1).n)p.pop();return p;};
 const isZero=p=>p.length===1&&!p[0].n;
 function divide(a,b){if(isZero(b))throw Error('Division by zero');let r=[...a],q=Array.from({length:Math.max(1,a.length-b.length+1)},zero),steps=0;while(!isZero(r)&&r.length>=b.length){if(++steps>20)throw Error('Polynomial division limit');const degree=r.length-b.length,c=r.at(-1).div(b.at(-1));q[degree]=q[degree].add(c);const term=Array.from({length:degree},zero).concat(b.map(v=>v.mul(c).neg()));r=trim(add(r,term));}return {q:trim(q),r};}
@@ -31,6 +31,7 @@ export function equivalent(a,b){
  try{const p=rational(a),q=rational(b);if(p.v!==q.v&&(p.n.length>1||p.d.length>1)&&(q.n.length>1||q.d.length>1))return false;return format(p.n)===format(q.n)&&format(p.d)===format(q.d);}catch{return false;}
 }
 export function solveSupported(expression,operation){
+ if(isAmbiguousMixedNumber(expression))return {status:'unsupported',reason:'Ambiguous mixed-number notation needs explicit addition.'};
  if(/^(?:\\)?(?:sin|cos|tan)\s*(?:\\left)?\(/.test(expression?.trim()||'')){try{return trigSolve(expression);}catch(e){return {status:'unsupported',reason:e.message};}}
  const base=solve(expression,operation);if(base.status==='solved'||operation!=='simplify')return base;
  try{return rationalSolve(expression);}catch(e){return {status:'unsupported',reason:e.message};}

@@ -14,6 +14,7 @@ class Unsupported(ValueError): pass
 def tokenize(source):
     if not isinstance(source, str) or not source.strip() or len(source) > MAX_INPUT:
         raise Unsupported('EXPRESSION_SIZE')
+    if re.search(r'\d\s+\d|\d\s*(?:\\[,!;: ]\s*)*\\(?:d?frac)\s*\{\s*\d+\s*\}\s*\{\s*\d+\s*\}', source): raise Unsupported('MIXED_NUMBER_NOTATION')
     source = source.replace('−', '-').replace('–', '-').replace('×', '*').replace('·', '*').replace('π','pi').replace('²','^2').replace('³','^3')
     # These substitutions normalize only a fixed math vocabulary. They never
     # execute model text or treat an arbitrary identifier as a callable.

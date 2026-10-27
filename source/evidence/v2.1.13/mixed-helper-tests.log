@@ -1,0 +1,7 @@
+test_ambiguous_forms_rejected (__main__.MixedNotation.test_ambiguous_forms_rejected) ... ok
+test_explicit_multiplication (__main__.MixedNotation.test_explicit_multiplication) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+
+OK

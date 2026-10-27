@@ -22,10 +22,11 @@ export async function localAnswer(api,p){
   return await localReadback(api,p,answer,answer.answer)?answer:null;
  }catch{return null;}
 }
-export async function localReadback(api,p,answer,observed){
- if(typeof observed!=='string'||observed.length>4000)return false;
- try{const r=await request(api,'/v1/verify',{expression:p.expression,operation:p.operation,answer:answer.answer,observed});return r?.ok===true&&r.equivalent===true&&r.verification?.exact===true;}catch{return false;}
+export async function localComparison(api,p,answer,observed){
+ if(typeof observed!=='string'||observed.length>4000)return null;
+ try{const r=await request(api,'/v1/verify',{expression:p.expression,operation:p.operation,answer:answer.answer,observed});return r?.ok===true&&typeof r.equivalent==='boolean'&&r.verification?.exact===true?r.equivalent:null;}catch{return null;}
 }
+export async function localReadback(api,p,answer,observed){return await localComparison(api,p,answer,observed)===true;}
 export async function localReason(api,p){try{reasonGeneration++;reasonAbort?.abort();reasonAbort=new AbortController();const r=await request(api,'/v1/reason',{expression:p.expression,operation:p.operation,instruction:String(p.instruction||'').slice(0,600)},AbortSignal.any([reasonAbort.signal,AbortSignal.timeout(45000)]));if(!r||r.request?.expression!==p.expression||r.request?.operation!==p.operation)return null;if(r.status==='solved'&&r.verification?.exact===true&&typeof r.answer==='string'&&typeof r.latex==='string'){const a={status:'solved',answer:r.answer,latex:r.latex,source:'local-sympy',explanation:String(r.reasoning?.explanation||'').slice(0,4000)};return await localReadback(api,p,a,a.answer)?a:null;}if(r.status==='review'&&typeof r.proposal?.answer==='string')return {status:'review',answer:r.proposal.answer.slice(0,2000),explanation:String(r.proposal.explanation||'').slice(0,4000),source:'local-model',verified:false};return null;}catch{return null;}}
 export async function localHealthInfo(api){try{const r=await request(api,'/v1/health',{});return r?.ok===true?{connected:true,reasoningConfigured:r.reasoningConfigured===true,reasoningAvailable:r.reasoningAvailable===true,reasoningModel:String(r.reasoningModel||'').slice(0,120)}:{connected:false};}catch{return {connected:false};}}
 export async function localHealth(api){return (await localHealthInfo(api)).connected;}

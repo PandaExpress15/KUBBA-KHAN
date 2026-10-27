@@ -1,0 +1,23 @@
+SURVEY FAILURE {"error":"","index":9,"plan":{"createdAt":1793141948187,"items":[{"classification":"multiple-choice","kind":"exercise","reason":"FIRST_VISIBLE_CHOICE_VERIFIED","solver":"builtin-exact","status":"ready","title":"Video practice","url":"https://classroom.khanacademy.org/learner/class/SURVEY/assignment/choice","visibleQuestionOnly":true},{"classification":"video","kind":"video","reason":"VISIBLE_VIDEO_PLAYER","solver":"media","status":"ready","title":"Watch a real video","url":"https://classroom.khanacademy.org/learner/class/SURVEY/assignment/video","visibleQuestionOnly":true},{"classification":"article","kind":"article","reason":"MANUAL_READING_REQUIRED","solver":"none","status":"review","title":"Read notes","url":"https://classroom.khanacademy.org/learner/class/SURVEY/assignment/article","visibleQuestionOnly":true},{"classification":"intro-requires-start","kind":"exercise","reason":"PREVIEW_REQUIRES_START","solver":"inspect-after-start","status":"unknown","title":"Practice introduction","url":"https://classroom.khanacademy.org/learner/class/SURVEY/assignment/intro","visibleQuestionOnly":true},{"classification":"multiple-choice","kind":"exercise","reason":"CHOICE_AMBIGUOUS_MATCH","solver":"none","status":"review","title":"Duplicate choices","url":"https://classroom.khanacademy.org/learner/class/SURVEY/assignment/duplicate","visibleQuestionOnly":true},{"classification":"multiple-choice","kind":"exercise","reason":"CHOICE_UNREADABLE_OPTION","solver":"none","status":"review","title":"All choices","url":"https://classroom.khanacademy.org/learner/class/SURVEY/assignment/allabove","visibleQuestionOnly":true},{"classification":"single-box","kind":"exercise","reason":"EXISTING_ANSWER_PRESERVED","solver":"none","status":"review","title":"Existing answer","url":"https://classroom.khanacademy.org/learner/class/SURVEY/assignment/existing","visibleQuestionOnly":true},{"classification":"multiple-fields","kind":"exercise","reason":"MULTIPLE_FIELDS_REQUIRE_REVIEW","solver":"none","status":"review","title":"Multiple fields","url":"https://classroom.khanacademy.org/learner/class/SURVEY/assignment/multi","visibleQuestionOnly":true},{"classification":"graph","kind":"exercise","reason":"GRAPH_REQUIRES_REVIEW","solver":"none","status":"review","title":"Graph task","url":"https://classroom.khanacademy.org/learner/class/SURVEY/assignment/graph","visibleQuestionOnly":true}],"schema":"kubla-khan-plan-v1","scope":"https://classroom.khanacademy.org/learner/class/SURVEY"},"previewSince":1793141948560,"previewTab":null,"previewURL":"https://classroom.khanacademy.org/learner/class/SURVEY/assignment/graph","revision":1,"running":false,"scan":{"moves":1,"pages":2,"pending":null,"pendingAt":1793141948198,"seen":["1|https://classroom.khanacademy.org/learner/class/SURVEY/assignment/choice|https://classroom.khanacademy.org/learner/class/SURVEY/assignment/video|https://classroom.khanacademy.org/learner/class/SURVEY/assignment/article|https://classroom.khanacademy.org/learner/class/SURVEY/assignment/intro","2|https://classroom.khanacademy.org/learner/class/SURVEY/assignment/duplicate|https://classroom.khanacademy.org/learner/class/SURVEY/assignment/allabove|https://classroom.khanacademy.org/learner/class/SURVEY/assignment/existing|https://classroom.khanacademy.org/learner/class/SURVEY/assignment/multi|https://classroom.khanacademy.org/learner/class/SURVEY/assignment/graph"]},"sourceTab":1567489977,"stage":"READY","started":1793141948187}
+RUN FAILURE undefined
+EVENTS [{"kind":"listnext","at":1793141948200,"phase":"survey"}]
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'OPEN_CLASSROOM_ASSIGNMENT_LIST'
+- 'PLAN_REQUIRES_CLASS_ASSIGNMENT_LIST'
+
+    at file:///workspace/khan-runner-isolated/turn-plan-v2.1.13/source/tests/browser-survey-plan.mjs:22:516 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'OPEN_CLASSROOM_ASSIGNMENT_LIST',
+  expected: 'PLAN_REQUIRES_CLASS_ASSIGNMENT_LIST',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

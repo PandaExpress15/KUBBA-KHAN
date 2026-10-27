@@ -3,3 +3,5 @@
 /* A popup's initial viewport can be 255px wide. max-width:100vw alone
    traps intrinsic sizing there, wraps Start, and puts it below the fold. */
 html,body{min-width:400px;width:400px;max-width:none}
+
+#survey-items{max-height:160px;overflow:auto;padding-right:8px}.top-actions{position:sticky;top:0;z-index:10;background:var(--bg);padding:6px 0}

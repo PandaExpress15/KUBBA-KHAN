@@ -1,10 +1,11 @@
+import {SurveyRunner,SURVEY_ALARM,executableJobs} from './survey.js';
 import {localHealth,localHealthInfo,helperPort,localReason,cancelLocalReason,reasonEpoch,setReviewCommitter,commitReview} from './local-cas.js';
 import {isKhan,scope,inScope,validMedia,safeRate} from './policy.js';
 import {insertReviewed} from './input.js';
-import {DualRunner,ALARM} from './dual.js';
+import {DualRunner,ALARM,classScope as classScopeForPlan} from './dual.js';
 import {mathQuillDOM} from './mq-dom.js';
 import {solveSupported,equivalent} from './advanced-math.js';
-const dual=new DualRunner(chrome);
+const dual=new DualRunner(chrome),survey=new SurveyRunner(chrome);
 const VERSION='2.1.3';
 const key=id=>'tab:'+id;
 const empty=()=>({running:false,rate:2,autoNext:false,state:'IDLE',revision:0});
@@ -18,8 +19,8 @@ async function handle(m,sender,requestEpoch){
   if(!internal){
     const id=sender.tab?.id;if(!Number.isInteger(id)||!isKhan(sender.tab.url)||!(isKhan(sender.url)||validMedia(sender.url)))throw Error('UNAUTHORIZED_FRAME');
     if(m.type==='AUTO_FRAME')return dual.frame(sender);
-    if(m.type==='AUTO_HELLO'&&sender.frameId===0)return dual.hello(sender);
-    if(m.type==='AUTO_PULSE'&&sender.frameId===0){const r=await dual.hello(sender);return r.running?dual.tick(id):{ok:true,running:false};}
+    if(m.type==='AUTO_HELLO'&&sender.frameId===0)return (await survey.get()).running?survey.hello(sender):dual.hello(sender);
+    if(m.type==='AUTO_PULSE'&&sender.frameId===0){if((await survey.get()).running){const r=await survey.hello(sender);return r.running?survey.tick(id):{ok:true,running:false};}const r=await dual.hello(sender);return r.running?dual.tick(id):{ok:true,running:false};}
     const s=await get(id);
     if(m.type==='HELLO')return {ok:true,config:inScope(sender.tab.url,s.scope||'')?s:empty()};
     if(m.type==='REPORT'){
@@ -36,6 +37,10 @@ async function handle(m,sender,requestEpoch){
     throw Error('UNKNOWN_CONTENT_ACTION');
   }
   const id=m.tabId;if(!Number.isInteger(id))throw Error('NO_TAB');
+  if(m.type==='SURVEY_STATUS')return {ok:true,survey:survey.public(await survey.get())};
+  if(m.type==='SURVEY_START'){if(requestEpoch!==stopEpoch)throw Error('START_CANCELLED_BY_STOP');if((await dual.get()).running)throw Error('STOP_CURRENT_RUN_BEFORE_SURVEY');if(requestEpoch!==stopEpoch)throw Error('START_CANCELLED_BY_STOP');return survey.start(id);}
+  if(m.type==='SURVEY_EXPORT')return {ok:true,plan:await survey.exportPlan()};
+  if(m.type==='SURVEY_EXECUTE'){if(requestEpoch!==stopEpoch)throw Error('START_CANCELLED_BY_STOP');if((await survey.get()).running)throw Error('WAIT_FOR_SURVEY_COMPLETION');const plan=await survey.exportPlan(),tab=await chrome.tabs.get(id);if(classScopeForPlan(tab.url)!==plan.scope||new URL(tab.url).origin+new URL(tab.url).pathname.replace(/\/$/,'')!==plan.scope)throw Error('PLAN_REQUIRES_CLASS_ASSIGNMENT_LIST');if(requestEpoch!==stopEpoch)throw Error('START_CANCELLED_BY_STOP');await survey.closePreview();if(requestEpoch!==stopEpoch)throw Error('START_CANCELLED_BY_STOP');return dual.startPlan(id,executableJobs(plan),{rate:m.rate,muted:m.muted,continueBlocked:m.continueBlocked});}
   if(m.type==='LOCAL_REASON_STATUS'){return {ok:true,job:(await chrome.storage.session.get('reason-review'))['reason-review']||null};}
   if(m.type==='LOCAL_REASON_START'){if(typeof m.expression!=='string'||m.expression.length>300||typeof m.instruction!=='string'||m.instruction.length>600||!['factor','expand','simplify','evaluate','equation','unknown'].includes(m.operation))throw Error('INVALID_REASONING_REQUEST');const job={id:crypto.randomUUID(),state:'RUNNING'};await chrome.storage.session.set({'reason-review':job});const work=localReason(chrome,m),generation=reasonEpoch();void work.then(result=>commitReview(async()=>{const current=(await chrome.storage.session.get('reason-review'))['reason-review'];if(generation===reasonEpoch()&&current?.id===job.id&&current.state==='RUNNING')await chrome.storage.session.set({'reason-review':{...job,state:result?'READY':'UNAVAILABLE',result}});})).catch(()=>{});return {ok:true,job};}
   if(m.type==='LOCAL_HEALTH')return {ok:true,health:await localHealthInfo(chrome)};
@@ -43,9 +48,10 @@ async function handle(m,sender,requestEpoch){
   if(m.type==='LOCAL_DISABLE'){cancelLocalReason();await chrome.storage.local.remove('local-cas');return {ok:true};}
   if(m.type==='LOCAL_STATUS'){const settings=(await chrome.storage.local.get('local-cas'))['local-cas'];return {ok:true,enabled:!!settings?.enabled,port:settings?.port||9000};}
   if(m.type==='AUTO_STATUS')return dual.status();
-  if(m.type==='AUTO_STOP'){cancelLocalReason();const job=(await chrome.storage.session.get('reason-review'))['reason-review'];if(job)await chrome.storage.session.set({'reason-review':{id:job.id,state:'CANCELLED'}});return dual.stop();}
+  if(m.type==='AUTO_STOP'){if((await survey.get()).running)await survey.stop();cancelLocalReason();const job=(await chrome.storage.session.get('reason-review'))['reason-review'];if(job)await chrome.storage.session.set({'reason-review':{id:job.id,state:'CANCELLED'}});return dual.stop();}
   if(m.type==='AUTO_RESUME')return dual.resume();
   if(m.type==='AUTO_START'){
+    if((await survey.get()).running)throw Error('STOP_SURVEY_BEFORE_START');
     if(requestEpoch!==stopEpoch)throw Error('START_CANCELLED_BY_STOP');
     const old=await get(id);old.running=false;old.revision++;await save(id,old);await broadcast(id,old);
     if(requestEpoch!==stopEpoch)throw Error('START_CANCELLED_BY_STOP');
@@ -81,11 +87,11 @@ async function handle(m,sender,requestEpoch){
 let queue=Promise.resolve(),stopEpoch=0;
 setReviewCommitter(work=>{queue=queue.then(work).catch(()=>{});return queue;});
 chrome.runtime.onMessage.addListener((m,sender,reply)=>{
-  if(m?.type==='AUTO_STOP'&&sender.url?.startsWith(chrome.runtime.getURL(''))&&!sender.tab){stopEpoch++;dual.cancel();cancelLocalReason();}
+  if(m?.type==='AUTO_STOP'&&sender.url?.startsWith(chrome.runtime.getURL(''))&&!sender.tab){stopEpoch++;dual.cancel();survey.cancel();cancelLocalReason();}
   const requestEpoch=stopEpoch;
   queue=queue.then(()=>handle(m,sender,requestEpoch)).then(reply,e=>reply({ok:false,error:e.message||'REQUEST_FAILED'}));return true;
 });
-chrome.alarms.onAlarm.addListener(alarm=>{if(alarm.name===ALARM)queue=queue.then(()=>dual.tick()).catch(()=>{});});
-void dual.recoverAlarm().catch(()=>{});
+chrome.alarms.onAlarm.addListener(alarm=>{if(alarm.name===ALARM)queue=queue.then(()=>dual.tick()).catch(()=>{});if(alarm.name===SURVEY_ALARM)queue=queue.then(()=>survey.tick()).catch(()=>{});});
+void dual.recoverAlarm().catch(()=>{});void survey.get().then(s=>{if(s.running)return chrome.alarms.create(SURVEY_ALARM,{periodInMinutes:.5});}).catch(()=>{});
 chrome.tabs.onRemoved.addListener(id=>{queue=queue.then(()=>chrome.storage.session.remove(key(id)));});
 chrome.tabs.onUpdated.addListener((id,change)=>{if(change.url)queue=queue.then(async()=>{const s=await get(id);if(s.running&&!inScope(change.url,s.scope)){s.running=false;s.revision++;s.state='IDLE';await save(id,s);await broadcast(id,s);}});});

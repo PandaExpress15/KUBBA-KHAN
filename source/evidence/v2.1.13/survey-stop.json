@@ -1,0 +1,17 @@
+{
+  "pass": true,
+  "loads": [
+    {
+      "id": "choice",
+      "phase": "survey",
+      "at": 1793141994569
+    }
+  ],
+  "events": [
+    {
+      "kind": "listnext",
+      "at": 1793141994532,
+      "phase": "survey"
+    }
+  ]
+}

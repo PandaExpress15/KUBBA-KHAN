@@ -1,4 +1,6 @@
-import {localAnswer,localReadback,queueLocalReview} from './local-cas.js';
+import {choiceDOM} from './choice-dom.js';
+import {uniqueChoice} from './choice.js';
+import {localAnswer,localReadback,localComparison,queueLocalReview} from './local-cas.js';
 import {isKhan,inScope,safeRate} from './policy.js';
 import {solve} from './math.js';
 import {solveSupported,equivalent} from './advanced-math.js';
@@ -7,8 +9,8 @@ import {mathQuillDOM} from './mq-dom.js';
 import {pageSnapshot,pageAction,mediaStep,stopMedia,readEditor} from './automation-page.js';
 import {paginationUI} from './pagination.js';
 const STORE='dual-run',ALARM='klr-dual-heartbeat';
-const recoverable=code=>/^(?:UNSUPPORTED_MATH_FORMAT|NO_QUESTION_MATH|MULTIPLE_QUESTION_EXPRESSIONS|QUESTION_OPERATION_UNCLEAR|AMBIGUOUS_QUESTION_MATH|PROBLEM_NOT_UNAMBIGUOUS|MULTIPLE_CHOICE_UNSUPPORTED|NO_SUPPORTED_ANSWER_FIELD|MULTIPLE_ANSWER_FIELDS|CHECK_CONTROL_MISSING_OR_AMBIGUOUS|SITE_REJECTED_ANSWER|SUBMISSION_RESULT_NOT_OBSERVED|FINISH_RESULT_NOT_OBSERVED|NEXT_QUESTION_DID_NOT_CHANGE|PROBLEM_CHANGED_BEFORE_FEEDBACK|PROBLEM_CHANGED_DURING_WAIT|PROBLEM_CHANGED_DURING_ENTRY|ANSWER_DID_NOT_PERSIST|ANSWER_FIELD_NOT_EMPTY|INPUT_[A-Z_]+|EDITOR_[A-Z_]+|MATHQUILL_[A-Z_]+|ACTION_NOT_OBSERVED|CONTROL_MISSING_OR_AMBIGUOUS|NEED_EXACTLY_ONE_VISIBLE_ANSWER_FIELD|NUMBER_FIELD_CANNOT_ACCEPT_SYMBOLIC_ANSWER|PAGE_CHANGED_DURING_ENTRY|PAGE_CHANGED_READ_AGAIN|PREVIOUS_UNRESOLVED_ATTEMPT|STALE_PROBLEM|NEXT_QUESTION_NOT_FOUND|CHECK_NOT_FOUND)$/.test(code);
-const idle=()=>({version:'2.1.12',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
+const recoverable=code=>/^CHOICE_[A-Z_]+$/.test(code)||/^(?:UNSUPPORTED_MATH_FORMAT|NO_QUESTION_MATH|MULTIPLE_QUESTION_EXPRESSIONS|QUESTION_OPERATION_UNCLEAR|AMBIGUOUS_QUESTION_MATH|PROBLEM_NOT_UNAMBIGUOUS|MULTIPLE_CHOICE_UNSUPPORTED|NO_SUPPORTED_ANSWER_FIELD|MULTIPLE_ANSWER_FIELDS|CHECK_CONTROL_MISSING_OR_AMBIGUOUS|SITE_REJECTED_ANSWER|SUBMISSION_RESULT_NOT_OBSERVED|FINISH_RESULT_NOT_OBSERVED|NEXT_QUESTION_DID_NOT_CHANGE|PROBLEM_CHANGED_BEFORE_FEEDBACK|PROBLEM_CHANGED_DURING_WAIT|PROBLEM_CHANGED_DURING_ENTRY|ANSWER_DID_NOT_PERSIST|ANSWER_FIELD_NOT_EMPTY|INPUT_[A-Z_]+|EDITOR_[A-Z_]+|MATHQUILL_[A-Z_]+|ACTION_NOT_OBSERVED|CONTROL_MISSING_OR_AMBIGUOUS|NEED_EXACTLY_ONE_VISIBLE_ANSWER_FIELD|NUMBER_FIELD_CANNOT_ACCEPT_SYMBOLIC_ANSWER|PAGE_CHANGED_DURING_ENTRY|PAGE_CHANGED_READ_AGAIN|PREVIOUS_UNRESOLVED_ATTEMPT|STALE_PROBLEM|NEXT_QUESTION_NOT_FOUND|CHECK_NOT_FOUND)$/.test(code);
+const idle=()=>({version:'2.1.13',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
 const cleanURL=u=>u.split(/[?#]/)[0];
 export function classScope(url){if(!isKhan(url))throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');const u=new URL(url),m=u.pathname.match(/^\/learner\/class\/[^/]+/);if(!m)throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');return u.origin+m[0];}
 export function collectJobs(items,scope){const seen=new Set(),out={video:[],exercise:[]};for(const x of items||[]){if(!['video','exercise'].includes(x.kind)||!inScope(x.url,scope)||!new URL(x.url).pathname.includes('/assignment/')||seen.has(cleanURL(x.url)))continue;seen.add(cleanURL(x.url));out[x.kind].push(cleanURL(x.url));}return out;}
@@ -48,6 +50,22 @@ export class DualRunner{
   }catch(e){
    s.running=false;s.state='ERROR';const code=/cannot access|permission|host access/i.test(e.message)?'SITE_ACCESS_DENIED':s.startupStage==='HEARTBEAT'?'STARTUP_ALARM_FAILED':s.startupStage==='ATTACH'?'STARTUP_INJECTION_FAILED':'STARTUP_FAILED';s.errors.push({lane:'controller',code,at:this.now()});await this.save(s);await this.api.alarms.clear(ALARM).catch(()=>{});await this.signal(s);return {ok:false,error:code,run:this.public(s)};
   }
+ }
+ async startPlan(tabId,jobs,options={}){
+  const epoch=this.cancelRevision,existing=await this.get();if(existing.running)throw Error('RUN_ALREADY_ACTIVE_STOP_FIRST');
+  const tab=await this.api.tabs.get(tabId),scope=classScope(tab.url);
+  if(!jobs||!Array.isArray(jobs.video)||!Array.isArray(jobs.exercise))throw Error('INVALID_PLAN_JOBS');
+  const supplied=[...jobs.video.map(url=>({url,kind:'video'})),...jobs.exercise.map(url=>({url,kind:'exercise'}))];
+  if(!supplied.length||supplied.length>100)throw Error('PLAN_HAS_NO_EXECUTABLE_WORK');
+  const clean=collectJobs(supplied,scope);if(clean.video.length+clean.exercise.length!==supplied.length)throw Error('INVALID_PLAN_JOBS');
+  if(epoch!==this.cancelRevision)return {ok:false,error:'START_CANCELLED_BY_STOP'};
+  this.cancelled=false;const s={...idle(),running:true,state:'RUNNING',revision:existing.revision+1,sourceTab:tabId,scope,started:this.now(),rate:safeRate(options.rate),muted:options.muted!==false,continueBlocked:options.continueBlocked!==false,review:existing.review||[],jobs:clean,planExecution:true,scan:{pages:0,seen:[],pending:null,since:this.now()}};
+  await this.save(s);if(this.cancelled)return {ok:false,error:'START_CANCELLED_BY_STOP'};await this.api.alarms.create(ALARM,{periodInMinutes:.5});if(this.cancelled){await this.api.alarms.clear(ALARM);return {ok:false,error:'START_CANCELLED_BY_STOP'};}
+  try{
+   for(const kind of ['video','exercise']){if(!clean[kind].length)continue;if(this.cancelled)return {ok:false,error:'START_CANCELLED_BY_STOP'};const id=kind==='video'?tabId:(await this.api.tabs.create({url:'about:blank',active:false})).id;if(this.cancelled){if(id!==tabId&&this.api.tabs.remove)await this.api.tabs.remove(id).catch(()=>{});return {ok:false,error:'START_CANCELLED_BY_STOP'};}s.lanes[kind]={kind,tabId:id,index:0,completed:0,deferred:0,state:'NAVIGATING',started:this.now(),problem:null,frameIds:[0]};await this.save(s);}
+   for(const lane of Object.values(s.lanes)){if(this.cancelled)break;await this.api.tabs.update(lane.tabId,{url:s.jobs[lane.kind][0]});}
+   if(!this.cancelled)await this.signal(s);return {ok:!this.cancelled,run:this.public(await this.get())};
+  }catch{if(!this.cancelled){s.running=false;s.state='ERROR';s.errors.push({lane:'controller',code:'PLAN_EXECUTION_START_FAILED',at:this.now()});await this.save(s);await this.api.alarms.clear(ALARM);await this.signal(s);}return {ok:false,error:'PLAN_EXECUTION_START_FAILED'};}
  }
  async pause(s,lane,code){if(s.continueBlocked!==false&&lane.kind==='exercise'&&recoverable(code))return this.defer(s,lane,code);lane.state='PAUSED';lane.error=code;s.errors.push({lane:lane.kind,code,at:this.now()});await this.save(s);}
  async finishIfDone(s){if(Object.values(s.lanes).every(l=>l.state==='DONE')){s.running=false;s.state='DONE';await this.save(s);await this.api.alarms.clear(ALARM);await this.signal(s);}}
@@ -138,7 +156,7 @@ export class DualRunner{
   if(this.now()-(lane.lastProgress||lane.started)>120000){await this.pause(s,lane,'MEDIA_STALLED');return;}
   lane.state='PLAYING';await this.save(s);
  }
- async click(s,lane,p,action){if(this.cancelled)return false;const r=await this.invoke(lane.tabId,pageAction,[action,{url:p.url,token:p.token,accepted:p.accepted===true}]);if(!r?.ok){await this.pause(s,lane,r?.error||'ACTION_NOT_OBSERVED');return false;}return true;}
+ async click(s,lane,p,action){if(this.cancelled)return false;const r=action==='CHECK'&&p.choice?await this.invoke(lane.tabId,choiceDOM,['check',{url:p.url,token:p.choice.token},{index:lane.problem.choiceIndex}]):await this.invoke(lane.tabId,pageAction,[action,{url:p.url,token:p.token,accepted:p.accepted===true}]);if(!r?.ok){await this.pause(s,lane,r?.error||'ACTION_NOT_OBSERVED');return false;}return true;}
  async waitForQuestion(s,lane,code){
   lane.questionWait??=this.now();lane.state='WAITING_FOR_QUESTION';
   if(this.now()-lane.questionWait>=12000)await this.pause(s,lane,code);else await this.save(s);
@@ -165,31 +183,47 @@ export class DualRunner{
    }
    lane.problem.phase='WAITING_FEEDBACK';lane.state='WAITING_FEEDBACK';await this.save(s);if(this.now()-lane.problem.at>20000)await this.pause(s,lane,'SUBMISSION_RESULT_NOT_OBSERVED');return;
   }
+  if(p.radioCount){
+   if(p.fieldCount){await this.pause(s,lane,'CHOICE_MIXED_RESPONSE_UNSUPPORTED');return;}
+   const response=await this.invoke(lane.tabId,choiceDOM,['inspect',{url:p.url}]);if(this.cancelled)return;
+   if(!response?.ok){await this.pause(s,lane,response?.error||'CHOICE_GROUP_MISSING');return;}
+   p.choice=response;p.fieldCount=1;p.fieldValue=null;p.mathquill=false;
+   if(lane.probe){lane.probe.responseKind=response.kind;lane.probe.choiceCount=response.choices.length;lane.probe.selectedChoiceCount=response.selected.length;}
+   if(!lane.problem&&response.selected.length){await this.pause(s,lane,'ANSWER_FIELD_NOT_EMPTY');return;}
+  }
   if(!p.fieldCount){if(p.controls.some(x=>/^(start|start exercise|begin practice|let's go)$/i.test(x))&&!lane.introClicked){lane.introClicked=true;await this.save(s);await this.click(s,lane,p,'START_EXERCISE');return;}if(this.now()-lane.started>20000)await this.pause(s,lane,p.radioCount?'MULTIPLE_CHOICE_UNSUPPORTED':'NO_SUPPORTED_ANSWER_FIELD');return;}
   if(p.fieldCount!==1){await this.pause(s,lane,'MULTIPLE_ANSWER_FIELDS');return;}
+  if(p.unsupportedNotation){await this.pause(s,lane,'UNSUPPORTED_MATH_FORMAT');return;}
   if(!p.expression||!p.operation){await this.waitForQuestion(s,lane,p.probe?.readState||'PROBLEM_NOT_UNAMBIGUOUS');return;}
   if(p.unsupportedAnswerFormat){if(!this.cancelled)void queueLocalReview(this.api,p,await problemKey(p),()=>this.cancelled).catch(()=>{});await this.pause(s,lane,'UNSUPPORTED_MATH_FORMAT');return;}
   if(p.unsupportedFactorDomain){if(lane.probe)lane.probe.solver='unsupported-factor-domain';await this.pause(s,lane,'UNSUPPORTED_MATH_FORMAT');return;}
   let answer=solveSupported(p.expression,p.operation);if(answer.status!=='solved'){const local=await localAnswer(this.api,p);if(this.cancelled)return;if(local)answer=local;}if(lane.probe)lane.probe.solver=answer.status==='solved'?'solved':'unsupported';if(answer.status!=='solved'){if(!this.cancelled)void queueLocalReview(this.api,p,await problemKey(p),()=>this.cancelled).catch(()=>{});await this.pause(s,lane,'UNSUPPORTED_MATH_FORMAT');return;}
+  let chosen=null;
+  if(p.choice){
+   chosen=await uniqueChoice(p,answer,p.choice.choices,answer.source==='local-sympy'?expression=>localComparison(this.api,p,answer,expression):undefined);
+   if(this.cancelled)return;if(!chosen.ok){await this.pause(s,lane,chosen.error);return;}
+  }
   const key=await problemKey(p);
   if(!lane.problem&&(s.review||[]).some(r=>r.key===key&&['ENTERING','READY_TO_CHECK','CHECKING','WAITING_FEEDBACK','NEXT_CLICKED','FINISH_CLICKED'].includes(r.phase))){lane.problem={key,phase:'PREVIOUS_UNRESOLVED_ATTEMPT',at:this.now()};await this.pause(s,lane,'PREVIOUS_UNRESOLVED_ATTEMPT');return;}
   const checks=p.controls.filter(x=>/^(check|check answer|check answers|submit answer)$/i.test(x)).length;
   if(checks!==1){await this.waitForQuestion(s,lane,'CHECK_CONTROL_MISSING_OR_AMBIGUOUS');return;}
   delete lane.questionWait;
   if(!lane.problem){
-   if(lane.delay&&lane.delay.key!==key){await this.pause(s,lane,'PROBLEM_CHANGED_DURING_WAIT');return;}
-   if(!lane.delay){const seconds=answerDelaySeconds(this.random);lane.delay={key,seconds,until:this.now()+seconds*1000};}
+   if(lane.delay&&(lane.delay.key!==key||p.choice&&lane.delay.choiceToken!==p.choice.token)){await this.pause(s,lane,'PROBLEM_CHANGED_DURING_WAIT');return;}
+   if(!lane.delay){const seconds=answerDelaySeconds(this.random);lane.delay={key,seconds,until:this.now()+seconds*1000,...(p.choice?{choiceToken:p.choice.token}:{})};}
    if(this.now()<lane.delay.until){lane.state='WAITING_BEFORE_ANSWER';await this.save(s);return;}
    delete lane.delay;
-   lane.problem={key,phase:'ENTERING',at:this.now()};lane.state='ENTERING_ANSWER';await this.save(s);if(this.cancelled)return;
-   let entry=await this.invoke(lane.tabId,insertReviewed,[{answer:answer.answer,latex:answer.latex},p.token],'MAIN');
+   lane.problem={key,phase:'ENTERING',at:this.now(),...(p.choice?{choiceToken:p.choice.token,choiceIndex:chosen.index}:{})};lane.state='ENTERING_ANSWER';await this.save(s);if(this.cancelled)return;
+   let entry=p.choice?await this.invoke(lane.tabId,choiceDOM,['select',{url:p.url,token:p.choice.token},{index:chosen.index}]):await this.invoke(lane.tabId,insertReviewed,[{answer:answer.answer,latex:answer.latex},p.token],'MAIN');
    if(entry?.error==='MATHQUILL_PUBLIC_API_UNAVAILABLE_COPY_MANUALLY'&&!this.cancelled)entry=await this.invoke(lane.tabId,mathQuillDOM,['insert',{token:p.token},answer],'MAIN');
    if(!entry?.ok){await this.pause(s,lane,entry?.error||'INPUT_NOT_OBSERVED');return;}
    if(entry.kind==='mathquill'&&!(answer.source==='local-sympy'?await localReadback(this.api,p,answer,entry.observed):algebraEqual(entry.observed,answer.answer))){await this.pause(s,lane,'INPUT_READBACK_MISMATCH');return;}
    lane.problem.phase='READY_TO_CHECK';lane.problem.at=this.now();lane.state='ANSWER_ENTERED';await this.save(s);return;
   }
   if(lane.problem.key!==key){await this.pause(s,lane,'PROBLEM_CHANGED_DURING_ENTRY');return;}
-  let value=p.fieldValue;if(p.mathquill){let r=await this.invoke(lane.tabId,readEditor,[],'MAIN');if(!r?.ok)r=await this.invoke(lane.tabId,mathQuillDOM,['read',{token:p.token}],'MAIN');if(!r?.ok){await this.pause(s,lane,r?.error||'EDITOR_READBACK_UNAVAILABLE');return;}value=r.latex;}
+  let value=p.fieldValue;
+  if(p.choice){if(lane.problem.choiceToken!==p.choice.token||p.choice.selected.length!==1||p.choice.selected[0]!==lane.problem.choiceIndex){await this.pause(s,lane,'CHOICE_READBACK_MISMATCH');return;}value=p.choice.choices[p.choice.selected[0]].expression;}
+  if(p.mathquill){let r=await this.invoke(lane.tabId,readEditor,[],'MAIN');if(!r?.ok)r=await this.invoke(lane.tabId,mathQuillDOM,['read',{token:p.token}],'MAIN');if(!r?.ok){await this.pause(s,lane,r?.error||'EDITOR_READBACK_UNAVAILABLE');return;}value=r.latex;}
   if(!(answer.source==='local-sympy'?await localReadback(this.api,p,answer,value||''):algebraEqual(value||'',answer.answer))){await this.pause(s,lane,'ANSWER_DID_NOT_PERSIST');return;}
   // Durable intent BEFORE click: refresh/restart never blindly repeats a submission.
   lane.problem.phase='CHECKING';lane.problem.at=this.now();lane.state='SUBMITTING';await this.save(s);if(!this.cancelled)await this.click(s,lane,p,'CHECK');

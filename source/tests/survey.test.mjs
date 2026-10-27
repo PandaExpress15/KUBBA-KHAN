@@ -1,0 +1,50 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {SurveyRunner,validatePlan,executableJobs,SURVEY_ALARM} from '../extension/survey.js';
+import {surveyListSnapshot,surveyPreviewSnapshot} from '../extension/survey-page.js';
+import {choiceDOM} from '../extension/choice-dom.js';
+import {pageSnapshot} from '../extension/automation-page.js';import {paginationUI} from '../extension/pagination.js';
+const ROOT='https://classroom.khanacademy.org/learner/class/SURVEY';
+const row=(id,kind='exercise')=>({url:ROOT+'/assignment/'+id,kind,title:id});
+function fixture({pages=[[row('one')]],initialPage=1,todo=true,framesRemoved=false}={}){
+ let store={},clock=100000,page=initialPage,id=10,reads=0;const tabs=new Map([[7,{id:7,url:ROOT}]]),calls=[],visits=[],closed=[],alarms=new Set();
+ const snapshots={};let removed=false;
+ const api={storage:{session:{async get(k){return {[k]:structuredClone(store[k])};},async set(v){Object.assign(store,structuredClone(v));}}},alarms:{async create(n){alarms.add(n);},async clear(n){alarms.delete(n);}},tabs:{async get(n){return tabs.get(n);},async update(n,p){Object.assign(tabs.get(n),p);visits.push(p.url);return tabs.get(n);},async create(p){const t={id:id++,...p};tabs.set(t.id,t);return t;},async remove(n){closed.push(n);tabs.delete(n);},async sendMessage(){}},scripting:{async executeScript({target,func,args=[],files}){calls.push({name:func?.name||'files',args,target});if(files)return [{}];let result;const url=tabs.get(target.tabId).url;
+ if(func===surveyListSnapshot)result={url:ROOT,isTodo:todo,items:pages[page-1],page,pages:pages.length};
+ else if(func===paginationUI){if(args[0]==='next'){page++;if(framesRemoved&&!removed){removed=true;throw Error('Frame was removed');}}if(args[0]==='previous')page--;result={ok:true,page,pages:pages.length,next:{state:page<pages.length?'ready':'disabled',enabled:page<pages.length?1:0},previous:{state:page>1?'ready':'disabled',enabled:page>1?1:0}};}
+ else if(func===choiceDOM)result=snapshots[url]?.choices||{ok:false,error:'NO_CHOICE_GROUP'};
+ else if(func===pageSnapshot){reads++;result={url,expression:'10x^2+13x+4',operation:'factor',fieldCount:1,radioCount:0,controls:['Check'],...(snapshots[url]?.p||{})};}
+ else if(func===surveyPreviewSnapshot)result={url,videoCount:1,videoFrames:0,intro:false,graph:false,hasContent:true,...(snapshots[url]?.extra||{})};
+ else throw Error('Unexpected survey action '+func?.name);return [{result}];}}};
+ const runner=new SurveyRunner(api,()=>clock);
+ return {runner,api,tabs,calls,visits,closed,alarms,snapshots,get reads(){return reads;},advance(ms){clock+=ms;},async run(n=30){for(let i=0;i<n&&(await runner.get()).running;i++){clock+=13000;await runner.tick();}return runner.get();}};
+}
+test('read-only multipage survey captures every type, classifies first visible question, executable subset only',async()=>{
+ const f=fixture({pages:[[row('v','video'),row('one')],[row('article','article'),row('intro'),row('multi'),row('graph'),row('mystery','unknown')]],initialPage:2});
+ f.snapshots[ROOT+'/assignment/intro']={p:{fieldCount:0},extra:{intro:true}};f.snapshots[ROOT+'/assignment/multi']={p:{fieldCount:2}};f.snapshots[ROOT+'/assignment/graph']={p:{fieldCount:0},extra:{graph:true}};
+ await f.runner.start(7);const s=await f.run();assert.equal(s.stage,'READY',JSON.stringify(s));assert.equal(s.plan.items.length,7);assert.deepEqual(s.plan.items.map(i=>i.classification),['video','single-box','article','intro-requires-start','multiple-fields','graph','unknown']);assert.equal(s.plan.items[3].status,'unknown');assert.equal(s.plan.items[2].reason,'MANUAL_READING_REQUIRED');assert.deepEqual(executableJobs(s.plan),{video:[ROOT+'/assignment/v'],exercise:[ROOT+'/assignment/one',ROOT+'/assignment/intro']});
+ assert.equal(f.tabs.get(7).url,ROOT);assert.equal(f.tabs.size,1);assert.equal(f.closed.length,1);assert.equal(f.alarms.size,0);assert.ok(f.calls.every(c=>['files','surveyListSnapshot','paginationUI','pageSnapshot','surveyPreviewSnapshot','choiceDOM'].includes(c.name)));assert.ok(f.calls.filter(c=>c.name==='paginationUI').every(c=>['inspect','previous','next'].includes(c.args[0])));assert.ok(s.plan.items.every(i=>i.visibleQuestionOnly));assert.deepEqual(await f.runner.exportPlan(),s.plan);
+});
+test('To-do must already be selected; survey never changes status filters',async()=>{const f=fixture({todo:false});const r=await f.runner.start(7);assert.equal(r.ok,false);assert.equal((await f.runner.get()).error,'SELECT_TO_DO_BEFORE_SURVEY');assert.equal(f.tabs.size,1);assert.equal(f.visits.length,0);});
+test('native list navigation context loss observes next document without duplicate Next',async()=>{const f=fixture({pages:[[row('one')],[row('two')]],framesRemoved:true});await f.runner.start(7);const s=await f.run();assert.equal(s.stage,'READY');assert.equal(s.plan.items.length,2);assert.equal(f.calls.filter(c=>c.name==='paginationUI'&&c.args[0]==='next').length,1);});
+test('first visible unsupported math requires review, never assumes hidden future questions',async()=>{const f=fixture();f.snapshots[ROOT+'/assignment/one']={p:{expression:'\\sin(x)'}};await f.runner.start(7);const s=await f.run();assert.equal(s.plan.items[0].status,'review');assert.equal(s.plan.items[0].reason,'VISIBLE_MATH_UNSUPPORTED');assert.deepEqual(executableJobs(s.plan),{video:[],exercise:[]});});
+test('preview leaving class scope stops read-only scan',async()=>{const f=fixture();await f.runner.start(7);const s=await f.runner.get();f.tabs.get(s.previewTab).url='https://example.com';await f.runner.tick();assert.equal((await f.runner.get()).error,'SURVEY_PREVIEW_LEFT_CLASS_SCOPE');assert.equal(f.reads,0);});
+test('Stop while preview creation awaits cannot navigate or save a late running plan',async()=>{const f=fixture(),create=f.api.tabs.create;f.api.tabs.create=async p=>{const t=await create(p);await f.runner.stop();return t;};await f.runner.start(7);assert.equal((await f.runner.get()).stage,'STOPPED');assert.equal(f.visits.length,0);assert.equal(f.tabs.size,1);assert.equal(f.alarms.has(SURVEY_ALARM),false);});
+test('sync cancel before awaited startup lookup prevents late content injection or tabs',async()=>{const f=fixture(),get=f.api.tabs.get;f.api.tabs.get=async id=>{f.runner.cancel();return get(id);};const r=await f.runner.start(7);assert.equal(r.ok,false);assert.equal(f.calls.length,0);assert.equal(f.tabs.size,1);});
+test('strict declarative plan rejects injected properties, duplicate or foreign URLs, invalid ready claims',async()=>{const f=fixture();await f.runner.start(7);const s=await f.run();const plan=s.plan;assert.equal(validatePlan(plan),plan);for(const mutate of [p=>p.code='eval(1)',p=>p.items[0].selector='#x',p=>p.items.push({...p.items[0]}),p=>p.items[0].url='https://example.com',p=>p.items[0].url+='?token=private',p=>p.items[0].kind='article',p=>p.items[0].classification='graph',p=>p.items[0].title='a\nsecret']){const p=structuredClone(plan);mutate(p);assert.throws(()=>executableJobs(p));}});
+test('unready survey cannot export a runnable plan',async()=>{const f=fixture();await assert.rejects(f.runner.exportPlan(),/NOT_READY/);await f.runner.start(7);await assert.rejects(f.runner.exportPlan(),/NOT_READY/);await f.runner.stop();await assert.rejects(f.runner.exportPlan(),/NOT_READY/);});
+
+test('prefilled native or MathQuill work is preserved and reviewed rather than marked ready',async()=>{for(const mq of [false,true]){const f=fixture();f.snapshots[ROOT+'/assignment/one']={p:{fieldValue:mq?null:'my work'},extra:{editorWork:mq}};await f.runner.start(7);const s=await f.run();assert.equal(s.plan.items[0].reason,'EXISTING_ANSWER_PRESERVED');assert.equal(s.plan.items[0].status,'review');assert.deepEqual(executableJobs(s.plan),{video:[],exercise:[]});}});
+test('readonly choice inspection requires a unique verified answer and preserves a preselection',async()=>{
+ for(const preselected of [false,true]){const f=fixture();f.snapshots[ROOT+'/assignment/one']={p:{expression:'2(x+1)',operation:'expand',fieldCount:0,radioCount:2},choices:{ok:true,kind:'native-radio',selected:preselected?[1]:[],choices:[{index:0,expression:'2x+2'},{index:1,expression:'2x+3'}]}};await f.runner.start(7);const s=await f.run();assert.equal(s.plan.items[0].classification,'multiple-choice');assert.equal(s.plan.items[0].status,preselected?'review':'ready');assert.equal(s.plan.items[0].reason,preselected?'EXISTING_CHOICE_PRESERVED':'FIRST_VISIBLE_CHOICE_VERIFIED');assert.ok(f.calls.filter(c=>c.name==='choiceDOM').every(c=>c.args[0]==='inspect'));}
+});
+test('a same-class manual navigation during pending exact CAS cannot trigger the next navigation or close',async()=>{
+ const original=globalThis.fetch;
+ try{for(const count of [1,2]){
+  const f=fixture({pages:[count===1?[row('one')]:[row('one'),row('two')]]});f.snapshots[ROOT+'/assignment/one']={p:{expression:'\\sin(x)',operation:'evaluate'}};
+  f.api.storage.local={async get(){return {'local-cas':{enabled:true,token:'fixture-token',port:9000}};}};f.api.permissions={async contains(){return true;}};
+  let release,entered;const gate=new Promise(r=>entered=r),pending=new Promise(r=>release=r);
+  globalThis.fetch=async(url,options)=>{const body=JSON.parse(options.body);if(url.endsWith('/solve')){entered();await pending;return {ok:true,text:async()=>JSON.stringify({status:'solved',answer:'x',latex:'x',request:body,verification:{exact:true,method:'sympy-exact'},certificate:{kind:'exact-symbolic'}})};}return {ok:true,text:async()=>JSON.stringify({ok:true,equivalent:true,verification:{exact:true}})};};
+  await f.runner.start(7);const s=await f.runner.get(),work=f.runner.tick();await gate;f.tabs.get(s.previewTab).url=ROOT+'/assignment/manually-opened';release();await work;
+  const after=await f.runner.get();assert.equal(after.stage,'ERROR');assert.equal(after.error,'SURVEY_PREVIEW_CHANGED_BY_USER');assert.deepEqual(f.visits,[ROOT+'/assignment/one']);assert.equal(f.closed.length,0);assert.equal(f.tabs.get(s.previewTab).url,ROOT+'/assignment/manually-opened');
+ }}finally{globalThis.fetch=original;}
+});

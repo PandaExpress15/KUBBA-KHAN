@@ -3,7 +3,7 @@
 import argparse,hmac,json,os,re,secrets,subprocess,sys,threading
 from pathlib import Path
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
-VERSION='2.1.12'
+VERSION='2.1.13'
 WORKER=Path(__file__).with_name('worker.py')
 LIMIT=4096
 class Server(ThreadingHTTPServer):

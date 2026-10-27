@@ -37,6 +37,11 @@ try{
  const stale=await invoke(pageAction,['CHECK',{url,token:snapshot.token}]);assert.equal(stale.error,'STALE_PROBLEM');
  const unauthorized=await invoke(async function(){return chrome.runtime.sendMessage({type:'AUTO_START',tabId:1});});
  assert.equal(unauthorized.error,'UNKNOWN_CONTENT_ACTION','content frames cannot authorize Start');
+ for(const raw of ['1 1/2','1\\frac{1}{2}','1 \\frac{ 1 }{ 2 }','1\\,\\frac{1}{2}']){
+  await page.locator('main').evaluate((main,value)=>{main.innerHTML='<p>Evaluate the expression.</p><span id="mixed-stem"></span><fieldset><label><input type="radio" name="mixed">1.5</label><label><input type="radio" name="mixed">5.5</label></fieldset><button>Check</button>';const stem=main.querySelector('#mixed-stem');stem.setAttribute('data-tex',value);stem.textContent=value;},raw);
+  const mixed=await invoke(pageSnapshot);assert.equal(mixed.unsupportedNotation,true,raw);assert.equal(mixed.expression,'',raw);assert.equal(mixed.probe.readState,'UNSUPPORTED_QUESTION_NOTATION');
+ }
+ console.log('PASS raw plain/TeX mixed-number stems rejected before normalization with competing 1.5/5.5 choices');
  console.log('PASS actual visible question scope, hidden-expression rejection, feedback and Next boundaries');
  console.log('PASS actual native existing-work preservation, stale Check rejection and content-frame authority');
 }finally{await b.close();}

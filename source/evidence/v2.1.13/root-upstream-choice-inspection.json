@@ -1,0 +1,19 @@
+{
+  "source": "https://github.com/Khan/perseus/tree/main/packages/perseus/src/widgets/radio",
+  "scope": "public upstream renderer source inspection; not owner classroom or current deployed-source attestation",
+  "executedSource": false,
+  "findings": [
+    "Current public RadioComponent documents custom toggle-button semantics rather than native radios",
+    "Choice group is fieldset/visible legend then ul[data-widget=radio][role=list] and li[role=listitem]",
+    "Choice indicator uses button[aria-pressed], aria-labelledby referring to indicator and visible content",
+    "Both single and multiple-select use toggles; explicit Choose 1 directive is required to certify single selection",
+    "aria-disabled=true indicates review-mode control that must not be changed",
+    "No private application state, correctness configuration or grade APIs are used"
+  ],
+  "files": {
+    "radio-widget.tsx": "436b3cb99f8cdfbf7b39778c6df750caca8d3dc7ff04b553577119a7aee8759c",
+    "radio-component.tsx": "c596fb42e5c2f373cf2f5a41bfea8118c9b94b35fb938ffb09b2da97a03f6b89",
+    "choice-indicator.tsx": "6bb7a96aa7a098e0541f1d5b74c6b13f9559a4c6df50ddfb532a80408c994a0d",
+    "choice.tsx": "56ff98cec3e425798527566853b7625aae8e34e700be41e71bfcfc29276ef4e3"
+  }
+}

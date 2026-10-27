@@ -17,9 +17,10 @@ export const add=(a,b)=>trim(Array.from({length:Math.max(a.length,b.length)},(_,
 const neg=a=>a.map(q=>q.neg());
 export const mul=(a,b)=>{if(a.length+b.length-2>8)throw Error('Maximum polynomial degree is 8');const p=Array.from({length:a.length+b.length-1},Z);a.forEach((x,i)=>b.forEach((y,j)=>p[i+j]=p[i+j].add(x.mul(y))));return trim(p);};
 const pow=(a,n)=>{if(!Number.isInteger(n)||n<0||n>8)throw Error('Use whole exponents from 0 to 8');let p=[O()];for(let i=0;i<n;i++)p=mul(p,a);return p;};
+export const isAmbiguousMixedNumber=s=>typeof s==='string'&&/\d\s+\d|\d\s*(?:\\[,!;: ]\s*)*\\(?:d?frac)\s*\{\s*\d+\s*\}\s*\{\s*\d+\s*\}/.test(s);
 export function normalize(s){
   if(typeof s!=='string'||s.length>300)throw Error('Use a math expression of at most 300 characters');
-  if(/\d\s+\d/.test(s))throw Error('Mixed numbers need explicit addition, such as 1+1/2');
+  if(isAmbiguousMixedNumber(s))throw Error('Mixed numbers need explicit addition, such as 1+1/2');
   s=s.replace(/[−–]/g,'-').replace(/[×·]/g,'*').replace(/²/g,'^2').replace(/³/g,'^3').replace(/\\(?:left|right)/g,'').replace(/\\(?:cdot|times)/g,'*').replace(/\\,/g,'').replace(/\^\{(\d+)\}/g,'^$1');
   for(let i=0;i<6;i++){const next=s.replace(/\\(?:d?frac)\{([^{}]+)\}\{([^{}]+)\}/g,'(($1)/($2))');if(next===s)break;s=next;}
   s=s.replace(/\{/g,'(').replace(/\}/g,')').replace(/\s/g,'');

@@ -1,0 +1,293 @@
+{
+  "browser": "156.0.8078.47",
+  "syntheticSite": true,
+  "liveClassroomVerified": false,
+  "realVideoPlayback": true,
+  "readOnlySurvey": true,
+  "multipageCount": 2,
+  "plan": {
+    "createdAt": 1793142103935,
+    "items": [
+      {
+        "classification": "multiple-choice",
+        "kind": "exercise",
+        "reason": "FIRST_VISIBLE_CHOICE_VERIFIED",
+        "solver": "builtin-exact",
+        "status": "ready",
+        "title": "Video practice",
+        "url": "https://classroom.khanacademy.org/learner/class/SURVEY/assignment/choice",
+        "visibleQuestionOnly": true
+      },
+      {
+        "classification": "video",
+        "kind": "video",
+        "reason": "VISIBLE_VIDEO_PLAYER",
+        "solver": "media",
+        "status": "ready",
+        "title": "Watch a real video",
+        "url": "https://classroom.khanacademy.org/learner/class/SURVEY/assignment/video",
+        "visibleQuestionOnly": true
+      },
+      {
+        "classification": "article",
+        "kind": "article",
+        "reason": "MANUAL_READING_REQUIRED",
+        "solver": "none",
+        "status": "review",
+        "title": "Read notes",
+        "url": "https://classroom.khanacademy.org/learner/class/SURVEY/assignment/article",
+        "visibleQuestionOnly": true
+      },
+      {
+        "classification": "intro-requires-start",
+        "kind": "exercise",
+        "reason": "PREVIEW_REQUIRES_START",
+        "solver": "inspect-after-start",
+        "status": "unknown",
+        "title": "Practice introduction",
+        "url": "https://classroom.khanacademy.org/learner/class/SURVEY/assignment/intro",
+        "visibleQuestionOnly": true
+      },
+      {
+        "classification": "multiple-choice",
+        "kind": "exercise",
+        "reason": "CHOICE_AMBIGUOUS_MATCH",
+        "solver": "none",
+        "status": "review",
+        "title": "Duplicate choices",
+        "url": "https://classroom.khanacademy.org/learner/class/SURVEY/assignment/duplicate",
+        "visibleQuestionOnly": true
+      },
+      {
+        "classification": "multiple-choice",
+        "kind": "exercise",
+        "reason": "CHOICE_UNREADABLE_OPTION",
+        "solver": "none",
+        "status": "review",
+        "title": "All choices",
+        "url": "https://classroom.khanacademy.org/learner/class/SURVEY/assignment/allabove",
+        "visibleQuestionOnly": true
+      },
+      {
+        "classification": "single-box",
+        "kind": "exercise",
+        "reason": "EXISTING_ANSWER_PRESERVED",
+        "solver": "none",
+        "status": "review",
+        "title": "Existing answer",
+        "url": "https://classroom.khanacademy.org/learner/class/SURVEY/assignment/existing",
+        "visibleQuestionOnly": true
+      },
+      {
+        "classification": "multiple-fields",
+        "kind": "exercise",
+        "reason": "MULTIPLE_FIELDS_REQUIRE_REVIEW",
+        "solver": "none",
+        "status": "review",
+        "title": "Multiple fields",
+        "url": "https://classroom.khanacademy.org/learner/class/SURVEY/assignment/multi",
+        "visibleQuestionOnly": true
+      },
+      {
+        "classification": "graph",
+        "kind": "exercise",
+        "reason": "GRAPH_REQUIRES_REVIEW",
+        "solver": "none",
+        "status": "review",
+        "title": "Graph task",
+        "url": "https://classroom.khanacademy.org/learner/class/SURVEY/assignment/graph",
+        "visibleQuestionOnly": true
+      }
+    ],
+    "schema": "kubla-khan-plan-v1",
+    "scope": "https://classroom.khanacademy.org/learner/class/SURVEY"
+  },
+  "counts": {
+    "answers": 3,
+    "exercise": 2,
+    "video": 1
+  },
+  "delays": [
+    {
+      "choiceToken": "https://classroom.khanacademy.org/learner/class/SURVEY/assignment/choice|{\"kind\":\"perseus-radio\",\"choices\":[{\"index\":0,\"expression\":\"4\"},{\"index\":1,\"expression\":\"5\"},{\"index\":2,\"expression\":\"9\"}],\"ordinal\":\"1 of 2 questions\",\"rootMath\":[\"2+2\",\"4\",\"5\",\"9\"],\"instruction\":\"Evaluate the expression.\"}",
+      "key": "b68fa9304ef99ebbcaeff0502a83886d96ada6db6a813419e3cf4d96db143ccb",
+      "seconds": 15,
+      "until": 1793142121374
+    },
+    {
+      "key": "a85893e0fa707ff0346bb7bed4425f088ed03d92d5517a7fada8f36d8f1abfde",
+      "seconds": 17,
+      "until": 1793142153288
+    },
+    {
+      "key": "f9edefabba52ee772581406e13a10259e99f963d8c071a17f722e203efa4c91c",
+      "seconds": 30,
+      "until": 1793142196287
+    }
+  ],
+  "events": [
+    {
+      "kind": "listnext",
+      "at": 1793142103946,
+      "phase": "survey"
+    },
+    {
+      "kind": "ratechange",
+      "at": 1793142106357,
+      "rate": 2,
+      "time": 0.0012,
+      "phase": "execute"
+    },
+    {
+      "kind": "play",
+      "at": 1793142106358,
+      "rate": 2,
+      "time": 0.0025,
+      "phase": "execute"
+    },
+    {
+      "kind": "ended",
+      "at": 1793142114357,
+      "rate": 2,
+      "time": 16,
+      "phase": "execute"
+    },
+    {
+      "kind": "select",
+      "at": 1793142121381,
+      "id": "choice",
+      "index": 0,
+      "phase": "execute"
+    },
+    {
+      "kind": "check",
+      "at": 1793142125391,
+      "id": "choice",
+      "q": 0,
+      "correct": true,
+      "value": "option0",
+      "phase": "execute"
+    },
+    {
+      "kind": "next",
+      "at": 1793142129400,
+      "id": "choice",
+      "phase": "execute"
+    },
+    {
+      "kind": "check",
+      "at": 1793142157300,
+      "id": "choice",
+      "q": 1,
+      "correct": true,
+      "value": "(x - 3)*(x + 3)",
+      "phase": "execute"
+    },
+    {
+      "kind": "done",
+      "at": 1793142161308,
+      "id": "choice",
+      "phase": "execute"
+    },
+    {
+      "kind": "startintro",
+      "at": 1793142162348,
+      "phase": "execute"
+    },
+    {
+      "kind": "input",
+      "at": 1793142196291,
+      "id": "intro",
+      "phase": "execute"
+    },
+    {
+      "kind": "check",
+      "at": 1793142200302,
+      "id": "intro",
+      "q": 0,
+      "correct": true,
+      "value": "(x - 3)*(x + 3)",
+      "phase": "execute"
+    },
+    {
+      "kind": "done",
+      "at": 1793142204308,
+      "id": "intro",
+      "phase": "execute"
+    },
+    {
+      "kind": "ratechange",
+      "at": 1793142208424,
+      "rate": 1,
+      "time": 16,
+      "phase": "execute"
+    }
+  ],
+  "loads": [
+    {
+      "id": "choice",
+      "phase": "survey",
+      "at": 1793142103984
+    },
+    {
+      "id": "video",
+      "phase": "survey",
+      "at": 1793142104026
+    },
+    {
+      "id": "article",
+      "phase": "survey",
+      "at": 1793142104063
+    },
+    {
+      "id": "intro",
+      "phase": "survey",
+      "at": 1793142104094
+    },
+    {
+      "id": "duplicate",
+      "phase": "survey",
+      "at": 1793142104119
+    },
+    {
+      "id": "allabove",
+      "phase": "survey",
+      "at": 1793142104159
+    },
+    {
+      "id": "existing",
+      "phase": "survey",
+      "at": 1793142104192
+    },
+    {
+      "id": "multi",
+      "phase": "survey",
+      "at": 1793142104224
+    },
+    {
+      "id": "graph",
+      "phase": "survey",
+      "at": 1793142104254
+    },
+    {
+      "id": "choice",
+      "phase": "negative-guards",
+      "at": 1793142104478
+    },
+    {
+      "id": "video",
+      "phase": "execute",
+      "at": 1793142106313
+    },
+    {
+      "id": "choice",
+      "phase": "execute",
+      "at": 1793142106317
+    },
+    {
+      "id": "intro",
+      "phase": "execute",
+      "at": 1793142162323
+    }
+  ]
+}
