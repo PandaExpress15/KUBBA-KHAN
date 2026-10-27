@@ -6,7 +6,7 @@ import {mathQuillDOM} from './mq-dom.js';
 import {pageSnapshot,pageAction,mediaStep,stopMedia,readEditor} from './automation-page.js';
 import {paginationUI} from './pagination.js';
 const STORE='dual-run',ALARM='klr-dual-heartbeat';
-const idle=()=>({version:'2.1.8',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
+const idle=()=>({version:'2.1.9',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
 const cleanURL=u=>u.split(/[?#]/)[0];
 export function classScope(url){if(!isKhan(url))throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');const u=new URL(url),m=u.pathname.match(/^\/learner\/class\/[^/]+/);if(!m)throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');return u.origin+m[0];}
 export function collectJobs(items,scope){const seen=new Set(),out={video:[],exercise:[]};for(const x of items||[]){if(!['video','exercise'].includes(x.kind)||!inScope(x.url,scope)||!new URL(x.url).pathname.includes('/assignment/')||seen.has(cleanURL(x.url)))continue;seen.add(cleanURL(x.url));out[x.kind].push(cleanURL(x.url));}return out;}
@@ -22,7 +22,7 @@ export class DualRunner{
  async media(s,lane,func,args=[]){const out=[];for(const id of lane.frameIds||[0]){if(this.cancelled&&func!==stopMedia)break;try{out.push(await this.invoke(lane.tabId,func,args,'ISOLATED',id));}catch{/* Detached or inaccessible iframe. Remaining permitted frames are still inspected. */}}return out;}
  async signal(s){for(const id of new Set([s.sourceTab,...Object.values(s.lanes||{}).map(l=>l.tabId)].filter(Number.isInteger)))await this.api.tabs.sendMessage(id,{type:'AUTO_CONFIG',running:s.running,revision:s.revision}).catch(()=>{});}
  async stop(){this.cancel();const s=await this.get();s.running=false;s.state='STOPPED';s.revision++;await this.save(s);await this.api.alarms.clear(ALARM);await this.signal(s);for(const lane of Object.values(s.lanes))await this.media(s,lane,stopMedia);return {ok:true,run:this.public(s)};}
- public(s){return {version:s.version,running:s.running,state:s.state,counts:s.counts,startup:{stage:s.startupStage||'',pages:s.scan?.pages||0,probe:s.scan?.probe||null,navigationInterruptions:s.scan?.navigationInterruptions||0,lastNavigationError:s.scan?.lastNavigationError||''},queued:{video:s.jobs?.video.length||0,exercise:s.jobs?.exercise.length||0},lanes:Object.fromEntries(Object.entries(s.lanes).map(([k,l])=>[k,{tabId:l.tabId,state:l.state,error:l.error||'',index:l.index,total:s.jobs?.[k].length||0,rate:l.rate||0,probe:l.probe||null,wait:l.state==='WAITING_BEFORE_ANSWER'&&l.delay?{seconds:l.delay.seconds,remainingSeconds:Math.max(0,Math.ceil((l.delay.until-this.now())/1000))}:null}])),errors:s.errors.slice(-5)};}
+ public(s){return {version:s.version,running:s.running,state:s.state,counts:s.counts,startup:{stage:s.startupStage||'',pages:s.scan?.pages||0,probe:s.scan?.probe||null,navigationInterruptions:s.scan?.navigationInterruptions||0,lastNavigationError:s.scan?.lastNavigationError||''},queued:{video:s.jobs?.video.length||0,exercise:s.jobs?.exercise.length||0},lanes:Object.fromEntries(Object.entries(s.lanes).map(([k,l])=>[k,{tabId:l.tabId,state:l.state,error:l.error||'',index:l.index,total:s.jobs?.[k].length||0,rate:l.rate||0,completed:l.index,remaining:Math.max(0,(s.jobs?.[k].length||0)-l.index),probe:l.probe||null,wait:l.state==='WAITING_BEFORE_ANSWER'&&l.delay?{seconds:l.delay.seconds,remainingSeconds:Math.max(0,Math.ceil((l.delay.until-this.now())/1000))}:null}])),errors:s.errors.slice(-5)};}
  async status(){return {ok:true,run:this.public(await this.get())};}
  async start(tabId,options={}){
   const cancelRevision=this.cancelRevision;
@@ -130,6 +130,7 @@ export class DualRunner{
  async exercise(s,lane){
   const p=await this.invoke(lane.tabId,pageSnapshot);if(this.cancelled||!p)return;
   lane.probe=p.probe?{...p.probe,phase:lane.problem?.phase||'READING'}:null;
+  if(p.resultSummary&&lane.problem?.acceptedFinal&&['NEXT_CLICKED','FINISH_CLICKED'].includes(lane.problem.phase)){s.counts.answers++;lane.state='ASSIGNMENT_RESULTS_OBSERVED';await this.advance(s,lane);return;}
   if(p.done){if(lane.problem&&['CHECKING','WAITING_FEEDBACK','NEXT_CLICKED','FINISH_CLICKED'].includes(lane.problem.phase))s.counts.answers++;lane.state='ASSIGNMENT_COMPLETE_OBSERVED';await this.advance(s,lane);return;}
   if(lane.problem?.phase==='FINISH_CLICKED'){if(this.now()-lane.problem.at>20000)await this.pause(s,lane,'FINISH_RESULT_NOT_OBSERVED');return;}
   if(lane.problem&&['CHECKING','WAITING_FEEDBACK','NEXT_CLICKED'].includes(lane.problem.phase)){
@@ -142,6 +143,7 @@ export class DualRunner{
    if(p.accepted||lane.problem.phase==='NEXT_CLICKED'){
     if(lane.problem.phase==='NEXT_CLICKED'){if(this.now()-lane.problem.at>20000)await this.pause(s,lane,'NEXT_QUESTION_DID_NOT_CHANGE');return;}
     const finish=p.controls.some(x=>/^(done|finish|finish exercise|finish assignment)$/i.test(x));
+    lane.problem.acceptedFinal=Number.isInteger(p.ordinal)&&Number.isInteger(p.total)&&p.total>0&&p.ordinal===p.total;
     lane.problem.phase=finish?'FINISH_CLICKED':'NEXT_CLICKED';lane.problem.at=this.now();lane.state='ADVANCING_QUESTION';await this.save(s);if(this.cancelled)return;
     await this.click(s,lane,p,finish?'FINISH':'NEXT_QUESTION');return;
    }
@@ -183,11 +185,12 @@ export class DualRunner{
     let tab;try{tab=await this.api.tabs.get(lane.tabId);}catch{await this.pause(s,lane,'WORKER_TAB_CLOSED');continue;}
     if(!inScope(tab.url,s.scope)){await this.pause(s,lane,'WORKER_LEFT_CLASS_SCOPE');continue;}
     if(cleanURL(tab.url)!==s.jobs[lane.kind][lane.index]){if(lane.problem?.phase==='FINISH_CLICKED'&&cleanURL(tab.url)===s.scope){s.counts.answers++;await this.advance(s,lane);}else if(this.now()-lane.started>30000)await this.pause(s,lane,'UNEXPECTED_PAGE_OR_NAVIGATION_TIMEOUT');continue;}
-    if(lane.kind==='video')await this.video(s,lane);else await this.exercise(s,lane);
+    try{if(lane.kind==='video')await this.video(s,lane);else await this.exercise(s,lane);}catch{await this.pause(s,lane,'LANE_BROWSER_ADAPTER_ERROR');}
    }
   }catch(e){s.running=false;s.state='ERROR';s.errors.push({lane:'controller',code:/^[A-Z_0-9]+$/.test(e.message)?e.message:'BROWSER_ADAPTER_ERROR',at:this.now()});await this.save(s);await this.signal(s);for(const l of Object.values(s.lanes))await this.media(s,l,stopMedia);await this.api.alarms.clear(ALARM);}
   const pending=s.lanes.exercise;const nextPulseMs=s.running&&pending?.state==='WAITING_BEFORE_ANSWER'&&pending.tabId===tabId?Math.min(4000,Math.max(50,pending.delay.until-this.now())):4000;
-  return {ok:true,running:s.running,nextPulseMs};
+  const resultWatch=s.running&&pending?.problem?.acceptedFinal&&['NEXT_CLICKED','FINISH_CLICKED'].includes(pending.problem.phase)&&pending.tabId===tabId;
+  return {ok:true,running:s.running,nextPulseMs:resultWatch?1000:nextPulseMs};
  }
  async resume(){const s=await this.get();if(!s.running)throw Error('START_A_NEW_RUN');this.cancelled=false;for(const l of Object.values(s.lanes))if(l.state==='PAUSED'){if(l.error==='PROBLEM_CHANGED_DURING_WAIT')delete l.delay;l.state='READING';l.error='';l.started=this.now();if(l.problem?.phase==='ENTERING')l.problem=null;}await this.save(s);await this.signal(s);return {ok:true,run:this.public(s)};}
  async frame(sender){const s=await this.get();const lane=s.lanes.video;if(s.running&&lane?.tabId===sender.tab.id&&cleanURL(sender.tab.url)===s.jobs.video[lane.index]){lane.frameIds||=[0];if(!lane.frameIds.includes(sender.frameId)){lane.frameIds.push(sender.frameId);await this.save(s);}}return {ok:true};}

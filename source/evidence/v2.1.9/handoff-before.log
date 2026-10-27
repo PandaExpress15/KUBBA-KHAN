@@ -1,0 +1,21 @@
+RESULT SUMMARY SNAPSHOT {"probe":{"feedbackCandidates":0,"semanticFeedbackCandidates":0,"visualFeedbackCandidates":0,"positiveFeedback":false,"negativeFeedback":false,"nextCandidates":0,"progressionNameSources":[],"fields":0,"mathAnnotations":0,"publicMathCandidates":0,"expressions":0,"answerLabels":0,"operation":"unknown","checkControls":0,"scope":"main","readState":"NO_QUESTION_MATH"},"url":"https://classroom.khanacademy.org/learner/class/HANDOFF/assignment/exercise1","token":"https://classroom.khanacademy.org/learner/class/HANDOFF/assignment/exercise1|","expression":"","operation":null,"fieldCount":0,"fieldValue":null,"mathquill":false,"ordinal":1,"total":2,"accepted":false,"negative":false,"done":false,"controls":["Return to assignments"],"items":[],"assignmentCount":0,"page":null,"pages":null,"isTodo":null,"radioCount":0}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: explicit results heading and return control must be observable
++ actual - expected
+
++ undefined
+- true
+
+    at file:///workspace/khan-runner-isolated/turn-queue-v2.1.9/source/tests/browser-assignment-handoff.mjs:24:433 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

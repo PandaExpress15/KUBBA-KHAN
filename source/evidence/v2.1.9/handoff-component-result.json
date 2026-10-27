@@ -1,0 +1,54 @@
+{
+  "command": "node tests/browser-assignment-handoff.mjs",
+  "commandExit": 1,
+  "rawLog": "handoff-candidate.log",
+  "happyComponent": {
+    "status": "passed",
+    "capturedConsole": "PASS two split-layout exercise assignments each two questions: once-only Check, last Next \u2192 explicit results \u2192 automatic queued handoff; two real videos concurrently at effective2x/trustedends/no seek {\"counts\":{\"answers\":4,\"exercise\":2,\"video\":2},\"assignmentSequence\":[\"exercise1\",\"exercise2\"]}",
+    "capturedSummary": {
+      "counts": {
+        "answers": 4,
+        "exercise": 2,
+        "video": 2
+      },
+      "assignmentSequence": [
+        "exercise1",
+        "exercise2"
+      ]
+    },
+    "assertionsBeforePassMessage": [
+      "two exercise assignments opened in queue order",
+      "four independently checked correct answers, two per assignment",
+      "two normal Next and two final Next actions",
+      "two explicit results summaries observed",
+      "generic return control never clicked",
+      "exactly two work tabs",
+      "two real browser-trusted media ended events at2x",
+      "no media seek events",
+      "effective playback rate asserted between1.6and2.4 forbothvideos",
+      "video progress while exercise countdown active"
+    ]
+  },
+  "secondRoundStopComponent": {
+    "status": "timed_out",
+    "error": "Timed out: first results transition for Stop; last result false",
+    "capturedControllerState": false,
+    "diagnosis": "Not established; no controller state was captured before cleanup. Separate Stop-only rerun captures errors/state."
+  },
+  "rawHappyEventsAvailable": false,
+  "measuredAssignmentHandoffGapMs": null,
+  "targetedFinalReruns": [
+    {
+      "command": "HANDOFF_STOP_ONLY=1 node tests/browser-assignment-handoff.mjs",
+      "exit": 0,
+      "log": "handoff-stop.log",
+      "data": "assignment-handoff.json"
+    },
+    {
+      "command": "node tests/browser-lane-isolation.mjs",
+      "exit": 0,
+      "log": "lane-isolation.log",
+      "data": "lane-isolation.json"
+    }
+  ]
+}

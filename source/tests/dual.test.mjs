@@ -155,3 +155,19 @@ test('each following question draws a fresh pause',async()=>{
  for(let i=0;i<8&&draws<2;i++)await f.tick();
  assert.equal(draws,2);assert.equal(f.checks,1);assert.equal((await f.runner.get()).counts.answers,1);
 });
+
+test('a results summary cannot complete an assignment without accepted final-question intent',async()=>{
+ const f=fixture(),original=f.api.scripting.executeScript;
+ f.api.scripting.executeScript=async args=>{const r=await original(args);if(args.func===pageSnapshot&&f.tabs.get(args.target.tabId)?.url.includes('/assignment/exercise'))Object.assign(r[0].result,{resultSummary:true,expression:'',fieldCount:0,done:false,controls:['Return to assignments']});return r;};
+ await f.runner.start(7);await f.tick();const s=await f.runner.get();assert.equal(s.counts.exercise,0);assert.equal(s.counts.answers,0);assert.equal(s.lanes.exercise.index,0);assert.equal(f.checks,0);
+});
+test('accepted final Next followed by a results summary completes exactly one assignment',async()=>{
+ const f=fixture({questions:1}),original=f.api.scripting.executeScript;let results=false;
+ f.api.scripting.executeScript=async args=>{const r=await original(args);if(args.func===pageAction&&args.args[0]==='NEXT_QUESTION')results=true;if(args.func===pageSnapshot&&f.tabs.get(args.target.tabId)?.url.includes('/assignment/exercise')){if(results)Object.assign(r[0].result,{resultSummary:true,expression:'',fieldCount:0,done:false,controls:['Return to assignments']});else if(r[0].result.accepted)r[0].result.controls=['Next'];}return r;};
+ await f.runner.start(7);for(let i=0;i<7;i++)await f.tick();const s=await f.runner.get();assert.equal(s.counts.exercise,1);assert.equal(s.counts.answers,1);assert.equal(f.checks,1);assert.equal(s.lanes.exercise.state,'DONE');
+});
+test('an exercise adapter failure pauses only that lane while video playback continues',async()=>{
+ const f=fixture(),original=f.api.scripting.executeScript;
+ f.api.scripting.executeScript=async args=>{if(args.func===pageSnapshot&&f.tabs.get(args.target.tabId)?.url.includes('/assignment/exercise'))throw Error('Frame was removed');return original(args);};
+ await f.runner.start(7);await f.tick();const s=await f.runner.get();assert.equal(s.running,true);assert.equal(s.lanes.exercise.error,'LANE_BROWSER_ADAPTER_ERROR');assert.equal(s.lanes.video.state,'PLAYING');assert.equal(f.checks,0);
+});

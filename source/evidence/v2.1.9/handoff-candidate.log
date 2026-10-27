@@ -1,0 +1,11 @@
+RESULT SUMMARY SNAPSHOT {"resultSummary":true,"probe":{"resultHeadingCandidates":1,"returnControlCandidates":1,"resultSummary":true,"feedbackCandidates":0,"semanticFeedbackCandidates":0,"visualFeedbackCandidates":0,"positiveFeedback":false,"negativeFeedback":false,"nextCandidates":0,"progressionNameSources":[],"fields":0,"mathAnnotations":0,"publicMathCandidates":0,"expressions":0,"answerLabels":0,"operation":"unknown","checkControls":0,"scope":"main","readState":"NO_QUESTION_MATH"},"url":"https://classroom.khanacademy.org/learner/class/HANDOFF/assignment/exercise1","token":"https://classroom.khanacademy.org/learner/class/HANDOFF/assignment/exercise1|","expression":"","operation":null,"fieldCount":0,"fieldValue":null,"mathquill":false,"ordinal":1,"total":2,"accepted":false,"negative":false,"done":false,"controls":["Return to assignments"],"items":[],"assignmentCount":0,"page":null,"pages":null,"isTodo":null,"radioCount":0}
+PASS two split-layout exercise assignments each two questions: once-only Check, last Next → explicit results → automatic queued handoff; two real videos concurrently at effective2x/trustedends/no seek {"counts":{"answers":4,"exercise":2,"video":2},"assignmentSequence":["exercise1","exercise2"]}
+file:///workspace/khan-runner-isolated/turn-queue-v2.1.9/source/tests/browser-support.mjs:13
+ throw Error('Timed out: '+label+'; last result '+JSON.stringify(result));
+       ^
+
+Error: Timed out: first results transition for Stop; last result false
+    at until (file:///workspace/khan-runner-isolated/turn-queue-v2.1.9/source/tests/browser-support.mjs:13:8)
+    at async file:///workspace/khan-runner-isolated/turn-queue-v2.1.9/source/tests/browser-assignment-handoff.mjs:36:16
+
+Node.js v24.19.0
