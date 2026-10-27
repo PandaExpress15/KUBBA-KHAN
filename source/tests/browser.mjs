@@ -11,6 +11,7 @@ async function start(opts){
  options=opts;events.length=0;
  for(const p of b.context.pages())if(p!==source&&p.url()!=='about:blank')await p.close();
  source||=await b.context.newPage();await source.goto(ROOT);await source.bringToFront();
+ if(opts.unsupported||opts.wrong){await openControls();await control.evaluate(()=>document.getElementById('continue-blocked').checked=false);}
  await click('#start');await until(async()=> (await state())?.running,{label:'actual Start'});
 }
 try{

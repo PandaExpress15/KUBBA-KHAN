@@ -1,0 +1,16 @@
+Browser 156.0.8078.47 extension 2.1.12 source chrome-extension://chbkkpcbnpjcejmgicmlnekoecphlcna/
+PASS SPA multipage reset/article-only/dedupe/same-class, two actual tabs, two real media ends at effective 2x (top + iframe), native controlled input + actual fallback MathQuill, four once-only Checks, Next/Done, next assignments
+PASS actual upstream public MathQuill API entry/readback/Check/Done
+PASS pointer Stop during real media and pending exercise; media paused/restored; no Check or navigation for two pulse intervals
+STATE {"continueBlocked":true,"counts":{"answers":0,"exercise":0,"video":0},"errors":[{"at":1793135339085,"code":"UNSUPPORTED_MATH_FORMAT","deferred":true,"lane":"exercise"}],"jobs":{"exercise":["https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1"],"video":[]},"lanes":{"exercise":{"completed":0,"deferred":1,"error":"","frameIds":[0],"index":1,"kind":"exercise","problem":null,"started":1793135339085,"state":"DONE","tabId":208263577}},"muted":true,"rate":2,"review":[{"assignmentKey":"67d8fbcc51a444a4c743abfff3cda27a96be08da8a1c068b29b7c7013146e683","at":1793135339085,"code":"UNSUPPORTED_MATH_FORMAT","key":"67d8fbcc51a444a4c743abfff3cda27a96be08da8a1c068b29b7c7013146e683","phase":"READING"}],"revision":5,"running":false,"scan":{"pages":1,"pending":null,"probe":{"assignmentLinks":1,"navigation":{"conflictingLabels":0,"next":{"enabled":0,"found":1,"scoped":0,"sources":["text"],"state":"disabled"},"previous":{"enabled":0,"found":1,"scoped":0,"sources":["text"],"state":"disabled"}},"next":false,"page":1,"pages":1,"supportedRows":1,"todo":true},"seen":["1|https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1"],"since":1793135339001},"scope":"https://classroom.khanacademy.org/learner/class/FIXTURE","sourceTab":208263570,"started":1793135339001,"startupStage":"READ_QUEUE","state":"DONE","version":"2.1.12"}
+RECENT EVENTS [{"kind":"list-page","url":"https://classroom.khanacademy.org/learner/class/FIXTURE","at":1793135338928,"page":1},{"kind":"exercise-question","url":"https://classroom.khanacademy.org/learner/class/FIXTURE/assignment/exercise1","at":1793135339055,"q":1}]
+file:///workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/tests/browser-support.mjs:13
+ throw Error('Timed out: '+label+'; last result '+JSON.stringify(result));
+       ^
+
+Error: Timed out: actual Start; last result false
+    at until (file:///workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/tests/browser-support.mjs:13:8)
+    at async start (file:///workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/tests/browser.mjs:14:24)
+    at async file:///workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/tests/browser.mjs:74:2
+
+Node.js v24.19.0

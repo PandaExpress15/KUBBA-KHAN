@@ -5,6 +5,9 @@ import sympy as s
 
 MAX_INPUT = 300
 FUNCTIONS = {'sqrt': s.sqrt, 'sin': s.sin, 'cos': s.cos, 'tan': s.tan,
+             'sec': s.sec, 'csc': s.csc, 'cot': s.cot,
+             'asin': s.asin, 'acos': s.acos, 'atan': s.atan,
+             'arcsin': s.asin, 'arccos': s.acos, 'arctan': s.atan,
              'log': s.log, 'ln': s.log, 'exp': s.exp}
 class Unsupported(ValueError): pass
 
@@ -12,15 +15,23 @@ def tokenize(source):
     if not isinstance(source, str) or not source.strip() or len(source) > MAX_INPUT:
         raise Unsupported('EXPRESSION_SIZE')
     source = source.replace('−', '-').replace('–', '-').replace('×', '*').replace('·', '*').replace('π','pi').replace('²','^2').replace('³','^3')
+    # These substitutions normalize only a fixed math vocabulary. They never
+    # execute model text or treat an arbitrary identifier as a callable.
+    source = re.sub(r'\^\s*\{\s*\\circ\s*\}', '°', source)
+    source = re.sub(r'\^\s*\\circ\b', '°', source)
+    source = re.sub(r'\\operatorname\s*\{(sec|csc|cot|asin|acos|atan|arcsin|arccos|arctan)\}', r'\1', source)
+    # Standard inverse-function notation is distinct from (sin(x))^(-1).
+    source = re.sub(r'(?:\\)?(sin|cos|tan)\s*\^\s*(?:\{\s*-1\s*\}|\(\s*-1\s*\)|-1)\s*(?=(?:\\left)?\()', lambda m: 'a'+m.group(1), source)
+    source = re.sub(r'(?<![A-Za-z])(?:\\)?(sin|cos|tan|sec|csc|cot)\s*(-?\d+(?:\.\d+)?°)(?=$|[+\-*/)\]}])', lambda m: m.group(1)+'('+m.group(2)+')', source)
     source = re.sub(r'\\(?:left|right|displaystyle|textstyle)\b', '', source)
     source = re.sub(r'\\[,!;: ]', '', source)
     source = re.sub(r'\\(?:cdot|times)\b', '*', source)
-    source = re.sub(r'\\(?:d?frac)\b', 'frac', source)
-    source = re.sub(r'\\(sqrt|sin|cos|tan|log|ln|exp|pi)\b', r'\1', source)
+    source = re.sub(r'\\(?:d?frac)\b', ' frac ', source)
+    source = re.sub(r'\\(sqrt|sin|cos|tan|sec|csc|cot|asin|acos|atan|arcsin|arccos|arctan|log|ln|exp|pi)\b', r'\1', source)
     # Never concatenate spaced digits (a mixed number is not implicit multiplication).
     if re.search(r'\d\s+\d', source): raise Unsupported('MIXED_NUMBER_NOTATION')
     result=[]; pos=0
-    pattern=re.compile(r'\s*(?:(\d+(?:\.\d+)?)|([A-Za-z]+)|(\*\*|[+\-*/^(){}=]))')
+    pattern=re.compile(r'\s*(?:(\d+(?:\.\d+)?)|([A-Za-z]+)|(\*\*|[+\-*/^(){}=°]))')
     while pos<len(source):
         if source[pos:].isspace(): break
         m=pattern.match(source,pos)
@@ -64,27 +75,40 @@ class Parser:
                 if denominator==0: raise Unsupported('DIVISION_BY_ZERO')
                 answer=numerator/denominator
             elif token in FUNCTIONS:
-                argument=self.group()
+                function_power=None
+                if self.peek() in ('^','**'):
+                    self.take();function_power=self.exponent()
+                # A TeX fraction is a delimited single argument. Bare numeric
+                # or symbolic arguments remain rejected unless explicitly °.
+                argument=self.atom() if self.peek()=='frac' else self.group()
                 if token=='sqrt' and argument.is_number and argument.is_nonnegative is not True: raise Unsupported('REAL_DOMAIN_REQUIRED')
+                if token in ('asin','acos','arcsin','arccos') and argument.is_number and (argument.is_real is not True or (argument < -1) is s.true or (argument > 1) is s.true): raise Unsupported('REAL_DOMAIN_REQUIRED')
                 answer=FUNCTIONS[token](argument)
+                if function_power is not None:
+                    if answer==0 and function_power<=0: raise Unsupported('UNDEFINED_POWER')
+                    answer=answer**function_power
             elif re.fullmatch('[a-z]',token): answer=s.Symbol(token,real=True)
             else: raise Unsupported('EXPECTED_OPERAND')
         self.depth-=1
         return answer
+    def exponent(self):
+        if self.peek() in ('(', '{'): exponent=self.group()
+        else:
+            sign=1
+            if self.peek() in ('+','-'): sign=-1 if self.take()=='-' else 1
+            token=self.take()
+            if token is None or not re.fullmatch(r'\d+',token): raise Unsupported('INTEGER_EXPONENT_REQUIRED')
+            exponent=s.Integer(sign*int(token))
+        if not exponent.is_Integer or abs(exponent)>12: raise Unsupported('EXPONENT_LIMIT')
+        return exponent
     def power(self):
         base=self.atom()
         if self.peek() in ('^','**'):
-            self.take()
-            if self.peek() in ('(', '{'): exponent=self.group()
-            else:
-                sign=1
-                if self.peek() in ('+','-'): sign=-1 if self.take()=='-' else 1
-                token=self.take()
-                if token is None or not re.fullmatch(r'\d+',token): raise Unsupported('INTEGER_EXPONENT_REQUIRED')
-                exponent=s.Integer(sign*int(token))
-            if not exponent.is_Integer or abs(exponent)>12: raise Unsupported('EXPONENT_LIMIT')
+            self.take();exponent=self.exponent()
             if base==0 and exponent<=0: raise Unsupported('UNDEFINED_POWER')
             base=base**exponent
+        if self.peek()=='°':
+            self.take();base=base*s.pi/180
         return base
     def unary(self):
         if self.peek() in ('+','-'):

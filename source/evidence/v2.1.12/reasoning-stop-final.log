@@ -1,0 +1,40 @@
+LOCAL HELPER CONNECTED temporary test extension manifest grants loopback; production manifest remains optional and owner permission approval UI is unverified
+LOCAL CAS STATE {"counts":{"answers":0,"exercise":0,"video":0},"errors":[],"lanes":{},"revision":1,"running":false,"state":"STOPPED","version":"2.1.12"}
+LOCAL CAS EVENTS []
+HELPER OUTPUT {"ready": true, "host": "127.0.0.1", "port": 9000, "version": "2.1.12", "tokenConfig": "/tmp/kubla-cas-test-qHTkaC/config.json"}
+Paste the token from the private config into the extension local-solver settings. Keep this terminal running.
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38538)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/helper/server.py", line 90, in do_POST
+    self.reason(body);return
+    ^^^^^^^^^^^^^^^^^
+  File "/workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/helper/server.py", line 121, in reason
+    self.reply(200,result)
+  File "/workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/helper/server.py", line 28, in reply
+    self.end_headers();self.wfile.write(data)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+
+file:///workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/tests/browser-support.mjs:13
+ throw Error('Timed out: '+label+'; last result '+JSON.stringify(result));
+       ^
+
+Error: Timed out: Stop cancels reasoning; last result false
+    at until (file:///workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/tests/browser-support.mjs:13:8)
+    at async file:///workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/tests/browser-reasoning.mjs:58:937
+
+Node.js v24.19.0

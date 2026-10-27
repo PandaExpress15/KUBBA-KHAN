@@ -1,0 +1,30 @@
+{
+  "inspection": "official-source-and-metadata-only; no Ollama binary or model weights executed",
+  "sources": {
+    "ollama": "https://github.com/ollama/ollama/releases/tag/v0.40.11",
+    "qwen": "https://github.com/QwenLM/Qwen3"
+  },
+  "findings": [
+    "Ollama MIT license; Qwen official README states open-weight models Apache 2.0",
+    "Official Linux install.sh can request sudo, replace library directory, add user/groups and systemd service; inspected, not executed",
+    "Official API ListModelResponse and ShowResponse expose remote_model/remote_host; localhost endpoint alone does not establish local inference",
+    "Official OLLAMA_NO_CLOUD disables remote inference and web search",
+    "Model context/token limits, no tools, answer+brief explanation structured output; no hidden chain-of-thought requested"
+  ],
+  "blocked": [
+    "Model downloads: registry.ollama.ai, registry.ollama.com, huggingface.co, modelscope.cn returned cloud proxy403",
+    "No existing Ollama executable or model weights found in this isolated environment",
+    "Owner desktop terminal/Chrome are not attached; cannot install or operate there"
+  ],
+  "realInferenceVerified": false,
+  "downloadedSourceSha256": {
+    "sha256sum.txt": "c020ec823b5652daf0d4dfc2b35a2365d9bb0fe4318debe6eb8a64ab2d147889",
+    "api-types.go": "8e54520d34c312bb6adfccb652b0d1e18bb5c4cdb8ac2eb2eab0c065a508effa",
+    "api.md": "96db03080e385dbabf5d70e75f298d41b75983bc30975cae56f7119f848dd0f5",
+    "install.sh": "25f64b810b947145095956533e1bdf56eacea2673c55a7e586be4515fc882c9f",
+    "LICENSE": "5934ed2ce0d15154bcdb9c85203210abac0da4314af34081e36df4599f90b226",
+    "envconfig-config.go": "0b0ea669b31cfe2b54313427257326a2b7a909bbc7bf8a671035efc446fb1895",
+    "server-routes.go": "28034a9f11df5d5c3ce8d3d4786d62d2efd78feb5fc3c7d4a7a5231ec17f12b3",
+    "Qwen3-README.md": "0b2c2bb11806f7a00c8465f2586e2e99f15de28622fd5c9b70b83ae1ab18c75d"
+  }
+}

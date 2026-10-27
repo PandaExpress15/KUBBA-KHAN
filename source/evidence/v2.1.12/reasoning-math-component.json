@@ -1,0 +1,76 @@
+{
+  "compoundCommandExit": 1,
+  "failure": "Test harness sent LOCAL_ENABLE from service worker to itself; no receiving end. Corrected in focused follow-up.",
+  "mathComponentPassed": true,
+  "automaticReviewComponentPassed": true,
+  "realPythonHTTPHelper": true,
+  "port": 9000,
+  "syntheticSite": true,
+  "liveClassroomVerified": false,
+  "realModelInference": false,
+  "scriptedOllamaProtocolFixture": true,
+  "permissionFixture": true,
+  "ownerPermissionApprovalUIVerified": false,
+  "counts": {
+    "answers": 2,
+    "exercise": 1,
+    "video": 0
+  },
+  "deferred": 1,
+  "realDelaySeconds": [
+    15,
+    27
+  ],
+  "events": [
+    {
+      "kind": "question",
+      "q": 1,
+      "assignment": "unsupported",
+      "at": 1793134770274
+    },
+    {
+      "kind": "question",
+      "q": 1,
+      "assignment": "math",
+      "at": 1793134770633
+    },
+    {
+      "kind": "check",
+      "q": 1,
+      "assignment": "math",
+      "at": 1793134792552,
+      "value": "2",
+      "correct": true
+    },
+    {
+      "kind": "next",
+      "q": 1,
+      "assignment": "math",
+      "at": 1793134796559
+    },
+    {
+      "kind": "question",
+      "q": 2,
+      "assignment": "math",
+      "at": 1793134796561
+    },
+    {
+      "kind": "check",
+      "q": 2,
+      "assignment": "math",
+      "at": 1793134830198,
+      "value": "(x-3)\\cdot(x+3)",
+      "correct": true
+    },
+    {
+      "kind": "done",
+      "q": 2,
+      "assignment": "math",
+      "at": 1793134831588
+    }
+  ],
+  "httpRequestCount": 17,
+  "checks": 2,
+  "next": 1,
+  "done": 1
+}

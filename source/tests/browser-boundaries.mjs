@@ -14,7 +14,9 @@ try{
  console.log('ACTUAL DOM SNAPSHOT',JSON.stringify(snapshot));
  assert.equal(snapshot.expression,'\\sin(\\pi/6)','hidden/unrelated math is excluded');
  assert.equal(snapshot.operation,'evaluate','title must not classify the current problem');
+ assert.equal(snapshot.instruction,'Evaluate this exact trigonometric value.');assert.equal(snapshot.probe.instruction,undefined,'question instruction is not diagnostics');
  assert.equal(snapshot.accepted,false,'unrelated Next/Correct is not acceptance');
+ await page.locator('main p').first().evaluate(e=>e.textContent='Evaluate the inverse sine.');await page.locator('main').evaluate(e=>e.insertAdjacentHTML('beforeend','<p id=units>Give your answer in degrees.</p>'));await page.locator('main annotation').first().evaluate(e=>e.textContent='asin(1/2)');const degrees=await invoke(pageSnapshot);assert.equal(degrees.unsupportedAnswerFormat,true);assert.match(degrees.instruction,/answer in degrees/);await page.locator('#units').evaluate(e=>e.remove());await page.locator('main p').first().evaluate(e=>e.textContent='Evaluate asin(1/2) in degrees.');assert.equal((await invoke(pageSnapshot)).unsupportedAnswerFormat,true);await page.locator('main').evaluate(e=>e.insertAdjacentHTML('beforeend','<p id=units>Give your answer in degrees.</p>'));await page.locator('#units').evaluate(e=>e.remove());await page.locator('main p').first().evaluate(e=>e.textContent='Evaluate this exact trigonometric value.');await page.locator('main annotation').first().evaluate(e=>e.textContent='\\sin(\\pi/6)');
  await page.locator('main button').evaluate(e=>e.remove());
  assert.equal((await invoke(pageSnapshot)).accepted,false,'unrelated feedback is not acceptance when Check disappears');
  const action=await invoke(pageAction,['NEXT_QUESTION',{url,token:snapshot.token}]);

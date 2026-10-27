@@ -1,0 +1,19 @@
+LOCAL HELPER CONNECTED temporary test extension manifest grants loopback; production manifest remains optional and owner permission approval UI is unverified
+LOCAL CAS PACING 1 15
+LOCAL CAS PACING 2 27
+PASS actual Python HTTP helper, explicit test-profile loopback grant and popup enable, unsupported assignment deferred without Check, real no-global MathQuill radical/local verification then builtin factoring, Next/Done {"counts":{"answers":2,"exercise":1,"video":0},"deferred":1,"httpRequests":17}
+LOCAL CAS STATE {"continueBlocked":true,"counts":{"answers":2,"exercise":1,"video":0},"errors":[{"at":1793134770591,"code":"UNSUPPORTED_MATH_FORMAT","deferred":true,"lane":"exercise"}],"jobs":{"exercise":["https://classroom.khanacademy.org/learner/class/LOCALCAS/assignment/unsupported","https://classroom.khanacademy.org/learner/class/LOCALCAS/assignment/math"],"video":[]},"lanes":{"exercise":{"completed":1,"deferred":1,"error":"","frameIds":[0],"index":2,"kind":"exercise","problem":null,"started":1793134832594,"state":"DONE","tabId":196660937}},"muted":true,"rate":2,"review":[{"assignmentKey":"0d55fe6b2e491adf81c0b7374394e87bda332823a41f9d6233ffb88c1c483e28","at":1793134770591,"code":"UNSUPPORTED_MATH_FORMAT","key":"0d55fe6b2e491adf81c0b7374394e87bda332823a41f9d6233ffb88c1c483e28","phase":"READING"}],"revision":1,"running":false,"scan":{"pages":1,"pending":null,"probe":{"assignmentLinks":2,"navigation":{"conflictingLabels":0,"next":{"enabled":0,"found":0,"scoped":0,"sources":[],"state":"missing"},"previous":{"enabled":0,"found":0,"scoped":0,"sources":[],"state":"missing"}},"next":false,"page":1,"pages":1,"supportedRows":2,"todo":true},"seen":["1|https://classroom.khanacademy.org/learner/class/LOCALCAS/assignment/unsupported|https://classroom.khanacademy.org/learner/class/LOCALCAS/assignment/math"],"since":1793134770186},"scope":"https://classroom.khanacademy.org/learner/class/LOCALCAS","sourceTab":196660935,"started":1793134770186,"startupStage":"READ_QUEUE","state":"DONE","version":"2.1.12"}
+LOCAL CAS EVENTS [{"kind":"question","q":1,"assignment":"unsupported","at":1793134770274},{"kind":"question","q":1,"assignment":"math","at":1793134770633},{"kind":"check","q":1,"assignment":"math","at":1793134792552,"value":"2","correct":true},{"kind":"next","q":1,"assignment":"math","at":1793134796559},{"kind":"question","q":2,"assignment":"math","at":1793134796561},{"kind":"check","q":2,"assignment":"math","at":1793134830198,"value":"(x-3)\\cdot(x+3)","correct":true},{"kind":"done","q":2,"assignment":"math","at":1793134831588}]
+HELPER OUTPUT {"ready": true, "host": "127.0.0.1", "port": 9000, "version": "2.1.12", "tokenConfig": "/tmp/kubla-cas-test-cjtDZN/config.json"}
+Paste the token from the private config into the extension local-solver settings. Keep this terminal running.
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+worker.evaluate: Error: Could not establish connection. Receiving end does not exist.
+    at /workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/tests/browser-reasoning.mjs:56:94 {
+  log: []
+}
+
+Node.js v24.19.0

@@ -13,6 +13,11 @@ class ExactMath(unittest.TestCase):
    with self.subTest(expression=expression):
     r=solve_request({'expression':expression,'operation':operation});self.assertEqual(r['answer'],answer)
     v=verify_request({'expression':expression,'operation':operation,'answer':r['answer'],'observed':r['latex']});self.assertTrue(v['equivalent'])
+ def test_new_exact_trig_original_and_readback(self):
+  for expression,answer in [('sec(pi/3)','2'),('asin(1/2)','pi/6'),('cos(60°)','1/2'),(r'\sin^{2}(x)+\cos^{2}(x)','1')]:
+   result=solve_request({'expression':expression,'operation':'simplify'})
+   self.assertEqual(parse_expression(result['answer']),parse_expression(answer))
+   self.assertTrue(verify_request({'expression':expression,'operation':'simplify','answer':result['answer'],'observed':result['latex']})['equivalent'])
  def test_degree_twelve_factors(self):
   r=solve_request({'expression':'x^12-1','operation':'factor'});self.assertEqual(r['status'],'solved')
   self.assertTrue(verify_request({'expression':'x^12-1','operation':'factor','answer':r['answer'],'observed':r['latex']})['equivalent'])
@@ -46,6 +51,12 @@ class RealHTTP(unittest.TestCase):
   code,headers,r=self.request('POST','/v1/solve',{'expression':r'\sqrt{8}','operation':'simplify'})
   self.assertEqual(code,200);self.assertEqual(headers['Access-Control-Allow-Origin'],ORIGIN);self.assertEqual(r['answer'],'2*sqrt(2)')
   _,_,v=self.request('POST','/v1/verify',{'expression':r'\sqrt{8}','operation':'simplify','answer':r['answer'],'observed':r'2\sqrt{2}'});self.assertTrue(v['equivalent'])
+ def test_exact_trig_through_real_worker_http(self):
+  for expression,answer in [('sec(pi/3)','2'),('cos(60°)','1/2'),('asin(1/2)','pi/6')]:
+   code,_,result=self.request('POST','/v1/solve',{'expression':expression,'operation':'evaluate'})
+   self.assertEqual(code,200);self.assertTrue(result['ok']);self.assertEqual(parse_expression(result['answer']),parse_expression(answer))
+   code,_,verified=self.request('POST','/v1/verify',{'expression':expression,'operation':'evaluate','answer':result['answer'],'observed':result['latex']})
+   self.assertEqual(code,200);self.assertTrue(verified['equivalent'])
  def test_authenticated_post_health(self):
   status,headers,body=self.request('POST','/v1/health',{})
   self.assertEqual(status,200);self.assertTrue(body['ok']);self.assertEqual(body['engine'],'sympy');self.assertEqual(headers['Access-Control-Allow-Origin'],ORIGIN)

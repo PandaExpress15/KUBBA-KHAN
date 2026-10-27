@@ -1,4 +1,4 @@
-import {localAnswer,localReadback} from './local-cas.js';
+import {localAnswer,localReadback,queueLocalReview} from './local-cas.js';
 import {isKhan,inScope,safeRate} from './policy.js';
 import {solve} from './math.js';
 import {solveSupported,equivalent} from './advanced-math.js';
@@ -8,7 +8,7 @@ import {pageSnapshot,pageAction,mediaStep,stopMedia,readEditor} from './automati
 import {paginationUI} from './pagination.js';
 const STORE='dual-run',ALARM='klr-dual-heartbeat';
 const recoverable=code=>/^(?:UNSUPPORTED_MATH_FORMAT|NO_QUESTION_MATH|MULTIPLE_QUESTION_EXPRESSIONS|QUESTION_OPERATION_UNCLEAR|AMBIGUOUS_QUESTION_MATH|PROBLEM_NOT_UNAMBIGUOUS|MULTIPLE_CHOICE_UNSUPPORTED|NO_SUPPORTED_ANSWER_FIELD|MULTIPLE_ANSWER_FIELDS|CHECK_CONTROL_MISSING_OR_AMBIGUOUS|SITE_REJECTED_ANSWER|SUBMISSION_RESULT_NOT_OBSERVED|FINISH_RESULT_NOT_OBSERVED|NEXT_QUESTION_DID_NOT_CHANGE|PROBLEM_CHANGED_BEFORE_FEEDBACK|PROBLEM_CHANGED_DURING_WAIT|PROBLEM_CHANGED_DURING_ENTRY|ANSWER_DID_NOT_PERSIST|ANSWER_FIELD_NOT_EMPTY|INPUT_[A-Z_]+|EDITOR_[A-Z_]+|MATHQUILL_[A-Z_]+|ACTION_NOT_OBSERVED|CONTROL_MISSING_OR_AMBIGUOUS|NEED_EXACTLY_ONE_VISIBLE_ANSWER_FIELD|NUMBER_FIELD_CANNOT_ACCEPT_SYMBOLIC_ANSWER|PAGE_CHANGED_DURING_ENTRY|PAGE_CHANGED_READ_AGAIN|PREVIOUS_UNRESOLVED_ATTEMPT|STALE_PROBLEM|NEXT_QUESTION_NOT_FOUND|CHECK_NOT_FOUND)$/.test(code);
-const idle=()=>({version:'2.1.11',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
+const idle=()=>({version:'2.1.12',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
 const cleanURL=u=>u.split(/[?#]/)[0];
 export function classScope(url){if(!isKhan(url))throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');const u=new URL(url),m=u.pathname.match(/^\/learner\/class\/[^/]+/);if(!m)throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');return u.origin+m[0];}
 export function collectJobs(items,scope){const seen=new Set(),out={video:[],exercise:[]};for(const x of items||[]){if(!['video','exercise'].includes(x.kind)||!inScope(x.url,scope)||!new URL(x.url).pathname.includes('/assignment/')||seen.has(cleanURL(x.url)))continue;seen.add(cleanURL(x.url));out[x.kind].push(cleanURL(x.url));}return out;}
@@ -168,8 +168,9 @@ export class DualRunner{
   if(!p.fieldCount){if(p.controls.some(x=>/^(start|start exercise|begin practice|let's go)$/i.test(x))&&!lane.introClicked){lane.introClicked=true;await this.save(s);await this.click(s,lane,p,'START_EXERCISE');return;}if(this.now()-lane.started>20000)await this.pause(s,lane,p.radioCount?'MULTIPLE_CHOICE_UNSUPPORTED':'NO_SUPPORTED_ANSWER_FIELD');return;}
   if(p.fieldCount!==1){await this.pause(s,lane,'MULTIPLE_ANSWER_FIELDS');return;}
   if(!p.expression||!p.operation){await this.waitForQuestion(s,lane,p.probe?.readState||'PROBLEM_NOT_UNAMBIGUOUS');return;}
+  if(p.unsupportedAnswerFormat){if(!this.cancelled)void queueLocalReview(this.api,p,await problemKey(p),()=>this.cancelled).catch(()=>{});await this.pause(s,lane,'UNSUPPORTED_MATH_FORMAT');return;}
   if(p.unsupportedFactorDomain){if(lane.probe)lane.probe.solver='unsupported-factor-domain';await this.pause(s,lane,'UNSUPPORTED_MATH_FORMAT');return;}
-  let answer=solveSupported(p.expression,p.operation);if(answer.status!=='solved'){const local=await localAnswer(this.api,p);if(this.cancelled)return;if(local)answer=local;}if(lane.probe)lane.probe.solver=answer.status==='solved'?'solved':'unsupported';if(answer.status!=='solved'){await this.pause(s,lane,'UNSUPPORTED_MATH_FORMAT');return;}
+  let answer=solveSupported(p.expression,p.operation);if(answer.status!=='solved'){const local=await localAnswer(this.api,p);if(this.cancelled)return;if(local)answer=local;}if(lane.probe)lane.probe.solver=answer.status==='solved'?'solved':'unsupported';if(answer.status!=='solved'){if(!this.cancelled)void queueLocalReview(this.api,p,await problemKey(p),()=>this.cancelled).catch(()=>{});await this.pause(s,lane,'UNSUPPORTED_MATH_FORMAT');return;}
   const key=await problemKey(p);
   if(!lane.problem&&(s.review||[]).some(r=>r.key===key&&['ENTERING','READY_TO_CHECK','CHECKING','WAITING_FEEDBACK','NEXT_CLICKED','FINISH_CLICKED'].includes(r.phase))){lane.problem={key,phase:'PREVIOUS_UNRESOLVED_ATTEMPT',at:this.now()};await this.pause(s,lane,'PREVIOUS_UNRESOLVED_ATTEMPT');return;}
   const checks=p.controls.filter(x=>/^(check|check answer|check answers|submit answer)$/i.test(x)).length;

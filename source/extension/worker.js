@@ -1,4 +1,4 @@
-import {localHealth} from './local-cas.js';
+import {localHealth,localHealthInfo,helperPort,localReason,cancelLocalReason,reasonEpoch,setReviewCommitter,commitReview} from './local-cas.js';
 import {isKhan,scope,inScope,validMedia,safeRate} from './policy.js';
 import {insertReviewed} from './input.js';
 import {DualRunner,ALARM} from './dual.js';
@@ -36,11 +36,14 @@ async function handle(m,sender,requestEpoch){
     throw Error('UNKNOWN_CONTENT_ACTION');
   }
   const id=m.tabId;if(!Number.isInteger(id))throw Error('NO_TAB');
-  if(m.type==='LOCAL_ENABLE'){if(!/^[A-Za-z0-9_-]{24,128}$/.test(m.token||''))throw Error('INVALID_HELPER_TOKEN');await chrome.storage.local.set({'local-cas':{enabled:true,token:m.token}});return {ok:true,connected:await localHealth(chrome)};}
-  if(m.type==='LOCAL_DISABLE'){await chrome.storage.local.remove('local-cas');return {ok:true};}
-  if(m.type==='LOCAL_STATUS'){const settings=(await chrome.storage.local.get('local-cas'))['local-cas'];return {ok:true,enabled:!!settings?.enabled};}
+  if(m.type==='LOCAL_REASON_STATUS'){return {ok:true,job:(await chrome.storage.session.get('reason-review'))['reason-review']||null};}
+  if(m.type==='LOCAL_REASON_START'){if(typeof m.expression!=='string'||m.expression.length>300||typeof m.instruction!=='string'||m.instruction.length>600||!['factor','expand','simplify','evaluate','equation','unknown'].includes(m.operation))throw Error('INVALID_REASONING_REQUEST');const job={id:crypto.randomUUID(),state:'RUNNING'};await chrome.storage.session.set({'reason-review':job});const work=localReason(chrome,m),generation=reasonEpoch();void work.then(result=>commitReview(async()=>{const current=(await chrome.storage.session.get('reason-review'))['reason-review'];if(generation===reasonEpoch()&&current?.id===job.id&&current.state==='RUNNING')await chrome.storage.session.set({'reason-review':{...job,state:result?'READY':'UNAVAILABLE',result}});})).catch(()=>{});return {ok:true,job};}
+  if(m.type==='LOCAL_HEALTH')return {ok:true,health:await localHealthInfo(chrome)};
+  if(m.type==='LOCAL_ENABLE'){if(!/^[A-Za-z0-9_-]{24,128}$/.test(m.token||''))throw Error('INVALID_HELPER_TOKEN');await chrome.storage.local.set({'local-cas':{enabled:true,token:m.token,port:helperPort(m.port)}});const health=await localHealthInfo(chrome);return {ok:true,connected:health.connected,health};}
+  if(m.type==='LOCAL_DISABLE'){cancelLocalReason();await chrome.storage.local.remove('local-cas');return {ok:true};}
+  if(m.type==='LOCAL_STATUS'){const settings=(await chrome.storage.local.get('local-cas'))['local-cas'];return {ok:true,enabled:!!settings?.enabled,port:settings?.port||9000};}
   if(m.type==='AUTO_STATUS')return dual.status();
-  if(m.type==='AUTO_STOP')return dual.stop();
+  if(m.type==='AUTO_STOP'){cancelLocalReason();const job=(await chrome.storage.session.get('reason-review'))['reason-review'];if(job)await chrome.storage.session.set({'reason-review':{id:job.id,state:'CANCELLED'}});return dual.stop();}
   if(m.type==='AUTO_RESUME')return dual.resume();
   if(m.type==='AUTO_START'){
     if(requestEpoch!==stopEpoch)throw Error('START_CANCELLED_BY_STOP');
@@ -76,8 +79,9 @@ async function handle(m,sender,requestEpoch){
 }
 // Serialize state mutations: a pending old REPORT cannot resurrect a stopped session.
 let queue=Promise.resolve(),stopEpoch=0;
+setReviewCommitter(work=>{queue=queue.then(work).catch(()=>{});return queue;});
 chrome.runtime.onMessage.addListener((m,sender,reply)=>{
-  if(m?.type==='AUTO_STOP'&&sender.url?.startsWith(chrome.runtime.getURL(''))&&!sender.tab){stopEpoch++;dual.cancel();}
+  if(m?.type==='AUTO_STOP'&&sender.url?.startsWith(chrome.runtime.getURL(''))&&!sender.tab){stopEpoch++;dual.cancel();cancelLocalReason();}
   const requestEpoch=stopEpoch;
   queue=queue.then(()=>handle(m,sender,requestEpoch)).then(reply,e=>reply({ok:false,error:e.message||'REQUEST_FAILED'}));return true;
 });

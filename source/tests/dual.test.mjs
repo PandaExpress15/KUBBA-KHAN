@@ -176,3 +176,8 @@ test('explicit unsupported factor domain pauses without entering or checking whi
  f.api.scripting.executeScript=async args=>{const r=await original(args);if(args.func===pageSnapshot&&r[0]?.result?.expression)r[0].result.unsupportedFactorDomain=true;return r;};
  await f.runner.start(7,{continueBlocked:false});for(let i=0;i<5;i++)await f.tick();const s=await f.runner.get();assert.equal(s.lanes.exercise.state,'PAUSED');assert.equal(s.lanes.exercise.error,'UNSUPPORTED_MATH_FORMAT');assert.equal(f.insertions,0);assert.equal(f.checks,0);assert.ok(f.plays>0);
 });
+test('an unsupported requested output unit pauses before entry or Check',async()=>{
+ const f=fixture(),original=f.api.scripting.executeScript;
+ f.api.scripting.executeScript=async args=>{const r=await original(args);if(args.func===pageSnapshot&&r[0]?.result?.expression)Object.assign(r[0].result,{expression:'asin(1/2)',unsupportedAnswerFormat:true});return r;};
+ await f.runner.start(7,{continueBlocked:false});for(let i=0;i<4;i++)await f.tick();assert.equal((await f.runner.get()).lanes.exercise.state,'PAUSED');assert.equal(f.insertions,0);assert.equal(f.checks,0);
+});

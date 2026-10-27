@@ -1,0 +1,155 @@
+{
+  "syntheticSite": true,
+  "liveClassroomVerified": false,
+  "results": [
+    {
+      "case": "unsupported",
+      "browser": "156.0.8078.47",
+      "extension": "2.1.12",
+      "freshProfile": true,
+      "continueBlocked": false,
+      "error": "UNSUPPORTED_MATH_FORMAT",
+      "checks": 0,
+      "completed": 0,
+      "deferred": 0,
+      "stopVerified": true,
+      "events": [
+        {
+          "kind": "exercise-question",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/exercise1",
+          "at": 1793135370278,
+          "q": 1
+        },
+        {
+          "kind": "media-ratechange",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/video1",
+          "at": 1793135370315,
+          "trusted": true,
+          "time": 0.0011,
+          "duration": 16,
+          "rate": 2,
+          "paused": false
+        },
+        {
+          "kind": "media-playing",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/video1",
+          "at": 1793135370316,
+          "trusted": true,
+          "time": 0.0026,
+          "duration": 16,
+          "rate": 2,
+          "paused": false
+        },
+        {
+          "kind": "media-timeupdate",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/video1",
+          "at": 1793135370577,
+          "trusted": true,
+          "time": 0.5239,
+          "duration": 16,
+          "rate": 2,
+          "paused": false
+        },
+        {
+          "kind": "media-timeupdate",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/video1",
+          "at": 1793135370843,
+          "trusted": true,
+          "time": 1.0553,
+          "duration": 16,
+          "rate": 2,
+          "paused": false
+        },
+        {
+          "kind": "media-timeupdate",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/video1",
+          "at": 1793135371108,
+          "trusted": true,
+          "time": 1.5863,
+          "duration": 16,
+          "rate": 2,
+          "paused": false
+        },
+        {
+          "kind": "media-timeupdate",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/video1",
+          "at": 1793135371129,
+          "trusted": true,
+          "time": 1.6284,
+          "duration": 16,
+          "rate": 1,
+          "paused": true
+        },
+        {
+          "kind": "media-pause",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/video1",
+          "at": 1793135371130,
+          "trusted": true,
+          "time": 1.6284,
+          "duration": 16,
+          "rate": 1,
+          "paused": true
+        },
+        {
+          "kind": "media-ratechange",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/video1",
+          "at": 1793135371130,
+          "trusted": true,
+          "time": 1.6284,
+          "duration": 16,
+          "rate": 1,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "case": "wrong",
+      "browser": "156.0.8078.47",
+      "extension": "2.1.12",
+      "freshProfile": true,
+      "continueBlocked": false,
+      "error": "SITE_REJECTED_ANSWER",
+      "checks": 1,
+      "completed": 0,
+      "deferred": 0,
+      "stopVerified": true,
+      "events": [
+        {
+          "kind": "exercise-question",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/exercise1",
+          "at": 1793135372547,
+          "q": 1
+        },
+        {
+          "kind": "native-input",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/exercise1",
+          "at": 1793135394583,
+          "q": 1,
+          "value": "(2*x + 1)*(5*x + 4)"
+        },
+        {
+          "kind": "controlled-rerender",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/exercise1",
+          "at": 1793135394583,
+          "q": 1,
+          "value": "(2*x + 1)*(5*x + 4)"
+        },
+        {
+          "kind": "check",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/exercise1",
+          "at": 1793135398597,
+          "q": 1,
+          "answer": "(2*x + 1)*(5*x + 4)",
+          "checks": 1
+        },
+        {
+          "kind": "feedback",
+          "url": "https://classroom.khanacademy.org/learner/class/PAUSEOPTIONS/assignment/exercise1",
+          "at": 1793135398847,
+          "q": 1,
+          "correct": false
+        }
+      ]
+    }
+  ]
+}

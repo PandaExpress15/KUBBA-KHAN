@@ -1,0 +1,16 @@
+LOCAL HELPER CONNECTED temporary test extension manifest grants loopback; production manifest remains optional and owner permission approval UI is unverified
+REASON JOB {}
+LOCAL CAS STATE undefined
+LOCAL CAS EVENTS []
+HELPER OUTPUT {"ready": true, "host": "127.0.0.1", "port": 9000, "version": "2.1.12", "tokenConfig": "/tmp/kubla-cas-test-wSnvia/config.json"}
+Paste the token from the private config into the extension local-solver settings. Keep this terminal running.
+
+file:///workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/tests/browser-support.mjs:13
+ throw Error('Timed out: '+label+'; last result '+JSON.stringify(result));
+       ^
+
+Error: Timed out: model ready health in popup; last result false
+    at until (file:///workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/tests/browser-support.mjs:13:8)
+    at async file:///workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/tests/browser-reasoning.mjs:58:52
+
+Node.js v24.19.0

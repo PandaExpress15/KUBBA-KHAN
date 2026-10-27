@@ -10,7 +10,7 @@ const b=await launch({beforeInstall:async context=>{
 }});
 const state=async()=> (await b.worker.evaluate(()=>chrome.storage.session.get('dual-run')))['dual-run'];
 const checks=()=>events.filter(e=>e.kind==='check').length;
-async function click(selector){const p=await popup(b);await until(()=>p.evaluate(s=>{const e=document.querySelector(s);return e&&!e.disabled&&!e.hidden;},selector),{label:selector});await p.click(selector);}
+async function click(selector){const p=await popup(b);await until(()=>p.evaluate(s=>{const e=document.querySelector(s);return e&&!e.disabled&&!e.hidden;},selector),{label:selector});if(selector==='#start')await p.evaluate(()=>document.getElementById('continue-blocked').checked=false);await p.click(selector);}
 async function start(opts){
  options=opts;events=[];
  for(const p of b.context.pages())if(p!==source)await p.close();

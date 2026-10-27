@@ -1,0 +1,26 @@
+LOCAL HELPER CONNECTED temporary test extension manifest grants loopback; production manifest remains optional and owner permission approval UI is unverified
+LOCAL CAS STATE undefined
+LOCAL CAS EVENTS []
+HELPER OUTPUT {"ready": true, "host": "127.0.0.1", "port": 9000, "version": "2.1.12", "tokenConfig": "/tmp/kubla-cas-test-lAFf3N/config.json"}
+Paste the token from the private config into the extension local-solver settings. Keep this terminal running.
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'NO_TAB'
+- 'INVALID_HELPER_PORT'
+
+    at file:///workspace/khan-runner-isolated/turn-reasoning-v2.1.12/source/tests/browser-reasoning.mjs:56:251 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'NO_TAB',
+  expected: 'INVALID_HELPER_PORT',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

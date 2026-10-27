@@ -1,0 +1,2 @@
+PASS actual Chrome explicit continueBlocked=false unsupported pauses with UNSUPPORTED_MATH_FORMAT Checks 0 Stop verified
+PASS actual Chrome explicit continueBlocked=false wrong pauses with SITE_REJECTED_ANSWER Checks 1 Stop verified

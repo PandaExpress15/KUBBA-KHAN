@@ -1,0 +1,20 @@
+test_absolute_subprocess_deadline_is_enforced (__main__.ProtocolTests.test_absolute_subprocess_deadline_is_enforced) ... ok
+test_auth_and_origin_guards_apply_to_reasoning (__main__.ProtocolTests.test_auth_and_origin_guards_apply_to_reasoning) ... ok
+test_cli_port_collision_does_not_stop_existing_server (__main__.ProtocolTests.test_cli_port_collision_does_not_stop_existing_server) ... ok
+test_client_stop_disconnect_has_no_traceback_and_server_recovers (__main__.ProtocolTests.test_client_stop_disconnect_has_no_traceback_and_server_recovers) ... ok
+test_configured_model_unavailable_is_explicit (__main__.ProtocolTests.test_configured_model_unavailable_is_explicit) ... ok
+test_equivalent_expanded_factor_answer_is_not_fully_factored (__main__.ProtocolTests.test_equivalent_expanded_factor_answer_is_not_fully_factored) ... ok
+test_health_config_and_available_model (__main__.ProtocolTests.test_health_config_and_available_model) ... ok
+test_injection_proposal_cannot_execute (__main__.ProtocolTests.test_injection_proposal_cannot_execute) ... ok
+test_metadata_missing_local_weights_rejected (__main__.ProtocolTests.test_metadata_missing_local_weights_rejected) ... ok
+test_no_model_requests_without_optin (__main__.ProtocolTests.test_no_model_requests_without_optin) ... ok
+test_real_exact_verification_gates_scripted_proposal (__main__.ProtocolTests.test_real_exact_verification_gates_scripted_proposal) ... ok
+test_remote_model_aliases_rejected_before_inference (__main__.ProtocolTests.test_remote_model_aliases_rejected_before_inference) ... ok
+test_request_and_model_bounds (__main__.ProtocolTests.test_request_and_model_bounds) ... ok
+test_unknown_word_problem_never_becomes_auto_entry (__main__.ProtocolTests.test_unknown_word_problem_never_becomes_auto_entry) ... ok
+test_wrong_answer_stays_review_only (__main__.ProtocolTests.test_wrong_answer_stays_review_only) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 3.274s
+
+OK
