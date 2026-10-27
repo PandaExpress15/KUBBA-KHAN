@@ -1,0 +1,80 @@
+{
+  "browser": "156.0.8078.47",
+  "syntheticSite": true,
+  "liveClassroomVerified": false,
+  "events": [
+    {
+      "kind": "question",
+      "q": 1,
+      "at": 1793119207787
+    },
+    {
+      "kind": "check",
+      "q": 1,
+      "at": 1793119241829,
+      "value": "(2*x + 1)*(5*x + 4)",
+      "correct": true
+    },
+    {
+      "kind": "next",
+      "q": 1,
+      "at": 1793119245837
+    },
+    {
+      "kind": "question",
+      "q": 2,
+      "at": 1793119245837
+    },
+    {
+      "kind": "check",
+      "q": 2,
+      "at": 1793119284867,
+      "value": "(2*x + 1)*(5*x + 4)",
+      "correct": true
+    },
+    {
+      "kind": "next",
+      "q": 2,
+      "at": 1793119288878
+    },
+    {
+      "kind": "question",
+      "q": 3,
+      "at": 1793119288878
+    },
+    {
+      "kind": "check",
+      "q": 3,
+      "at": 1793119316902,
+      "value": "(x - 3)*(x + 3)",
+      "correct": true
+    },
+    {
+      "kind": "done",
+      "q": 3,
+      "at": 1793119320912
+    }
+  ],
+  "observations": [
+    {
+      "key": "277c2c7cf3cd85101c3b0d59a36c10eb6fac9fc92bc780d34f567a24494ba518",
+      "seconds": 30,
+      "until": 1793119237818
+    },
+    {
+      "key": "28ceca5025b50d0093e3c6273074ab2d59288c9eab96227a8ce80cc877732e06",
+      "seconds": 27,
+      "until": 1793119280850
+    },
+    {
+      "key": "97eb44962a86730a293fb643a98e345fe916c6bf9cd69d85d274d50f87a4d7a1",
+      "seconds": 16,
+      "until": 1793119312891
+    }
+  ],
+  "counts": {
+    "answers": 3,
+    "exercise": 1,
+    "video": 0
+  }
+}

@@ -12,3 +12,4 @@ test('correct feedback with Next is accepted',()=>{feedback='Correct!';labels=['
 test('not correct feedback never becomes accepted',()=>{feedback='Your answer is not correct.';labels=['Next question'];const p=pageSnapshot();assert.equal(p.accepted,false);assert.equal(p.negative,true);});
 test('rational reduction wording selects simplify',()=>{prompt='Reduce the rational expression to lowest terms.';expression='\\frac{x^2-1}{x+1}';assert.equal(pageSnapshot().operation,'simplify');});
 test('explicit trig annotation can select exact evaluation',()=>{prompt='What is the value?';expression='\\sin(\\pi/3)';assert.equal(pageSnapshot().operation,'evaluate');});
+test('explicit Question N of M header identifies consecutive repeated expressions',()=>{const before=document.body.innerText;document.body.innerText='Question 2 of 3';const p=pageSnapshot();assert.equal(p.ordinal,2);assert.equal(p.total,3);document.body.innerText=before;});

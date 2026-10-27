@@ -6,7 +6,7 @@ import {mathQuillDOM} from './mq-dom.js';
 import {pageSnapshot,pageAction,mediaStep,stopMedia,readEditor} from './automation-page.js';
 import {paginationUI} from './pagination.js';
 const STORE='dual-run',ALARM='klr-dual-heartbeat';
-const idle=()=>({version:'2.1.6',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
+const idle=()=>({version:'2.1.7',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
 const cleanURL=u=>u.split(/[?#]/)[0];
 export function classScope(url){if(!isKhan(url))throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');const u=new URL(url),m=u.pathname.match(/^\/learner\/class\/[^/]+/);if(!m)throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');return u.origin+m[0];}
 export function collectJobs(items,scope){const seen=new Set(),out={video:[],exercise:[]};for(const x of items||[]){if(!['video','exercise'].includes(x.kind)||!inScope(x.url,scope)||!new URL(x.url).pathname.includes('/assignment/')||seen.has(cleanURL(x.url)))continue;seen.add(cleanURL(x.url));out[x.kind].push(cleanURL(x.url));}return out;}

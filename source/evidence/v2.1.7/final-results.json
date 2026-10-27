@@ -1,0 +1,14 @@
+{
+  "version": "2.1.7",
+  "node": {
+    "passed": 296,
+    "exit": 0
+  },
+  "browser": [
+    "browser-install.mjs",
+    "browser-boundaries.mjs",
+    "browser-progression.mjs"
+  ],
+  "extensionTreeSHA256": "8d4fc5793aaba1246df8e34bcde030cfe2844b8f7f9f094f976f43004b88985b",
+  "liveClassroomVerified": false
+}

@@ -1,0 +1,19 @@
+AFTER FIRST ACCEPTED CHECK {"probe":{"fields":1,"mathAnnotations":0,"publicMathCandidates":1,"expressions":1,"answerLabels":0,"operation":"factor","checkControls":0,"scope":"main","readState":"READY"},"url":"https://classroom.khanacademy.org/learner/class/PROGRESSION/assignment/1","token":"https://classroom.khanacademy.org/learner/class/PROGRESSION/assignment/1|10x^2+13x+4","expression":"10x^2+13x+4","operation":"factor","fieldCount":1,"fieldValue":"(2x+1)(5x+4)","mathquill":false,"ordinal":1,"total":3,"accepted":false,"negative":false,"done":false,"controls":[],"items":[],"assignmentCount":0,"page":null,"pages":null,"isTodo":null,"radioCount":0}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: detached footer Correct remains observable when Check becomes Next
+
+false !== true
+
+    at file:///workspace/khan-runner-isolated/turn-next-v2.1.7/source/tests/browser-progression.mjs:21:9 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
