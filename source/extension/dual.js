@@ -6,7 +6,7 @@ import {mathQuillDOM} from './mq-dom.js';
 import {pageSnapshot,pageAction,mediaStep,stopMedia,readEditor} from './automation-page.js';
 import {paginationUI} from './pagination.js';
 const STORE='dual-run',ALARM='klr-dual-heartbeat';
-const idle=()=>({version:'2.1.9',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
+const idle=()=>({version:'2.1.10',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
 const cleanURL=u=>u.split(/[?#]/)[0];
 export function classScope(url){if(!isKhan(url))throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');const u=new URL(url),m=u.pathname.match(/^\/learner\/class\/[^/]+/);if(!m)throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');return u.origin+m[0];}
 export function collectJobs(items,scope){const seen=new Set(),out={video:[],exercise:[]};for(const x of items||[]){if(!['video','exercise'].includes(x.kind)||!inScope(x.url,scope)||!new URL(x.url).pathname.includes('/assignment/')||seen.has(cleanURL(x.url)))continue;seen.add(cleanURL(x.url));out[x.kind].push(cleanURL(x.url));}return out;}
@@ -152,6 +152,7 @@ export class DualRunner{
   if(!p.fieldCount){if(p.controls.some(x=>/^(start|start exercise|begin practice|let's go)$/i.test(x))&&!lane.introClicked){lane.introClicked=true;await this.save(s);await this.click(s,lane,p,'START_EXERCISE');return;}if(this.now()-lane.started>20000)await this.pause(s,lane,p.radioCount?'MULTIPLE_CHOICE_UNSUPPORTED':'NO_SUPPORTED_ANSWER_FIELD');return;}
   if(p.fieldCount!==1){await this.pause(s,lane,'MULTIPLE_ANSWER_FIELDS');return;}
   if(!p.expression||!p.operation){await this.waitForQuestion(s,lane,p.probe?.readState||'PROBLEM_NOT_UNAMBIGUOUS');return;}
+  if(p.unsupportedFactorDomain){if(lane.probe)lane.probe.solver='unsupported-factor-domain';await this.pause(s,lane,'UNSUPPORTED_MATH_FORMAT');return;}
   const answer=solveSupported(p.expression,p.operation);if(lane.probe)lane.probe.solver=answer.status==='solved'?'solved':'unsupported';if(answer.status!=='solved'){await this.pause(s,lane,'UNSUPPORTED_MATH_FORMAT');return;}
   const key=await problemKey(p);
   const checks=p.controls.filter(x=>/^(check|check answer|check answers|submit answer)$/i.test(x)).length;

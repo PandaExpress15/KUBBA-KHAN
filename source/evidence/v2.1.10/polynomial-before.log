@@ -1,0 +1,21 @@
+POLYNOMIAL FIRST READ/SOLVE {"expression":"x^5-x^4+3x-3","operation":"factor","solution":{"status":"unsupported","reason":"Remaining polynomial needs factoring beyond rational roots and quadratics."}}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: visible screenshot polynomial must factor completely
++ actual - expected
+
++ 'unsupported'
+- 'solved'
+
+    at file:///workspace/khan-runner-isolated/turn-factor-v2.1.10/source/tests/browser-polynomial-factor.mjs:36:314 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'unsupported',
+  expected: 'solved',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

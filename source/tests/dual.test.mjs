@@ -171,3 +171,8 @@ test('an exercise adapter failure pauses only that lane while video playback con
  f.api.scripting.executeScript=async args=>{if(args.func===pageSnapshot&&f.tabs.get(args.target.tabId)?.url.includes('/assignment/exercise'))throw Error('Frame was removed');return original(args);};
  await f.runner.start(7);await f.tick();const s=await f.runner.get();assert.equal(s.running,true);assert.equal(s.lanes.exercise.error,'LANE_BROWSER_ADAPTER_ERROR');assert.equal(s.lanes.video.state,'PLAYING');assert.equal(f.checks,0);
 });
+test('explicit unsupported factor domain pauses without entering or checking while video lane continues',async()=>{
+ const f=fixture(),original=f.api.scripting.executeScript;
+ f.api.scripting.executeScript=async args=>{const r=await original(args);if(args.func===pageSnapshot&&r[0]?.result?.expression)r[0].result.unsupportedFactorDomain=true;return r;};
+ await f.runner.start(7);for(let i=0;i<5;i++)await f.tick();const s=await f.runner.get();assert.equal(s.lanes.exercise.state,'PAUSED');assert.equal(s.lanes.exercise.error,'UNSUPPORTED_MATH_FORMAT');assert.equal(f.insertions,0);assert.equal(f.checks,0);assert.ok(f.plays>0);
+});
