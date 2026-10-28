@@ -1,0 +1,34 @@
+{
+  "version": "2.1.14",
+  "realPythonEngine": true,
+  "cases": [
+    {
+      "expression": "x^2/x=0",
+      "status": "solved",
+      "answer": "0",
+      "exact": true
+    },
+    {
+      "expression": "8^(2/3)",
+      "status": "unsupported",
+      "reason": "EXPONENT_LIMIT"
+    },
+    {
+      "expression": "log(100)",
+      "status": "solved",
+      "answer": "log(100)",
+      "exact": true
+    },
+    {
+      "expression": "sqrt(x+1)=x-1",
+      "status": "unsupported",
+      "reason": "RATIONAL_POLYNOMIAL_REQUIRED"
+    },
+    {
+      "expression": "x^2-1=0",
+      "status": "unsupported",
+      "reason": "NEED_EXACTLY_ONE_REAL_SOLUTION"
+    }
+  ],
+  "modelInferenceVerified": false
+}

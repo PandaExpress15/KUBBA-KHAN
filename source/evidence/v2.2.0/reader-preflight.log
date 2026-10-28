@@ -1,0 +1,10 @@
+PASS incidental
+PASS sin
+PASS square
+PASS bare-log
+PASS inverse-table
+PASS inverse-affine
+PASS rational
+PASS error
+PASS choice-perseus
+PASS unlabelled MQ+plainCorrect fingerprint stability

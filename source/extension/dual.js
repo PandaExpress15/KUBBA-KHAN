@@ -1,3 +1,6 @@
+import {readProblemDOM} from './problem-dom.js';
+import {typedInputDOM} from './typed-input.js';
+import {resolveProblemDocument,verifyProblemAnswer,verifyProblemChoice,problemIdentity} from './typed-client.js';
 import {choiceDOM} from './choice-dom.js';
 import {uniqueChoice} from './choice.js';
 import {localAnswer,localReadback,localComparison,queueLocalReview} from './local-cas.js';
@@ -9,8 +12,8 @@ import {mathQuillDOM} from './mq-dom.js';
 import {pageSnapshot,pageAction,mediaStep,stopMedia,readEditor} from './automation-page.js';
 import {paginationUI} from './pagination.js';
 const STORE='dual-run',ALARM='klr-dual-heartbeat';
-const recoverable=code=>/^CHOICE_[A-Z_]+$/.test(code)||/^(?:UNSUPPORTED_MATH_FORMAT|NO_QUESTION_MATH|MULTIPLE_QUESTION_EXPRESSIONS|QUESTION_OPERATION_UNCLEAR|AMBIGUOUS_QUESTION_MATH|PROBLEM_NOT_UNAMBIGUOUS|MULTIPLE_CHOICE_UNSUPPORTED|NO_SUPPORTED_ANSWER_FIELD|MULTIPLE_ANSWER_FIELDS|CHECK_CONTROL_MISSING_OR_AMBIGUOUS|SITE_REJECTED_ANSWER|SUBMISSION_RESULT_NOT_OBSERVED|FINISH_RESULT_NOT_OBSERVED|NEXT_QUESTION_DID_NOT_CHANGE|PROBLEM_CHANGED_BEFORE_FEEDBACK|PROBLEM_CHANGED_DURING_WAIT|PROBLEM_CHANGED_DURING_ENTRY|ANSWER_DID_NOT_PERSIST|ANSWER_FIELD_NOT_EMPTY|INPUT_[A-Z_]+|EDITOR_[A-Z_]+|MATHQUILL_[A-Z_]+|ACTION_NOT_OBSERVED|CONTROL_MISSING_OR_AMBIGUOUS|NEED_EXACTLY_ONE_VISIBLE_ANSWER_FIELD|NUMBER_FIELD_CANNOT_ACCEPT_SYMBOLIC_ANSWER|PAGE_CHANGED_DURING_ENTRY|PAGE_CHANGED_READ_AGAIN|PREVIOUS_UNRESOLVED_ATTEMPT|STALE_PROBLEM|NEXT_QUESTION_NOT_FOUND|CHECK_NOT_FOUND)$/.test(code);
-const idle=()=>({version:'2.1.14',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},errors:[]});
+const recoverable=code=>/^(?:TYPED_|RESPONSE_|TASK_|LOCAL_EXACT_HELPER_REQUIRED|MODEL_INTERPRETATION_|INVALID_PROBLEM_DOCUMENT|STALE_PROBLEM_DOCUMENT|INTERACTIVE_GRAPH_RESPONSE_UNSUPPORTED|UNLABELLED_RESPONSE_SLOTS|MIXED_NUMBER_REQUIRES_INTERPRETATION)/.test(code)||/^CHOICE_[A-Z_]+$/.test(code)||/^(?:UNSUPPORTED_MATH_FORMAT|NO_QUESTION_MATH|MULTIPLE_QUESTION_EXPRESSIONS|QUESTION_OPERATION_UNCLEAR|AMBIGUOUS_QUESTION_MATH|PROBLEM_NOT_UNAMBIGUOUS|MULTIPLE_CHOICE_UNSUPPORTED|NO_SUPPORTED_ANSWER_FIELD|MULTIPLE_ANSWER_FIELDS|CHECK_CONTROL_MISSING_OR_AMBIGUOUS|SITE_REJECTED_ANSWER|SUBMISSION_RESULT_NOT_OBSERVED|FINISH_RESULT_NOT_OBSERVED|NEXT_QUESTION_DID_NOT_CHANGE|PROBLEM_CHANGED_BEFORE_FEEDBACK|PROBLEM_CHANGED_DURING_WAIT|PROBLEM_CHANGED_DURING_ENTRY|ANSWER_DID_NOT_PERSIST|ANSWER_FIELD_NOT_EMPTY|INPUT_[A-Z_]+|EDITOR_[A-Z_]+|MATHQUILL_[A-Z_]+|ACTION_NOT_OBSERVED|CONTROL_MISSING_OR_AMBIGUOUS|NEED_EXACTLY_ONE_VISIBLE_ANSWER_FIELD|NUMBER_FIELD_CANNOT_ACCEPT_SYMBOLIC_ANSWER|PAGE_CHANGED_DURING_ENTRY|PAGE_CHANGED_READ_AGAIN|PREVIOUS_UNRESOLVED_ATTEMPT|STALE_PROBLEM|NEXT_QUESTION_NOT_FOUND|CHECK_NOT_FOUND)$/.test(code);
+const idle=()=>({version:'2.2.0',running:false,state:'IDLE',revision:0,lanes:{},counts:{video:0,exercise:0,answers:0},metrics:{extracted:0,solvable:0,submitted:0,accepted:0},problemMetrics:{},errors:[]});
 const cleanURL=u=>u.split(/[?#]/)[0];
 export function classScope(url){if(!isKhan(url))throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');const u=new URL(url),m=u.pathname.match(/^\/learner\/class\/[^/]+/);if(!m)throw Error('OPEN_CLASSROOM_ASSIGNMENT_LIST');return u.origin+m[0];}
 export function collectJobs(items,scope){const seen=new Set(),out={video:[],exercise:[]};for(const x of items||[]){if(!['video','exercise'].includes(x.kind)||!inScope(x.url,scope)||!new URL(x.url).pathname.includes('/assignment/')||seen.has(cleanURL(x.url)))continue;seen.add(cleanURL(x.url));out[x.kind].push(cleanURL(x.url));}return out;}
@@ -26,7 +29,8 @@ export class DualRunner{
  async media(s,lane,func,args=[]){const out=[];for(const id of lane.frameIds||[0]){if(this.cancelled&&func!==stopMedia)break;try{out.push(await this.invoke(lane.tabId,func,args,'ISOLATED',id));}catch{/* Detached or inaccessible iframe. Remaining permitted frames are still inspected. */}}return out;}
  async signal(s){for(const id of new Set([s.sourceTab,...Object.values(s.lanes||{}).map(l=>l.tabId)].filter(Number.isInteger)))await this.api.tabs.sendMessage(id,{type:'AUTO_CONFIG',running:s.running,revision:s.revision}).catch(()=>{});}
  async stop(){this.cancel();const s=await this.get();s.running=false;s.state='STOPPED';s.revision++;await this.save(s);await this.api.alarms.clear(ALARM);await this.signal(s);for(const lane of Object.values(s.lanes))await this.media(s,lane,stopMedia);return {ok:true,run:this.public(s)};}
- public(s){return {version:s.version,running:s.running,state:s.state,counts:s.counts,startup:{stage:s.startupStage||'',pages:s.scan?.pages||0,probe:s.scan?.probe||null,navigationInterruptions:s.scan?.navigationInterruptions||0,lastNavigationError:s.scan?.lastNavigationError||''},queued:{video:s.jobs?.video.length||0,exercise:s.jobs?.exercise.length||0},lanes:Object.fromEntries(Object.entries(s.lanes).map(([k,l])=>[k,{tabId:l.tabId,state:l.state,error:l.error||'',index:l.index,total:s.jobs?.[k].length||0,rate:l.rate||0,completed:l.completed??l.index,deferred:l.deferred||0,needsReview:l.deferred||0,remaining:Math.max(0,(s.jobs?.[k].length||0)-l.index),probe:l.probe||null,wait:l.state==='WAITING_BEFORE_ANSWER'&&l.delay?{seconds:l.delay.seconds,remainingSeconds:Math.max(0,Math.ceil((l.delay.until-this.now())/1000))}:null}])),needsReview:(s.review||[]).map(({key,phase,code,at})=>({key,phase,code,at})),errors:s.errors.slice(-5)};}
+ public(s){return {version:s.version,running:s.running,state:s.state,counts:s.counts,metrics:{...(s.metrics||{}),completedExercises:s.counts.exercise,reviewAssignments:Object.values(s.lanes||{}).reduce((n,l)=>n+(l.deferred||0),0)},startup:{stage:s.startupStage||'',pages:s.scan?.pages||0,probe:s.scan?.probe||null,navigationInterruptions:s.scan?.navigationInterruptions||0,lastNavigationError:s.scan?.lastNavigationError||''},queued:{video:s.jobs?.video.length||0,exercise:s.jobs?.exercise.length||0},lanes:Object.fromEntries(Object.entries(s.lanes).map(([k,l])=>[k,{tabId:l.tabId,state:l.state,error:l.error||'',index:l.index,total:s.jobs?.[k].length||0,rate:l.rate||0,completed:l.completed??l.index,deferred:l.deferred||0,needsReview:l.deferred||0,remaining:Math.max(0,(s.jobs?.[k].length||0)-l.index),probe:l.probe||null,wait:l.state==='WAITING_BEFORE_ANSWER'&&l.delay?{seconds:l.delay.seconds,remainingSeconds:Math.max(0,Math.ceil((l.delay.until-this.now())/1000))}:null}])),needsReview:(s.review||[]).map(({key,phase,code,at})=>({key,phase,code,at})),errors:s.errors.slice(-5)};}
+ metric(s,key,name){s.metrics||={extracted:0,solvable:0,submitted:0,accepted:0};s.problemMetrics||={};const entry=s.problemMetrics[key]||={};if(!entry[name]){entry[name]=true;s.metrics[name]=(s.metrics[name]||0)+1;}}
  async status(){return {ok:true,run:this.public(await this.get())};}
  async start(tabId,options={}){
   const cancelRevision=this.cancelRevision;
@@ -156,25 +160,27 @@ export class DualRunner{
   if(this.now()-(lane.lastProgress||lane.started)>120000){await this.pause(s,lane,'MEDIA_STALLED');return;}
   lane.state='PLAYING';await this.save(s);
  }
- async click(s,lane,p,action){if(this.cancelled)return false;const r=action==='CHECK'&&p.choice?await this.invoke(lane.tabId,choiceDOM,['check',{url:p.url,token:p.choice.token},{index:lane.problem.choiceIndex}]):await this.invoke(lane.tabId,pageAction,[action,{url:p.url,token:p.token,accepted:p.accepted===true}]);if(!r?.ok){await this.pause(s,lane,r?.error||'ACTION_NOT_OBSERVED');return false;}return true;}
+ async click(s,lane,p,action){if(this.cancelled)return false;const r=action==='CHECK'&&p.choice?await this.invoke(lane.tabId,choiceDOM,['check',{url:p.url,token:p.choice.token},{index:lane.problem.choiceIndex}]):await this.invoke(lane.tabId,pageAction,[action,{url:p.url,token:p.token,accepted:p.accepted===true}]);if(!r?.ok){await this.pause(s,lane,r?.error||'ACTION_NOT_OBSERVED');return false;}if(action==='CHECK'&&lane.problem){this.metric(s,lane.problem.key,'submitted');await this.save(s);}return true;}
  async waitForQuestion(s,lane,code){
   lane.questionWait??=this.now();lane.state='WAITING_FOR_QUESTION';
   if(this.now()-lane.questionWait>=12000)await this.pause(s,lane,code);else await this.save(s);
  }
  async exercise(s,lane){
   const p=await this.invoke(lane.tabId,pageSnapshot);if(this.cancelled||!p)return;
+  let typedRead=null;try{typedRead=await this.invoke(lane.tabId,readProblemDOM,['read']);}catch{}if(this.cancelled)return;
   lane.probe=p.probe?{...p.probe,phase:lane.problem?.phase||'READING'}:null;
   if(p.resultSummary&&lane.problem?.acceptedFinal&&['NEXT_CLICKED','FINISH_CLICKED'].includes(lane.problem.phase)){s.counts.answers++;lane.state='ASSIGNMENT_RESULTS_OBSERVED';await this.advance(s,lane);return;}
   if(p.done){if(lane.problem&&['CHECKING','WAITING_FEEDBACK','NEXT_CLICKED','FINISH_CLICKED'].includes(lane.problem.phase))s.counts.answers++;lane.state='ASSIGNMENT_COMPLETE_OBSERVED';await this.advance(s,lane);return;}
   if(lane.problem?.phase==='FINISH_CLICKED'){if(this.now()-lane.problem.at>20000)await this.pause(s,lane,'FINISH_RESULT_NOT_OBSERVED');return;}
   if(lane.problem&&['CHECKING','WAITING_FEEDBACK','NEXT_CLICKED'].includes(lane.problem.phase)){
    if(p.negative){await this.pause(s,lane,'SITE_REJECTED_ANSWER');return;}
-   const key=await problemKey(p);
-   if(p.expression&&key!==lane.problem.key){
+   const key=lane.problem.typed&&typedRead?.ok?await problemIdentity(typedRead.document):lane.problem.typed?lane.problem.identity:await problemKey(p);
+   if((lane.problem.typed&&typedRead?.ok||p.expression)&&key!==(lane.problem.typed?lane.problem.identity:lane.problem.key)){
     if(lane.problem.phase!=='NEXT_CLICKED'){await this.pause(s,lane,'PROBLEM_CHANGED_BEFORE_FEEDBACK');return;}
     s.counts.answers++;lane.problem=null;lane.state='READING_NEXT';await this.save(s);return;
    }
    if(p.accepted||lane.problem.phase==='NEXT_CLICKED'){
+    if(p.accepted)this.metric(s,lane.problem.key,'accepted');
     if(lane.problem.phase==='NEXT_CLICKED'){if(this.now()-lane.problem.at>20000)await this.pause(s,lane,'NEXT_QUESTION_DID_NOT_CHANGE');return;}
     const finish=p.controls.some(x=>/^(done|finish|finish exercise|finish assignment)$/i.test(x));
     lane.problem.acceptedFinal=Number.isInteger(p.ordinal)&&Number.isInteger(p.total)&&p.total>0&&p.ordinal===p.total;
@@ -183,6 +189,7 @@ export class DualRunner{
    }
    lane.problem.phase='WAITING_FEEDBACK';lane.state='WAITING_FEEDBACK';await this.save(s);if(this.now()-lane.problem.at>20000)await this.pause(s,lane,'SUBMISSION_RESULT_NOT_OBSERVED');return;
   }
+  if(typedRead?.ok&&(typedRead.document.response.slots.length||['graph','choice'].includes(typedRead.document.response.kind))&&(!lane.problem||lane.problem.typed)){await this.typedExercise(s,lane,p,typedRead);return;}
   if(p.radioCount){
    if(p.fieldCount){await this.pause(s,lane,'CHOICE_MIXED_RESPONSE_UNSUPPORTED');return;}
    const response=await this.invoke(lane.tabId,choiceDOM,['inspect',{url:p.url}]);if(this.cancelled)return;
@@ -228,6 +235,49 @@ export class DualRunner{
   // Durable intent BEFORE click: refresh/restart never blindly repeats a submission.
   lane.problem.phase='CHECKING';lane.problem.at=this.now();lane.state='SUBMITTING';await this.save(s);if(!this.cancelled)await this.click(s,lane,p,'CHECK');
  }
+ async typedExercise(s,lane,p,read){
+  const d=read.document,key=d.fingerprint;if(d.original.instruction||d.original.expressions.length||d.evidence.tables.length)this.metric(s,key,'extracted');lane.probe={...(lane.probe||{}),typed:read.probe,phase:lane.problem?.phase||'READING'};
+  if(lane.problem?.typed){
+   if(lane.problem.key!==key){await this.pause(s,lane,'PROBLEM_CHANGED_DURING_ENTRY');return;}
+   if(lane.problem.phase==='ENTERING'){await this.pause(s,lane,'TYPED_ENTRY_OUTCOME_UNCERTAIN');return;}
+   if(lane.problem.typedChoice){const current=await this.invoke(lane.tabId,choiceDOM,['inspect',{url:d.url}]);if(this.cancelled)return;if(!current?.ok||current.token!==lane.problem.choiceToken||current.selected.length!==1||current.selected[0]!==lane.problem.choiceIndex){await this.pause(s,lane,'CHOICE_READBACK_MISMATCH');return;}if(!await verifyProblemChoice(this.api,d,lane.problem.solution,lane.problem.choiceIndex)){if(!this.cancelled)await this.pause(s,lane,'CHOICE_PROOF_DID_NOT_PERSIST');return;}if(this.cancelled)return;lane.problem.phase='CHECKING';lane.problem.at=this.now();lane.state='SUBMITTING';await this.save(s);if(this.cancelled)return;const checked=await this.invoke(lane.tabId,choiceDOM,['check',{url:d.url,token:current.token},{index:lane.problem.choiceIndex}]);if(!this.cancelled){if(!checked?.ok)await this.pause(s,lane,checked?.error||'CHOICE_CHECK_NOT_OBSERVED');else{this.metric(s,key,'submitted');await this.save(s);}}return;}
+   const solution=lane.problem.solution,expected={url:d.url,fingerprint:key,guard:read.guard,boundaryPath:read.boundaryPath,slots:d.response.slots,actionEpoch:lane.problem.actionEpoch};
+   const observed=await this.invoke(lane.tabId,typedInputDOM,['readback',expected,{}],'MAIN');if(this.cancelled)return;
+   if(!observed?.ok){await this.pause(s,lane,observed?.error||'TYPED_READBACK_UNAVAILABLE');return;}
+   if(!await verifyProblemAnswer(this.api,d,solution,{fields:observed.fields})){if(!this.cancelled)await this.pause(s,lane,'TYPED_ANSWER_DID_NOT_PERSIST');return;}if(this.cancelled)return;
+   lane.problem.phase='CHECKING';lane.problem.at=this.now();lane.state='SUBMITTING';await this.save(s);if(this.cancelled)return;
+   const checked=await this.invoke(lane.tabId,typedInputDOM,['check',expected,{fields:observed.fields,signatures:observed.signatures}],'MAIN');if(this.cancelled)return;if(!checked?.ok)await this.pause(s,lane,checked?.error||'TYPED_CHECK_NOT_OBSERVED');else{this.metric(s,key,'submitted');await this.save(s);}return;
+  }
+  if(d.response.choices.some(option=>option.selected)){await this.pause(s,lane,'ANSWER_FIELD_NOT_EMPTY');return;}
+  if(d.response.slots.some(slot=>slot.value.trim())){await this.pause(s,lane,'ANSWER_FIELD_NOT_EMPTY');return;}
+  const solution=lane.delay?.key===key&&lane.delay.solution?lane.delay.solution:await resolveProblemDocument(this.api,d,{isCancelled:()=>this.cancelled});if(this.cancelled)return;
+  lane.probe.solver=solution.status==='solved'?solution.route:'unsupported';lane.probe.boundary=solution.stage||'verification';
+  if(solution.status==='pending'){lane.state='INTERPRETING_QUESTION';await this.save(s);return;}
+  if(solution.status!=='solved'){const code=solution.reason||'TYPED_TASK_UNSUPPORTED';if(s.continueBlocked!==false&&['extraction','response','interpretation','solving','verification'].includes(solution.stage)&&/^[A-Z_0-9]{1,100}$/.test(code)&&!['SITE_ACCESS_DENIED','WORKER_LEFT_CLASS_SCOPE','WORKER_TAB_CLOSED','LANE_BROWSER_ADAPTER_ERROR'].includes(code))await this.defer(s,lane,code);else await this.pause(s,lane,code);return;}
+  this.metric(s,key,'solvable');
+  if((s.review||[]).some(r=>r.key===key&&['ENTERING','READY_TO_CHECK','CHECKING','WAITING_FEEDBACK','NEXT_CLICKED','FINISH_CLICKED'].includes(r.phase))){await this.pause(s,lane,'PREVIOUS_UNRESOLVED_ATTEMPT');return;}
+  const checks=p.controls.filter(x=>/^(check|check answer|check answers|submit answer)$/i.test(x)).length;if(checks!==1){await this.waitForQuestion(s,lane,'CHECK_CONTROL_MISSING_OR_AMBIGUOUS');return;}
+  if(lane.delay&&lane.delay.key!==key){await this.pause(s,lane,'PROBLEM_CHANGED_DURING_WAIT');return;}
+  if(!lane.delay){const seconds=answerDelaySeconds(this.random);lane.delay={key,seconds,until:this.now()+seconds*1000,solution};}
+  if(this.now()<lane.delay.until){lane.state='WAITING_BEFORE_ANSWER';await this.save(s);return;}
+  delete lane.delay;
+  const actionEpoch=await this.invoke(lane.tabId,function typedActionEpoch(){return globalThis.__kublaTypedStopEpoch||0;},[],'MAIN');if(this.cancelled)return;
+  const fresh=await this.invoke(lane.tabId,readProblemDOM,['read']);if(this.cancelled)return;if(!fresh?.ok||fresh.document.fingerprint!==key){await this.pause(s,lane,'PROBLEM_CHANGED_DURING_WAIT');return;}
+  if(fresh.document.response.slots.some(slot=>slot.value.trim()||slot.disabled)){await this.pause(s,lane,'ANSWER_FIELD_NOT_EMPTY');return;}
+  if(d.response.kind==='choice'){
+   const current=await this.invoke(lane.tabId,choiceDOM,['inspect',{url:d.url}]);if(this.cancelled)return;if(!current?.ok||current.selected.length){await this.pause(s,lane,current?.error||'ANSWER_FIELD_NOT_EMPTY');return;}
+   if(!solution.choice||!Number.isInteger(solution.choice.index)){await this.pause(s,lane,'CHOICE_NO_VERIFIED_MATCH');return;}
+   lane.problem={key,identity:await problemIdentity(d),typed:true,typedChoice:true,solution,choiceToken:current.token,choiceIndex:solution.choice.index,phase:'ENTERING',at:this.now()};lane.state='ENTERING_ANSWER';await this.save(s);if(this.cancelled)return;
+   const selected=await this.invoke(lane.tabId,choiceDOM,['select',{url:d.url,token:current.token},{index:solution.choice.index}]);if(this.cancelled)return;if(!selected?.ok){await this.pause(s,lane,selected?.error||'CHOICE_SELECTION_NOT_OBSERVED');return;}
+   lane.problem.phase='READY_TO_CHECK';lane.problem.at=this.now();lane.state='ANSWER_ENTERED';await this.save(s);return;
+  }
+  lane.problem={key,identity:await problemIdentity(d),typed:true,solution,actionEpoch,phase:'ENTERING',at:this.now()};lane.state='ENTERING_ANSWER';await this.save(s);if(this.cancelled)return;
+  const expected={url:d.url,fingerprint:key,guard:fresh.guard,boundaryPath:fresh.boundaryPath,slots:fresh.document.response.slots,actionEpoch};
+  const entry=await this.invoke(lane.tabId,typedInputDOM,['fill',expected,solution.answer],'MAIN');if(this.cancelled)return;
+  if(!entry?.ok){await this.pause(s,lane,entry?.error||'TYPED_ENTRY_NOT_OBSERVED');return;}
+  if(!await verifyProblemAnswer(this.api,d,solution,{fields:entry.fields})){if(!this.cancelled)await this.pause(s,lane,'TYPED_INPUT_READBACK_MISMATCH');return;}if(this.cancelled)return;
+  lane.problem.phase='READY_TO_CHECK';lane.problem.at=this.now();lane.state='ANSWER_ENTERED';await this.save(s);
+ }
  async tick(tabId){
   const s=await this.get();if(!s.running||this.cancelled)return {ok:true,running:false};
   try{
@@ -246,7 +296,7 @@ export class DualRunner{
   const resultWatch=s.running&&pending?.problem?.acceptedFinal&&['NEXT_CLICKED','FINISH_CLICKED'].includes(pending.problem.phase)&&pending.tabId===tabId;
   return {ok:true,running:s.running,nextPulseMs:resultWatch?1000:nextPulseMs};
  }
- async resume(){const s=await this.get();if(!s.running)throw Error('START_A_NEW_RUN');this.cancelled=false;for(const l of Object.values(s.lanes))if(l.state==='PAUSED'){if(l.error==='PROBLEM_CHANGED_DURING_WAIT')delete l.delay;l.state='READING';l.error='';l.started=this.now();if(l.problem?.phase==='ENTERING')l.problem=null;}await this.save(s);await this.signal(s);return {ok:true,run:this.public(s)};}
+ async resume(){const s=await this.get();if(!s.running)throw Error('START_A_NEW_RUN');this.cancelled=false;for(const l of Object.values(s.lanes))if(l.state==='PAUSED'){if(l.error==='PROBLEM_CHANGED_DURING_WAIT')delete l.delay;l.state='READING';l.error='';l.started=this.now();if(l.problem?.phase==='ENTERING'&&!l.problem.typed)l.problem=null;}await this.save(s);await this.signal(s);return {ok:true,run:this.public(s)};}
  async frame(sender){const s=await this.get();const lane=s.lanes.video;if(s.running&&lane?.tabId===sender.tab.id&&cleanURL(sender.tab.url)===s.jobs.video[lane.index]){lane.frameIds||=[0];if(!lane.frameIds.includes(sender.frameId)){lane.frameIds.push(sender.frameId);await this.save(s);}}return {ok:true};}
  async hello(sender){const s=await this.get();const active=s.running&&!this.cancelled&&(s.state==='DISCOVERING'&&s.sourceTab===sender.tab.id||Object.values(s.lanes).some(l=>l.tabId===sender.tab.id&&!['DONE','PAUSED'].includes(l.state)));return {ok:true,running:active,revision:s.revision};}
  async recoverAlarm(){const s=await this.get();if(s.running)await this.api.alarms.create(ALARM,{periodInMinutes:.5});}

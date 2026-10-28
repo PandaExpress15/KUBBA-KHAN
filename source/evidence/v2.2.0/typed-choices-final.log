@@ -1,0 +1,7 @@
+PASS typed-choice public read-only documents preserve domain, ordered steps and requested factor form
+PASS actual semantic HTTP option proofs [[true,false,false],[false,true,false],[true,false,false]]
+TYPED CHOICE DELAY 1 27
+TYPED CHOICE DELAY 2 29
+TYPED CHOICE DELAY 3 24
+PASS actual typed controller declines unknown and duplicate equivalent options without selection or Check
+PASS actual typed-choice controller: no-solution domain, first-error Step 2, required factored form; three once-only selections/Checks, Next/Done {"counts":{"answers":3,"exercise":1,"video":0},"selected":[0,1,0],"delays":[27,29,24]}

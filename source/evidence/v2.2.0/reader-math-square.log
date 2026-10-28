@@ -1,0 +1,2 @@
+PASS actual Chrome read + actual Python HTTP square-function {"kind":"field-map","fields":{"s0":"3","s1":"-4"},"latexFields":{"s0":"3","s1":"-4"}}
+PASS actual Chrome read + actual Python HTTP square-fixed-coefficient {"kind":"field-map","fields":{"s0":"3","s1":"-13"},"latexFields":{"s0":"3","s1":"-13"}}

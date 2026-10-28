@@ -1,0 +1,44 @@
+{
+  "browser": "156.0.8078.47",
+  "syntheticDOM": true,
+  "actualPythonHTTP": true,
+  "liveOwnerVerified": false,
+  "results": [
+    {
+      "name": "mixed-log-bases",
+      "passed": true,
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "evaluate",
+        "expression": "\\log_{2}(8)+log(100)",
+        "givens": {},
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "output": {
+          "kind": "expression",
+          "logBase": 10
+        },
+        "domain": "real"
+      },
+      "answer": {
+        "kind": "scalar",
+        "value": "5",
+        "fields": {
+          "s0": "5"
+        },
+        "latexFields": {
+          "s0": "5"
+        }
+      },
+      "verification": {
+        "exact": true,
+        "method": "typed-original-task",
+        "factorDomain": null
+      }
+    }
+  ]
+}

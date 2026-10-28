@@ -1,0 +1,7 @@
+PASS actual Chrome read + actual Python HTTP mixed-log-bases {"kind":"scalar","value":"5","fields":{"s0":"5"},"latexFields":{"s0":"5"}}
+PASS actual Chrome read + actual Python HTTP degree-input {"kind":"scalar","value":"1/2","fields":{"s0":"1/2"},"latexFields":{"s0":"\\frac{1}{2}"}}
+PASS actual Chrome read + actual Python HTTP inverse-trig {"kind":"scalar","value":"pi/6","fields":{"s0":"pi/6"},"latexFields":{"s0":"\\frac{\\pi}{6}"}}
+PASS actual Chrome read + actual Python HTTP inverse-trig-degrees {"kind":"scalar","value":"30","fields":{"s0":"30"},"latexFields":{"s0":"30"}}
+PASS actual Chrome read + actual Python HTTP division-one-fraction {"kind":"quotient-remainder","quotient":"x^2 + x + 1","remainder":"0","fields":{"s0":"x^2 + x + 1","s1":"0"},"latexFields":{"s0":"x^{2} + x + 1","s1":"0"}}
+PASS actual Chrome read + actual Python HTTP square-function {"kind":"field-map","fields":{"s0":"3","s1":"-4"},"latexFields":{"s0":"3","s1":"-4"}}
+PASS actual Chrome read + actual Python HTTP square-fixed-coefficient {"kind":"field-map","fields":{"s0":"3","s1":"-13"},"latexFields":{"s0":"3","s1":"-13"}}

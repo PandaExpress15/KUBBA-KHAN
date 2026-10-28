@@ -1,0 +1,104 @@
+{
+  "browser": "156.0.8078.47",
+  "extensionVersion": "2.2.0",
+  "syntheticSite": true,
+  "liveClassroomVerified": false,
+  "realPythonTypedHTTP": true,
+  "networkTimingInstrumentation": true,
+  "heldActualSolveStatus": "solved",
+  "actualFieldsAfterLateReply": [
+    "",
+    ""
+  ],
+  "stopMs": 167,
+  "lateReplyNoEntryOrCheck": true,
+  "stoppedNotResurrected": true,
+  "events": [
+    {
+      "kind": "question",
+      "assignment": "algebra",
+      "q": 0,
+      "at": 1793150530448,
+      "phase": "survey"
+    },
+    {
+      "kind": "question",
+      "assignment": "division",
+      "q": 0,
+      "at": 1793150531181,
+      "phase": "survey"
+    },
+    {
+      "kind": "question",
+      "assignment": "slope",
+      "q": 0,
+      "at": 1793150531895,
+      "phase": "survey"
+    },
+    {
+      "kind": "ratechange",
+      "assignment": "video",
+      "rate": 2,
+      "time": 0.0012,
+      "at": 1793150534363,
+      "phase": "execute"
+    },
+    {
+      "kind": "play",
+      "assignment": "video",
+      "rate": 2,
+      "time": 0.0025,
+      "at": 1793150534363,
+      "phase": "execute"
+    },
+    {
+      "kind": "question",
+      "assignment": "algebra",
+      "q": 0,
+      "at": 1793150534395,
+      "phase": "execute"
+    },
+    {
+      "kind": "ratechange",
+      "assignment": "video",
+      "rate": 1,
+      "time": 1.162,
+      "at": 1793150534943,
+      "phase": "execute"
+    }
+  ],
+  "http": [
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/solve"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/solve"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/solve"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/solve"
+    }
+  ]
+}

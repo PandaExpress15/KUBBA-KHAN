@@ -1,0 +1,12 @@
+{
+  "pass": true,
+  "oracle": "independent Python Fraction identities and restricted Python AST affine parser; no eval or SymPy oracle",
+  "counts": {
+    "rationalFeatures": 54,
+    "affineInverses": 9,
+    "inverseTables": 7,
+    "firstInvalidSteps": 9
+  },
+  "seconds": 0.326,
+  "actualLanguageModelInference": false
+}

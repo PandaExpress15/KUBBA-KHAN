@@ -1,0 +1,19 @@
+{
+  "browser": "156.0.8078.47",
+  "syntheticSite": true,
+  "liveClassroomVerified": false,
+  "cases": [
+    "two real no-global MQ clipboard modes plus native, readback and atomic Check",
+    "changed field after readback rejected",
+    "fraction structures in both MQ clipboard modes bind exact observed LaTeX to rendered DOM",
+    "identical math and fields with changed external question ordinal cannot pass atomic Check",
+    "changed public graph label referenced outside the question boundary rejects atomic Check",
+    "entire slate preflight preserves later existing work before earlier entry",
+    "copy-disabled later MQ leaves entire slate empty",
+    "public MQ DOM changed during copy cannot bind stale clipboard readback",
+    "same plain text but changed superscript structure during copy rejects stale readback",
+    "Stop epoch during awaited copy prevents every future insertion and Check",
+    "stale public question guard rejects before mutation",
+    "disabled slot preflight prevents all entry"
+  ]
+}

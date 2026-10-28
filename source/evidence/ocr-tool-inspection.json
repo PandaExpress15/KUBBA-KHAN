@@ -1,0 +1,14 @@
+{
+  "tool": "Tesseract OCR",
+  "officialSource": "https://github.com/tesseract-ocr/tesseract",
+  "version": "tesseract 5.5.0",
+  "installedBinarySha256": "74b76a5b994adcc18be362bf64ed5118082b2401d5d9a35242e92fc4c62e2b4b",
+  "license": "Apache-2.0",
+  "inspectedLicenseUrl": "https://raw.githubusercontent.com/tesseract-ocr/tesseract/5.5.0/LICENSE",
+  "licenseSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "adoption": "Reuse optional preinstalled binary; no binary/model distribution or system installation",
+  "runtimeDependenciesAdded": [],
+  "imageHandling": "Only bounded sanitized PNG; no URL fetch; fixed eng/psm6/TSV; parent private temp cleanup; own subprocess-group CPU/memory/file/wall caps",
+  "evidence": "ACTUAL local OCR on synthetic printed fixtures; no owner data; no model inference or math certification",
+  "knownObservedError": "x^2 was transcribed as x*2; axis labels merged; all OCR stays explicitly unverified"
+}

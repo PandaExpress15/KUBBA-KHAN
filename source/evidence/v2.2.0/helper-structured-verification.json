@@ -1,0 +1,38 @@
+{
+  "schema": "kubla-helper-verification-v1",
+  "release": "2.2.0",
+  "environment": "isolated cloud Linux; not owner desktop",
+  "command": "python source/tests/helper_structured_test.py",
+  "exitCode": 0,
+  "tests": 18,
+  "elapsedSeconds": 9.628,
+  "result": "OK",
+  "modelEvidence": "SCRIPTED Ollama protocol fixtures; actual HTTP and exact SymPy; no real model inference",
+  "checks": [
+    "original x^2/x=0 yields empty solution set",
+    "task/original-expression mismatch rejected",
+    "typed response readback independently verified",
+    "wrong model field stays review",
+    "model interpretation cannot authorize substitute task",
+    "scoped model context excludes URL/selectors/existing answers/selections",
+    "cancelled client kills waiting child and releases reasoning slot under one second",
+    "strict Origin/token on all typed endpoints",
+    "unknown formal directive can recover only through independent complete-directive/expression/slot binder",
+    "model cannot drop additional conditions or invent output precision/domain/slots",
+    "nonfinite numeric JSON and reserved keys/slot IDs rejected"
+  ],
+  "hashes": {
+    "helper/server.py": "970f4afaa1c6596971ace544a4c415394dfd727332af74dba0c94c6fb042c10f",
+    "helper/reasoner.py": "542e0b6a333895ce50936b92b5db6962b60cf54eb7277862c2987fd8a8dcacea",
+    "helper/worker.py": "266ecb11f50b6b8d25451a09dbcf8a317352b783988ae057582d4b3e94da52fe",
+    "helper/problem_document.py": "ad466130b253fa378cb7cf15a535f1aee8b37ba7b2afab5d737bc4565825058e",
+    "helper/diagnose.py": "8b8442118f89f3743d8993ed176a941099a9fe4afa3585a7a5e531a6a64e5170",
+    "helper/start.sh": "ee4e1a712d99a7f9ce6d6cfef000cc1a6bfc9af2e497ff3faced8de69bdac345",
+    "tests/helper_reasoning_test.py": "b7620d12d2354c9a076de2344118a3a1b969b83899fc303c798a72a88d736945",
+    "tests/helper_structured_test.py": "ecab8e2950c07fd8ee7f3ad068ee2559fc8ebd5879ea4d3263d9ccba60b496b7",
+    "helper/README.md": "3bd7bf7f07ac8f10e7e799bd24cc332f19bc1f97a587f620fcacc732e9219c91"
+  },
+  "log": "../evidence/helper-structured-tests.log",
+  "scope": "Structured helper HTTP/protocol suite, not the complete Python suite",
+  "finalOwnedSourceEvidence": "source/evidence/local-helper-final.json"
+}

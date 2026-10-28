@@ -1,0 +1,1267 @@
+{
+  "browser": "156.0.8078.47",
+  "extensionVersion": "2.2.0",
+  "syntheticSite": true,
+  "liveClassroomVerified": false,
+  "realPythonTypedHTTP": true,
+  "permissionFixture": true,
+  "ownerPermissionApprovalUIVerified": false,
+  "independentFixedGraders": true,
+  "typedSemanticChoices": true,
+  "domainNoSolution": true,
+  "firstIncorrectStep": true,
+  "factoredForm": true,
+  "counts": {
+    "answers": 3,
+    "exercise": 1,
+    "video": 0
+  },
+  "delays": [
+    {
+      "key": "fbf471a244040dbaf6938116852418c2c39353f40a234928790d946286c6d4bb",
+      "seconds": 27,
+      "solution": {
+        "answer": {
+          "all": false,
+          "excluded": [],
+          "fields": {
+            "answer": "No solution"
+          },
+          "kind": "solution-set",
+          "latexFields": {
+            "answer": "No solution"
+          },
+          "values": []
+        },
+        "choice": {
+          "index": 0
+        },
+        "route": "local-sympy",
+        "status": "solved",
+        "verification": {
+          "exact": true,
+          "factorDomain": null,
+          "method": "typed-original-task"
+        }
+      },
+      "until": 1793151129657
+    },
+    {
+      "key": "dda0311210b8140a0294a7da2dc98b51b9e2ff8b3cd39e884031cf56497155b5",
+      "seconds": 29,
+      "solution": {
+        "answer": {
+          "fields": {
+            "answer": "2"
+          },
+          "form": "step-number",
+          "kind": "scalar",
+          "latexFields": {
+            "answer": "2"
+          },
+          "value": "2"
+        },
+        "choice": {
+          "index": 1
+        },
+        "route": "local-sympy",
+        "status": "solved",
+        "verification": {
+          "exact": true,
+          "factorDomain": null,
+          "method": "typed-original-task"
+        }
+      },
+      "until": 1793151172177
+    },
+    {
+      "key": "85d3d31d89b2d80739f040578c5ed1fe8e4e65486a15db816c28576af3ffee90",
+      "seconds": 24,
+      "solution": {
+        "answer": {
+          "fields": {
+            "answer": "(x - 1)*(x + 1)"
+          },
+          "kind": "scalar",
+          "latexFields": {
+            "answer": "\\left(x - 1\\right) \\left(x + 1\\right)"
+          },
+          "value": "(x - 1)*(x + 1)"
+        },
+        "choice": {
+          "index": 0
+        },
+        "route": "local-sympy",
+        "status": "solved",
+        "verification": {
+          "exact": true,
+          "factorDomain": "rational",
+          "method": "typed-original-task"
+        }
+      },
+      "until": 1793151214185
+    }
+  ],
+  "checks": [
+    {
+      "kind": "check",
+      "q": 0,
+      "at": 1793151131485,
+      "index": 0,
+      "correct": true,
+      "scenario": "positive"
+    },
+    {
+      "kind": "check",
+      "q": 1,
+      "at": 1793151176482,
+      "index": 1,
+      "correct": true,
+      "scenario": "positive"
+    },
+    {
+      "kind": "check",
+      "q": 2,
+      "at": 1793151218554,
+      "index": 0,
+      "correct": true,
+      "scenario": "positive"
+    }
+  ],
+  "events": [
+    {
+      "kind": "question",
+      "q": 0,
+      "at": 1793151101224,
+      "scenario": "positive"
+    },
+    {
+      "kind": "select",
+      "q": 0,
+      "at": 1793151129670,
+      "index": 0,
+      "scenario": "positive"
+    },
+    {
+      "kind": "check",
+      "q": 0,
+      "at": 1793151131485,
+      "index": 0,
+      "correct": true,
+      "scenario": "positive"
+    },
+    {
+      "kind": "next",
+      "q": 0,
+      "at": 1793151133683,
+      "scenario": "positive"
+    },
+    {
+      "kind": "question",
+      "q": 1,
+      "at": 1793151133683,
+      "scenario": "positive"
+    },
+    {
+      "kind": "select",
+      "q": 1,
+      "at": 1793151172188,
+      "index": 1,
+      "scenario": "positive"
+    },
+    {
+      "kind": "check",
+      "q": 1,
+      "at": 1793151176482,
+      "index": 1,
+      "correct": true,
+      "scenario": "positive"
+    },
+    {
+      "kind": "next",
+      "q": 1,
+      "at": 1793151180495,
+      "scenario": "positive"
+    },
+    {
+      "kind": "question",
+      "q": 2,
+      "at": 1793151180497,
+      "scenario": "positive"
+    },
+    {
+      "kind": "select",
+      "q": 2,
+      "at": 1793151214199,
+      "index": 0,
+      "scenario": "positive"
+    },
+    {
+      "kind": "check",
+      "q": 2,
+      "at": 1793151218554,
+      "index": 0,
+      "correct": true,
+      "scenario": "positive"
+    },
+    {
+      "kind": "done",
+      "q": 2,
+      "at": 1793151221184,
+      "scenario": "positive"
+    }
+  ],
+  "negativeRuns": [
+    {
+      "scenario": "unknown",
+      "code": "CHOICE_OPTION_INTERPRETATION_UNKNOWN",
+      "counts": {
+        "answers": 0,
+        "exercise": 0,
+        "video": 0
+      },
+      "events": [
+        {
+          "kind": "question",
+          "q": 2,
+          "at": 1793151222990,
+          "scenario": "unknown"
+        }
+      ]
+    },
+    {
+      "scenario": "duplicate",
+      "code": "CHOICE_AMBIGUOUS_MATCH",
+      "counts": {
+        "answers": 0,
+        "exercise": 0,
+        "video": 0
+      },
+      "events": [
+        {
+          "kind": "question",
+          "q": 2,
+          "at": 1793151224541,
+          "scenario": "duplicate"
+        }
+      ]
+    }
+  ],
+  "http": [
+    {
+      "path": "/v1/health"
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "equation",
+      "option": {
+        "index": 0,
+        "expression": "No solution",
+        "text": "No solution"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "equation",
+      "option": {
+        "index": 1,
+        "expression": "0",
+        "text": "0"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "equation",
+      "option": {
+        "index": 2,
+        "expression": "All real numbers",
+        "text": "All real numbers"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "error-analysis",
+      "option": {
+        "index": 0,
+        "expression": "Step 1",
+        "text": "Step 1"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "error-analysis",
+      "option": {
+        "index": 1,
+        "expression": "Step 2",
+        "text": "Step 2"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "error-analysis",
+      "option": {
+        "index": 2,
+        "expression": "No error",
+        "text": "No error"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "factor",
+      "option": {
+        "index": 0,
+        "expression": "(x-1)(x+1)",
+        "text": "(x-1)(x+1)"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "factor",
+      "option": {
+        "index": 1,
+        "expression": "x^2-1",
+        "text": "x^2-1"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "factor",
+      "option": {
+        "index": 2,
+        "expression": "(x-1)^2",
+        "text": "(x-1)^2"
+      }
+    },
+    {
+      "path": "/v2/task/solve",
+      "task": "equation"
+    },
+    {
+      "path": "/v2/task/verify",
+      "task": "equation"
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "equation",
+      "option": {
+        "expression": "No solution",
+        "index": 0,
+        "selected": false,
+        "text": "No solution"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "equation",
+      "option": {
+        "expression": "0",
+        "index": 1,
+        "selected": false,
+        "text": "0"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "equation",
+      "option": {
+        "expression": "All real numbers",
+        "index": 2,
+        "selected": false,
+        "text": "All real numbers"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "equation",
+      "option": {
+        "expression": "No solution",
+        "index": 0,
+        "selected": true,
+        "text": "No solution"
+      }
+    },
+    {
+      "path": "/v2/task/solve",
+      "task": "error-analysis"
+    },
+    {
+      "path": "/v2/task/verify",
+      "task": "error-analysis"
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "error-analysis",
+      "option": {
+        "expression": "Step 1",
+        "index": 0,
+        "selected": false,
+        "text": "Step 1"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "error-analysis",
+      "option": {
+        "expression": "Step 2",
+        "index": 1,
+        "selected": false,
+        "text": "Step 2"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "error-analysis",
+      "option": {
+        "expression": "No error",
+        "index": 2,
+        "selected": false,
+        "text": "No error"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "error-analysis",
+      "option": {
+        "expression": "Step 2",
+        "index": 1,
+        "selected": true,
+        "text": "Step 2"
+      }
+    },
+    {
+      "path": "/v2/task/solve",
+      "task": "factor"
+    },
+    {
+      "path": "/v2/task/verify",
+      "task": "factor"
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "factor",
+      "option": {
+        "expression": "(x-1)(x+1)",
+        "index": 0,
+        "selected": false,
+        "text": "(x-1)(x+1)"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "factor",
+      "option": {
+        "expression": "x^2-1",
+        "index": 1,
+        "selected": false,
+        "text": "x^2-1"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "factor",
+      "option": {
+        "expression": "(x-1)^2",
+        "index": 2,
+        "selected": false,
+        "text": "(x-1)^2"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "factor",
+      "option": {
+        "expression": "(x-1)(x+1)",
+        "index": 0,
+        "selected": true,
+        "text": "(x-1)(x+1)"
+      }
+    },
+    {
+      "path": "/v2/task/solve",
+      "task": "factor"
+    },
+    {
+      "path": "/v2/task/verify",
+      "task": "factor"
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "factor",
+      "option": {
+        "expression": "(x-1)(x+1)",
+        "index": 0,
+        "selected": false,
+        "text": "(x-1)(x+1)"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "factor",
+      "option": {
+        "expression": "Notamathematicaloption",
+        "index": 1,
+        "selected": false,
+        "text": "Notamathematicaloption"
+      }
+    },
+    {
+      "path": "/v2/task/solve",
+      "task": "factor"
+    },
+    {
+      "path": "/v2/task/verify",
+      "task": "factor"
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "factor",
+      "option": {
+        "expression": "(x-1)(x+1)",
+        "index": 0,
+        "selected": false,
+        "text": "(x-1)(x+1)"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "factor",
+      "option": {
+        "expression": "(x+1)(x-1)",
+        "index": 1,
+        "selected": false,
+        "text": "(x+1)(x-1)"
+      }
+    },
+    {
+      "path": "/v2/task/compare-option",
+      "task": "factor",
+      "option": {
+        "expression": "(x-1)^2",
+        "index": 2,
+        "selected": false,
+        "text": "(x-1)^2"
+      }
+    }
+  ],
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": true,
+        "kind": "solution-set",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "326d9d8f203eb57748fa22ed741f65ea122c5a7d1ba6228b8c91e27739e69869",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "solution-set",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "326d9d8f203eb57748fa22ed741f65ea122c5a7d1ba6228b8c91e27739e69869",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "solution-set",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "326d9d8f203eb57748fa22ed741f65ea122c5a7d1ba6228b8c91e27739e69869",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "70ad33ea0639b71798736f481d0db42326f200a7147d2e9760e928ebde2a2511",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": true,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "70ad33ea0639b71798736f481d0db42326f200a7147d2e9760e928ebde2a2511",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "70ad33ea0639b71798736f481d0db42326f200a7147d2e9760e928ebde2a2511",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": true,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "94b426511045eb7e13ef95a7d2947d506e3c1c21f7ba01d4f35027c2e51f3567",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "94b426511045eb7e13ef95a7d2947d506e3c1c21f7ba01d4f35027c2e51f3567",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "94b426511045eb7e13ef95a7d2947d506e3c1c21f7ba01d4f35027c2e51f3567",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": true,
+        "kind": "solution-set",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "fbf471a244040dbaf6938116852418c2c39353f40a234928790d946286c6d4bb",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "solution-set",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "fbf471a244040dbaf6938116852418c2c39353f40a234928790d946286c6d4bb",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "solution-set",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "fbf471a244040dbaf6938116852418c2c39353f40a234928790d946286c6d4bb",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": true,
+        "kind": "solution-set",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "fbf471a244040dbaf6938116852418c2c39353f40a234928790d946286c6d4bb",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "dda0311210b8140a0294a7da2dc98b51b9e2ff8b3cd39e884031cf56497155b5",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": true,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "dda0311210b8140a0294a7da2dc98b51b9e2ff8b3cd39e884031cf56497155b5",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "dda0311210b8140a0294a7da2dc98b51b9e2ff8b3cd39e884031cf56497155b5",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": true,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "dda0311210b8140a0294a7da2dc98b51b9e2ff8b3cd39e884031cf56497155b5",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": true,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "85d3d31d89b2d80739f040578c5ed1fe8e4e65486a15db816c28576af3ffee90",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "85d3d31d89b2d80739f040578c5ed1fe8e4e65486a15db816c28576af3ffee90",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "85d3d31d89b2d80739f040578c5ed1fe8e4e65486a15db816c28576af3ffee90",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": true,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "85d3d31d89b2d80739f040578c5ed1fe8e4e65486a15db816c28576af3ffee90",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": true,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "8795bf1a791fd7409b61678d7e97da3613b6c971191464c50e2ebabed3bd739d",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": false,
+        "equivalent": null,
+        "reason": "UNKNOWN_IDENTIFIER",
+        "verification": {
+          "exact": false,
+          "method": "not-proven"
+        },
+        "binding": {
+          "fingerprint": "8795bf1a791fd7409b61678d7e97da3613b6c971191464c50e2ebabed3bd739d",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": true,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "5182d0a61d28806b061c8c5c06d03896c1a8d7058945e9b5dfcd43f9d205b663",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": true,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "5182d0a61d28806b061c8c5c06d03896c1a8d7058945e9b5dfcd43f9d205b663",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "interpreted": true,
+        "equivalent": false,
+        "kind": "scalar",
+        "verification": {
+          "exact": true,
+          "method": "typed-option-proof"
+        },
+        "binding": {
+          "fingerprint": "5182d0a61d28806b061c8c5c06d03896c1a8d7058945e9b5dfcd43f9d205b663",
+          "schema": "kubla-problem-v1"
+        }
+      }
+    }
+  ],
+  "reads": [
+    {
+      "ok": true,
+      "document": {
+        "schema": "kubla-problem-v1",
+        "url": "https://classroom.khanacademy.org/learner/class/TYPEDCHOICES/assignment/1?q=0",
+        "original": {
+          "instruction": "Solve the equation.\nChoose 1 answer Required",
+          "text": "Solve the equation. <math> x^2/x=0 </math> Choose 1 answer Required <response> No solution <response> 0 <response> All real numbers",
+          "expressions": [
+            {
+              "source": "data-tex",
+              "text": "x^2/x=0"
+            }
+          ],
+          "ordinal": 1,
+          "total": 3
+        },
+        "task": {
+          "schema": "kubla-task-v1",
+          "task": "equation",
+          "expression": "x^2/x=0",
+          "givens": {},
+          "slots": [],
+          "output": {
+            "kind": "solution-set"
+          },
+          "domain": "real"
+        },
+        "response": {
+          "kind": "choice",
+          "slots": [],
+          "choices": [
+            {
+              "index": 0,
+              "expression": "No solution",
+              "text": "No solution",
+              "selected": false
+            },
+            {
+              "index": 1,
+              "expression": "0",
+              "text": "0",
+              "selected": false
+            },
+            {
+              "index": 2,
+              "expression": "All real numbers",
+              "text": "All real numbers",
+              "selected": false
+            }
+          ]
+        },
+        "evidence": {
+          "tables": [],
+          "graph": {
+            "relevant": false,
+            "interactiveResponse": false,
+            "labels": [],
+            "incidentalCount": 0
+          }
+        },
+        "notation": {
+          "mixedNumber": false,
+          "angleUnit": null,
+          "logBase": null
+        },
+        "fingerprint": "326d9d8f203eb57748fa22ed741f65ea122c5a7d1ba6228b8c91e27739e69869"
+      },
+      "probe": {
+        "stage": "verification",
+        "choiceReadState": "READY",
+        "slots": 0,
+        "choices": 3,
+        "expressions": 1,
+        "tables": 0,
+        "relevantGraph": false,
+        "interactiveGraph": false,
+        "incidentalGraphs": 0,
+        "task": "equation"
+      },
+      "guard": "[\"Solve the equation.\",\"<math>\",\"x^2/x=0\",\"</math>\",\"Choose 1 answer Required\",\"<response>\",\"No solution\",\"<response>\",\"0\",\"<response>\",\"All real numbers\",\"<ordinal>\",\"1 of 3 questions\",\"</ordinal>\"]",
+      "boundaryPath": [
+        1
+      ]
+    },
+    {
+      "ok": true,
+      "document": {
+        "schema": "kubla-problem-v1",
+        "url": "https://classroom.khanacademy.org/learner/class/TYPEDCHOICES/assignment/1?q=1",
+        "original": {
+          "instruction": "Find the first incorrect step.\nStep 1: <math> (x+1)^2 </math>\nStep 2: <math> x^2+1 </math>\nChoose 1 answer Required",
+          "text": "Find the first incorrect step. Step 1: <math> (x+1)^2 </math> Step 2: <math> x^2+1 </math> Choose 1 answer Required <response> Step 1 <response> Step 2 <response> No error",
+          "expressions": [
+            {
+              "source": "data-tex",
+              "text": "(x+1)^2"
+            },
+            {
+              "source": "data-tex",
+              "text": "x^2+1"
+            }
+          ],
+          "ordinal": 2,
+          "total": 3
+        },
+        "task": {
+          "schema": "kubla-task-v1",
+          "task": "error-analysis",
+          "expression": "(x+1)^2",
+          "givens": {
+            "steps": [
+              "(x+1)^2",
+              "x^2+1"
+            ]
+          },
+          "slots": [],
+          "output": {
+            "kind": "expression"
+          },
+          "domain": "real"
+        },
+        "response": {
+          "kind": "choice",
+          "slots": [],
+          "choices": [
+            {
+              "index": 0,
+              "expression": "Step 1",
+              "text": "Step 1",
+              "selected": false
+            },
+            {
+              "index": 1,
+              "expression": "Step 2",
+              "text": "Step 2",
+              "selected": false
+            },
+            {
+              "index": 2,
+              "expression": "No error",
+              "text": "No error",
+              "selected": false
+            }
+          ]
+        },
+        "evidence": {
+          "tables": [],
+          "graph": {
+            "relevant": false,
+            "interactiveResponse": false,
+            "labels": [],
+            "incidentalCount": 0
+          },
+          "steps": [
+            {
+              "number": 1,
+              "expression": "(x+1)^2"
+            },
+            {
+              "number": 2,
+              "expression": "x^2+1"
+            }
+          ]
+        },
+        "notation": {
+          "mixedNumber": false,
+          "angleUnit": null,
+          "logBase": null
+        },
+        "fingerprint": "70ad33ea0639b71798736f481d0db42326f200a7147d2e9760e928ebde2a2511"
+      },
+      "probe": {
+        "stage": "verification",
+        "choiceReadState": "READY",
+        "slots": 0,
+        "choices": 3,
+        "expressions": 2,
+        "tables": 0,
+        "relevantGraph": false,
+        "interactiveGraph": false,
+        "incidentalGraphs": 0,
+        "task": "error-analysis"
+      },
+      "guard": "[\"Find the first incorrect step.\",\"Step 1:\",\"<math>\",\"(x+1)^2\",\"</math>\",\"Step 2:\",\"<math>\",\"x^2+1\",\"</math>\",\"Choose 1 answer Required\",\"<response>\",\"Step 1\",\"<response>\",\"Step 2\",\"<response>\",\"No error\",\"<ordinal>\",\"2 of 3 questions\",\"</ordinal>\"]",
+      "boundaryPath": [
+        1
+      ]
+    },
+    {
+      "ok": true,
+      "document": {
+        "schema": "kubla-problem-v1",
+        "url": "https://classroom.khanacademy.org/learner/class/TYPEDCHOICES/assignment/1?q=2",
+        "original": {
+          "instruction": "Factor the expression completely.\nChoose 1 answer Required",
+          "text": "Factor the expression completely. <math> x^2-1 </math> Choose 1 answer Required <response> <math> (x-1)(x+1) </math> <response> <math> x^2-1 </math> <response> <math> (x-1)^2 </math>",
+          "expressions": [
+            {
+              "source": "data-tex",
+              "text": "x^2-1"
+            }
+          ],
+          "ordinal": 3,
+          "total": 3
+        },
+        "task": {
+          "schema": "kubla-task-v1",
+          "task": "factor",
+          "expression": "x^2-1",
+          "givens": {},
+          "slots": [],
+          "output": {
+            "kind": "expression"
+          },
+          "domain": "rational"
+        },
+        "response": {
+          "kind": "choice",
+          "slots": [],
+          "choices": [
+            {
+              "index": 0,
+              "expression": "(x-1)(x+1)",
+              "text": "(x-1)(x+1)",
+              "selected": false
+            },
+            {
+              "index": 1,
+              "expression": "x^2-1",
+              "text": "x^2-1",
+              "selected": false
+            },
+            {
+              "index": 2,
+              "expression": "(x-1)^2",
+              "text": "(x-1)^2",
+              "selected": false
+            }
+          ]
+        },
+        "evidence": {
+          "tables": [],
+          "graph": {
+            "relevant": false,
+            "interactiveResponse": false,
+            "labels": [],
+            "incidentalCount": 0
+          }
+        },
+        "notation": {
+          "mixedNumber": false,
+          "angleUnit": null,
+          "logBase": null
+        },
+        "fingerprint": "94b426511045eb7e13ef95a7d2947d506e3c1c21f7ba01d4f35027c2e51f3567"
+      },
+      "probe": {
+        "stage": "verification",
+        "choiceReadState": "READY",
+        "slots": 0,
+        "choices": 3,
+        "expressions": 1,
+        "tables": 0,
+        "relevantGraph": false,
+        "interactiveGraph": false,
+        "incidentalGraphs": 0,
+        "task": "factor"
+      },
+      "guard": "[\"Factor the expression completely.\",\"<math>\",\"x^2-1\",\"</math>\",\"Choose 1 answer Required\",\"<response>\",\"<math>\",\"(x-1)(x+1)\",\"</math>\",\"<response>\",\"<math>\",\"x^2-1\",\"</math>\",\"<response>\",\"<math>\",\"(x-1)^2\",\"</math>\",\"<ordinal>\",\"3 of 3 questions\",\"</ordinal>\"]",
+      "boundaryPath": [
+        1
+      ]
+    }
+  ],
+  "pageErrors": []
+}

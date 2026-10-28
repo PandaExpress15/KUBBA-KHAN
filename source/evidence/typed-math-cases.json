@@ -1,0 +1,628 @@
+{
+  "evidenceKind": "direct-local-exact-engine-not-owner-site",
+  "version": "2.2.0",
+  "cases": [
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "equation",
+        "expression": "x^2/x=0"
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "solution-set",
+          "values": [],
+          "all": false,
+          "excluded": [],
+          "fields": {
+            "answer": "No solution"
+          },
+          "latexFields": {
+            "answer": "No solution"
+          }
+        },
+        "domain": [
+          {
+            "kind": "nonzero",
+            "expression": "x"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "equation",
+        "expression": "x/x=1"
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "solution-set",
+          "values": [],
+          "all": true,
+          "excluded": [
+            "0"
+          ],
+          "fields": {
+            "answer": "All real numbers except {0}"
+          },
+          "latexFields": {
+            "answer": "All real numbers except {0}"
+          }
+        },
+        "domain": [
+          {
+            "kind": "nonzero",
+            "expression": "x"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "equation",
+        "expression": "x^2=4"
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "solution-set",
+          "values": [
+            "-2",
+            "2"
+          ],
+          "all": false,
+          "excluded": [],
+          "fields": {
+            "answer": "{-2,2}"
+          },
+          "latexFields": {
+            "answer": "{-2,2}"
+          }
+        },
+        "domain": [],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "equation",
+        "expression": "sqrt(x+1)=x-1"
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "solution-set",
+          "values": [
+            "3"
+          ],
+          "all": false,
+          "excluded": [],
+          "fields": {
+            "answer": "3"
+          },
+          "latexFields": {
+            "answer": "3"
+          }
+        },
+        "domain": [
+          {
+            "kind": "nonnegative",
+            "expression": "x + 1"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "evaluate",
+        "expression": "(-8)^(2/3)"
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "scalar",
+          "value": "4",
+          "fields": {
+            "answer": "4"
+          },
+          "latexFields": {
+            "answer": "4"
+          }
+        },
+        "domain": [
+          {
+            "kind": "nonzero",
+            "expression": "3"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "evaluate",
+        "expression": "\\log_{2}(8)"
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "scalar",
+          "value": "3",
+          "fields": {
+            "answer": "3"
+          },
+          "latexFields": {
+            "answer": "3"
+          }
+        },
+        "domain": [
+          {
+            "kind": "positive",
+            "expression": "8"
+          },
+          {
+            "kind": "positive",
+            "expression": "2"
+          },
+          {
+            "kind": "nonzero",
+            "expression": "1"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "evaluate",
+        "expression": "asin(1/2)",
+        "output": {
+          "angleUnit": "degrees"
+        }
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "scalar",
+          "value": "30",
+          "fields": {
+            "answer": "30"
+          },
+          "latexFields": {
+            "answer": "30"
+          }
+        },
+        "domain": [
+          {
+            "kind": "nonzero",
+            "expression": "2"
+          },
+          {
+            "kind": "unit",
+            "expression": "1/2"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "complete-square",
+        "expression": "2*x^2+8*x+3",
+        "givens": {
+          "template": "2*(x-{v})^2+{c}"
+        },
+        "slots": [
+          {
+            "id": "v",
+            "role": "vertex"
+          },
+          {
+            "id": "c",
+            "role": "constant"
+          }
+        ]
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "field-map",
+          "fields": {
+            "v": "-2",
+            "c": "-5"
+          },
+          "latexFields": {
+            "v": "-2",
+            "c": "-5"
+          }
+        },
+        "domain": [],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "divide",
+        "givens": {
+          "dividend": "x^3+2*x+1",
+          "divisor": "x+1"
+        },
+        "slots": [
+          {
+            "id": "q",
+            "role": "quotient"
+          },
+          {
+            "id": "r",
+            "role": "remainder"
+          }
+        ]
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "quotient-remainder",
+          "quotient": "x^2 - x + 3",
+          "remainder": "-2",
+          "fields": {
+            "q": "x^2 - x + 3",
+            "r": "-2"
+          },
+          "latexFields": {
+            "q": "x^{2} - x + 3",
+            "r": "-2"
+          }
+        },
+        "domain": [],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "point-slope",
+        "givens": {
+          "points": [
+            [
+              "2",
+              "3"
+            ]
+          ],
+          "slope": "4"
+        }
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "equation",
+          "equation": "y-(3)=(4)*(x-(2))",
+          "form": "point-slope",
+          "fields": {
+            "answer": "y-(3)=(4)*(x-(2))"
+          },
+          "latexFields": {
+            "answer": "y-(3)=(4)*(x-(2))"
+          }
+        },
+        "domain": [],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "average-rate",
+        "givens": {
+          "points": [
+            [
+              "0",
+              "0"
+            ],
+            [
+              "1",
+              "1"
+            ],
+            [
+              "2",
+              "4"
+            ]
+          ],
+          "interval": [
+            "0",
+            "2"
+          ]
+        }
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "scalar",
+          "value": "2",
+          "fields": {
+            "answer": "2"
+          },
+          "latexFields": {
+            "answer": "2"
+          }
+        },
+        "domain": [],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "factor",
+        "expression": "x^5-x^4+3*x-3",
+        "domain": "rational"
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "scalar",
+          "value": "(x - 1)*(x^4 + 3)",
+          "fields": {
+            "answer": "(x - 1)*(x^4 + 3)"
+          },
+          "latexFields": {
+            "answer": "\\left(x - 1\\right) \\left(x^{4} + 3\\right)"
+          }
+        },
+        "domain": [],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": "rational"
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "simplify",
+        "expression": "(x^2-1)/(x-1)"
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "scalar",
+          "value": "x + 1",
+          "fields": {
+            "answer": "x + 1"
+          },
+          "latexFields": {
+            "answer": "x + 1"
+          }
+        },
+        "domain": [
+          {
+            "kind": "nonzero",
+            "expression": "x - 1"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "evaluate",
+        "expression": "sqrt(2)",
+        "output": {
+          "decimalPlaces": 2
+        }
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "scalar",
+          "value": "1.41",
+          "fields": {
+            "answer": "1.41"
+          },
+          "latexFields": {
+            "answer": "1.41"
+          }
+        },
+        "domain": [
+          {
+            "kind": "nonnegative",
+            "expression": "2"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "recomputedReadback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      }
+    }
+  ]
+}

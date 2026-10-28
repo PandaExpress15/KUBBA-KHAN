@@ -1,0 +1,10 @@
+{
+  "source": "https://github.com/Khan/perseus/tree/main/packages/kas/src",
+  "finding": "Public grammar maps ln to Log.natural(), bare log to Log.common(), log with subscript to explicit base; implementations return e and 10 respectively.",
+  "role": "Platform mathematical notation semantics only; no live private answer or grade APIs.",
+  "execution": "Downloaded source inspected, not executed.",
+  "files": {
+    "kas-parser-generator.ts": "bc488778031ce85f2d71e170041e84c8b3d19527431ad6c1d712168f9feedce2",
+    "kas-nodes.ts": "84a7e398af3636a97f37d26baf5a6ea0d0c070746e98be1b32f658967902a642"
+  }
+}

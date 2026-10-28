@@ -1,0 +1,16 @@
+FILL {"epoch":0,"error":"EDITOR_CHANGED_DURING_READBACK","ok":false}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"epoch":0,"error":"EDITOR_CHANGED_DURING_READBACK","ok":false}
+    at file:///workspace/khan-runner-isolated/turn-rebuild-v2.2.0/source/tests/browser-typed-input.mjs:24:119 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

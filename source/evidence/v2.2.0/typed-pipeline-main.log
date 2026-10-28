@@ -1,0 +1,7 @@
+PASS typed readonly survey all representative tasks ready
+TYPED DELAY 1 25
+TYPED DELAY 2 30
+TYPED DELAY 3 18
+TYPED DELAY 4 16
+TYPED DELAY 5 15
+PASS typed pipeline actual HTTP + no-global MQ/native + complete-square/log/equation/division/table-slope + real video {"counts":{"answers":5,"exercise":3,"video":1},"delays":[25,30,18,16,15]}

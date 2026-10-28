@@ -1,0 +1,205 @@
+{
+  "browser": "156.0.8078.47",
+  "extensionVersion": "2.2.0",
+  "syntheticSite": true,
+  "liveClassroomVerified": false,
+  "permissionFixture": true,
+  "ownerPermissionApprovalUIVerified": false,
+  "actualClipboardWritePassThrough": true,
+  "clipboardReadVerified": false,
+  "fileListProgrammatic": true,
+  "osFileChooserVerified": false,
+  "realPythonHelper": true,
+  "realTesseract": true,
+  "reasoningConfigured": false,
+  "healthCaption": "Typed exact solver 2.2.0 connected · reasoning model DISABLED. Start helper with KUBLA_REASONING_MODEL set.",
+  "launchCommand": "sh helper/start.sh lcnmaaopcedoiggpelnclmpodjmffbco 9103",
+  "sample": {
+    "schema": "kubla-question-sample-v1",
+    "original": {
+      "instruction": "Factor the expression completely.\nChoose 1 answer Required",
+      "text": "Factor the expression completely. <math> x^2-1 </math> Answer <response> Disabled <response> Read only <response> <response> <response> <response> Choose 1 answer Required <response> 1 <response> 2",
+      "expressions": [
+        {
+          "source": "data-tex",
+          "text": "x^2-1"
+        }
+      ],
+      "ordinal": 1,
+      "total": 3
+    },
+    "task": null,
+    "response": {
+      "kind": "choice",
+      "slots": [
+        {
+          "id": "s0",
+          "role": "unknown",
+          "kind": "native",
+          "label": "Answer",
+          "disabled": false,
+          "hasExistingWork": true
+        },
+        {
+          "id": "s1",
+          "role": "unknown",
+          "kind": "native",
+          "label": "Disabled",
+          "disabled": true,
+          "hasExistingWork": true
+        },
+        {
+          "id": "s2",
+          "role": "unknown",
+          "kind": "native",
+          "label": "Read only",
+          "disabled": true,
+          "hasExistingWork": true
+        },
+        {
+          "id": "s3",
+          "role": "unknown",
+          "kind": "mathquill",
+          "label": "MathQuill answer",
+          "disabled": false,
+          "hasExistingWork": true
+        }
+      ],
+      "choices": [
+        {
+          "index": 0,
+          "expression": "1",
+          "text": "1"
+        },
+        {
+          "index": 1,
+          "expression": "2",
+          "text": "2"
+        }
+      ],
+      "hasExistingSelection": true
+    },
+    "evidence": {
+      "graph": {
+        "incidentalCount": 0,
+        "interactiveResponse": false,
+        "labels": [],
+        "relevant": false
+      },
+      "tables": []
+    },
+    "notation": {
+      "angleUnit": null,
+      "logBase": null,
+      "mixedNumber": false
+    },
+    "probe": {
+      "choiceReadState": "READY",
+      "choices": 2,
+      "expressions": 1,
+      "incidentalGraphs": 0,
+      "interactiveGraph": false,
+      "relevantGraph": false,
+      "slots": 4,
+      "stage": "interpretation",
+      "tables": 0,
+      "task": "factor",
+      "widgetInventory": {
+        "controls": [
+          {
+            "disabled": false,
+            "labelSource": "label",
+            "readonly": false,
+            "role": null,
+            "tag": "input"
+          },
+          {
+            "disabled": true,
+            "labelSource": "label",
+            "readonly": false,
+            "role": null,
+            "tag": "input"
+          },
+          {
+            "disabled": false,
+            "labelSource": "label",
+            "readonly": true,
+            "role": null,
+            "tag": "input"
+          },
+          {
+            "disabled": false,
+            "labelSource": "aria-label",
+            "readonly": false,
+            "role": "mathquill",
+            "tag": "span"
+          },
+          {
+            "disabled": false,
+            "labelSource": "none",
+            "readonly": false,
+            "role": null,
+            "tag": "textarea"
+          },
+          {
+            "disabled": false,
+            "labelSource": "aria-label",
+            "readonly": false,
+            "role": null,
+            "tag": "math-field"
+          },
+          {
+            "disabled": false,
+            "labelSource": "aria-label",
+            "readonly": false,
+            "role": "textbox",
+            "tag": "div"
+          }
+        ],
+        "counts": {
+          "contenteditable": 1,
+          "iframe": 0,
+          "mathField": 1,
+          "mathquill": 1,
+          "native": 4,
+          "textbox": 1
+        },
+        "root": true
+      }
+    }
+  },
+  "transcription": "Factor: x*2 - 5*x + 6\nx axis:012 3\ny axis: -2-101",
+  "ocrVerification": {
+    "exact": false,
+    "method": "ocr-unverified"
+  },
+  "noEditorChanges": true,
+  "noCheck": true,
+  "wrongAndLegacyReceiveOnlyHealth": true,
+  "http": [
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/transcribe"
+    }
+  ],
+  "fakeRequests": [
+    {
+      "method": "POST",
+      "path": "/v1/health",
+      "body": "{}"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/health",
+      "body": "{}"
+    }
+  ]
+}

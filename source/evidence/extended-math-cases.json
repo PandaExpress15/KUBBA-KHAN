@@ -1,0 +1,744 @@
+{
+  "kind": "direct-exact-engine-not-owner-browser",
+  "independentOracleMatrices": {
+    "affineInverseFraction": 56,
+    "rationalFeatureMultiplicity": 75
+  },
+  "cases": [
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "task": "inverse-table",
+        "givens": {
+          "points": [
+            [
+              "1",
+              "3"
+            ],
+            [
+              "2",
+              "5"
+            ]
+          ],
+          "target": "3"
+        }
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "scalar",
+          "value": "1",
+          "fields": {
+            "s0": "1"
+          },
+          "latexFields": {
+            "s0": "1"
+          }
+        },
+        "domain": [],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "readback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      },
+      "correctAndUnknownOptions": [
+        {
+          "ok": true,
+          "interpreted": true,
+          "equivalent": true,
+          "kind": "scalar",
+          "verification": {
+            "exact": true,
+            "method": "typed-option-proof"
+          }
+        },
+        {
+          "ok": true,
+          "interpreted": false,
+          "equivalent": null,
+          "reason": "UNKNOWN_IDENTIFIER",
+          "verification": {
+            "exact": false,
+            "method": "not-proven"
+          }
+        }
+      ]
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "task": "inverse-affine",
+        "expression": "2*x+3"
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "scalar",
+          "value": "x/2 - 3/2",
+          "form": "inverse",
+          "fields": {
+            "s0": "x/2 - 3/2"
+          },
+          "latexFields": {
+            "s0": "\\frac{x}{2} - \\frac{3}{2}"
+          }
+        },
+        "domain": [],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "readback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      },
+      "correctAndUnknownOptions": [
+        {
+          "ok": true,
+          "interpreted": true,
+          "equivalent": true,
+          "kind": "scalar",
+          "verification": {
+            "exact": true,
+            "method": "typed-option-proof"
+          }
+        },
+        {
+          "ok": true,
+          "interpreted": false,
+          "equivalent": null,
+          "reason": "UNKNOWN_IDENTIFIER",
+          "verification": {
+            "exact": false,
+            "method": "not-proven"
+          }
+        }
+      ]
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "task": "rational-analysis",
+        "givens": {
+          "numerator": "x^2-1",
+          "denominator": "x-1",
+          "feature": "holes"
+        },
+        "output": {
+          "form": "points"
+        }
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "point-set",
+          "points": [
+            [
+              "1",
+              "2"
+            ]
+          ],
+          "fields": {
+            "s0": "{(1,2)}"
+          },
+          "latexFields": {
+            "s0": "\\left\\{(1,2)\\right\\}"
+          }
+        },
+        "domain": [
+          {
+            "kind": "nonzero",
+            "expression": "x - 1"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "readback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      },
+      "correctAndUnknownOptions": [
+        {
+          "ok": true,
+          "interpreted": true,
+          "equivalent": true,
+          "kind": "point-set",
+          "verification": {
+            "exact": true,
+            "method": "typed-option-proof"
+          }
+        },
+        {
+          "ok": true,
+          "interpreted": false,
+          "equivalent": null,
+          "reason": "OPTION_NOT_INTERPRETABLE",
+          "verification": {
+            "exact": false,
+            "method": "not-proven"
+          }
+        }
+      ]
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "task": "rational-analysis",
+        "givens": {
+          "numerator": "x+1",
+          "denominator": "x-2",
+          "feature": "poles"
+        }
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "solution-set",
+          "values": [
+            "2"
+          ],
+          "all": false,
+          "excluded": [],
+          "fields": {
+            "s0": "2"
+          },
+          "latexFields": {
+            "s0": "2"
+          }
+        },
+        "domain": [
+          {
+            "kind": "nonzero",
+            "expression": "x - 2"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "readback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      },
+      "correctAndUnknownOptions": [
+        {
+          "ok": true,
+          "interpreted": true,
+          "equivalent": true,
+          "kind": "solution-set",
+          "verification": {
+            "exact": true,
+            "method": "typed-option-proof"
+          }
+        },
+        {
+          "ok": true,
+          "interpreted": false,
+          "equivalent": null,
+          "reason": "UNKNOWN_IDENTIFIER",
+          "verification": {
+            "exact": false,
+            "method": "not-proven"
+          }
+        }
+      ]
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "task": "rational-analysis",
+        "givens": {
+          "numerator": "2*x+1",
+          "denominator": "x-3",
+          "feature": "horizontal-asymptote"
+        }
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "scalar",
+          "value": "2",
+          "form": "horizontal-asymptote",
+          "fields": {
+            "s0": "2"
+          },
+          "latexFields": {
+            "s0": "2"
+          }
+        },
+        "domain": [
+          {
+            "kind": "nonzero",
+            "expression": "x - 3"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "readback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      },
+      "correctAndUnknownOptions": [
+        {
+          "ok": true,
+          "interpreted": true,
+          "equivalent": true,
+          "kind": "scalar",
+          "verification": {
+            "exact": true,
+            "method": "typed-option-proof"
+          }
+        },
+        {
+          "ok": true,
+          "interpreted": false,
+          "equivalent": null,
+          "reason": "UNKNOWN_IDENTIFIER",
+          "verification": {
+            "exact": false,
+            "method": "not-proven"
+          }
+        }
+      ]
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "task": "rational-analysis",
+        "givens": {
+          "numerator": "x^2+x+1",
+          "denominator": "x-1",
+          "feature": "slant-asymptote"
+        }
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "scalar",
+          "value": "x + 2",
+          "form": "slant-asymptote",
+          "fields": {
+            "s0": "x + 2"
+          },
+          "latexFields": {
+            "s0": "x + 2"
+          }
+        },
+        "domain": [
+          {
+            "kind": "nonzero",
+            "expression": "x - 1"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "readback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      },
+      "correctAndUnknownOptions": [
+        {
+          "ok": true,
+          "interpreted": true,
+          "equivalent": true,
+          "kind": "scalar",
+          "verification": {
+            "exact": true,
+            "method": "typed-option-proof"
+          }
+        },
+        {
+          "ok": true,
+          "interpreted": false,
+          "equivalent": null,
+          "reason": "UNKNOWN_IDENTIFIER",
+          "verification": {
+            "exact": false,
+            "method": "not-proven"
+          }
+        }
+      ]
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "task": "rational-analysis",
+        "givens": {
+          "numerator": "-x^2",
+          "denominator": "x+1",
+          "feature": "end-negative"
+        }
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "limit",
+          "value": "positive-infinity",
+          "fields": {
+            "s0": "infinity"
+          },
+          "latexFields": {
+            "s0": "\\infty"
+          }
+        },
+        "domain": [
+          {
+            "kind": "nonzero",
+            "expression": "x + 1"
+          }
+        ],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "readback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      },
+      "correctAndUnknownOptions": [
+        {
+          "ok": true,
+          "interpreted": true,
+          "equivalent": true,
+          "kind": "limit",
+          "verification": {
+            "exact": true,
+            "method": "typed-option-proof"
+          }
+        },
+        {
+          "ok": true,
+          "interpreted": false,
+          "equivalent": null,
+          "reason": "UNKNOWN_IDENTIFIER",
+          "verification": {
+            "exact": false,
+            "method": "not-proven"
+          }
+        }
+      ]
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "task": "error-analysis",
+        "givens": {
+          "steps": [
+            "x^2-1",
+            "(x-1)*(x+1)",
+            "x^2+1"
+          ]
+        }
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "scalar",
+          "value": "3",
+          "form": "step-number",
+          "fields": {
+            "s0": "3"
+          },
+          "latexFields": {
+            "s0": "3"
+          }
+        },
+        "domain": [],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "readback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      },
+      "correctAndUnknownOptions": [
+        {
+          "ok": true,
+          "interpreted": true,
+          "equivalent": true,
+          "kind": "scalar",
+          "verification": {
+            "exact": true,
+            "method": "typed-option-proof"
+          }
+        },
+        {
+          "ok": true,
+          "interpreted": false,
+          "equivalent": null,
+          "reason": "OPTION_NOT_INTERPRETABLE",
+          "verification": {
+            "exact": false,
+            "method": "not-proven"
+          }
+        }
+      ]
+    },
+    {
+      "task": {
+        "schema": "kubla-task-v1",
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "task": "error-analysis",
+        "givens": {
+          "steps": [
+            "x^2/x=0",
+            "x=0"
+          ]
+        }
+      },
+      "result": {
+        "ok": true,
+        "status": "solved",
+        "answer": {
+          "kind": "claim",
+          "value": "all-valid",
+          "fields": {
+            "s0": "No error"
+          },
+          "latexFields": {
+            "s0": "No error"
+          }
+        },
+        "domain": [],
+        "verification": {
+          "exact": true,
+          "method": "typed-original-task",
+          "factorDomain": null
+        }
+      },
+      "readback": {
+        "ok": true,
+        "equivalent": true,
+        "verification": {
+          "exact": true,
+          "method": "typed-original-recompute"
+        }
+      },
+      "correctAndUnknownOptions": [
+        {
+          "ok": true,
+          "interpreted": true,
+          "equivalent": true,
+          "kind": "claim",
+          "verification": {
+            "exact": true,
+            "method": "typed-option-proof"
+          }
+        },
+        {
+          "ok": true,
+          "interpreted": false,
+          "equivalent": null,
+          "reason": "OPTION_NOT_INTERPRETABLE",
+          "verification": {
+            "exact": false,
+            "method": "not-proven"
+          }
+        }
+      ]
+    }
+  ],
+  "factorSourceVsFormRegression": {
+    "task": {
+      "schema": "kubla-task-v1",
+      "task": "factor",
+      "expression": "x^2-1",
+      "domain": "rational",
+      "slots": [
+        {
+          "id": "s0",
+          "role": "answer"
+        }
+      ]
+    },
+    "result": {
+      "ok": true,
+      "status": "solved",
+      "answer": {
+        "kind": "scalar",
+        "value": "(x - 1)*(x + 1)",
+        "fields": {
+          "s0": "(x - 1)*(x + 1)"
+        },
+        "latexFields": {
+          "s0": "\\left(x - 1\\right) \\left(x + 1\\right)"
+        }
+      },
+      "domain": [],
+      "verification": {
+        "exact": true,
+        "method": "typed-original-task",
+        "factorDomain": "rational"
+      }
+    },
+    "options": [
+      {
+        "option": {
+          "text": "(x-1)(x+1)",
+          "expression": "(x-1)(x+1)"
+        },
+        "proof": {
+          "ok": true,
+          "interpreted": true,
+          "equivalent": true,
+          "kind": "scalar",
+          "verification": {
+            "exact": true,
+            "method": "typed-option-proof"
+          }
+        }
+      },
+      {
+        "option": {
+          "text": "x^2-1",
+          "expression": "x^2-1"
+        },
+        "proof": {
+          "ok": true,
+          "interpreted": true,
+          "equivalent": false,
+          "kind": "scalar",
+          "verification": {
+            "exact": true,
+            "method": "typed-option-proof"
+          }
+        }
+      },
+      {
+        "option": {
+          "text": "(x-1)^2",
+          "expression": "(x-1)^2"
+        },
+        "proof": {
+          "ok": true,
+          "interpreted": true,
+          "equivalent": false,
+          "kind": "scalar",
+          "verification": {
+            "exact": true,
+            "method": "typed-option-proof"
+          }
+        }
+      }
+    ]
+  }
+}

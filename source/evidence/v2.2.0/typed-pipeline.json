@@ -1,0 +1,1245 @@
+{
+  "browser": "156.0.8078.47",
+  "extensionVersion": "2.2.0",
+  "syntheticSite": true,
+  "liveClassroomVerified": false,
+  "realPythonTypedHTTP": true,
+  "permissionFixture": true,
+  "ownerPermissionApprovalUIVerified": false,
+  "realNoGlobalMathQuill": true,
+  "independentFixedGraders": true,
+  "sourceAttestation": {
+    "version": "2.2.0",
+    "allNonManifestLoadedAssetsMatchProduction": true,
+    "manifestOnlyDifference": "explicit loopback host grant in disposable test fixture; production remains optional",
+    "productionManifestSHA256": "315b2daaa5c2bc6b7f9814afe37033cefec1e217af1a56ae43f9fd76f6db7681",
+    "testManifestSHA256": "ec8d663966a9354ac5c550d216470e7a0233ff15f6bf06de3a79bdd978334453",
+    "productionFiles": {
+      "adapter.js": "239fce54ee332c75e165a7ca1a4eb49dbda841e18839f01ddba5d4e4fbb6adf2",
+      "advanced-math.js": "6ab63f2db50a6773ce13fd474b30aa789611b1e72d6512b1372712dec2a158a7",
+      "automation-page.js": "f65430fb69d7a15be4b5dbc6b96986b11a6698f16ef52a1684af85cfbd4f0ce7",
+      "choice-dom.js": "0818074629908e8efea61172fbadb9facda8e8d59726a7936a18ed3186936917",
+      "choice.js": "00ffc369e36127270e9086e8b5b5fa629d10ce2fde5e07d6f505be8e45defa7f",
+      "dual.js": "ee30560e593902ba88e67163026783cac7eb897945976ab5e9653f5ffd55fec3",
+      "icons/128.png": "65984ae0e84e5b7dd7583afecb0d9130b4e4224838a0178aad1049aaaa419a62",
+      "icons/16.png": "7424c25419f34588399c705a49ad882cd5bbf65e215e20f20a06eb58ecd9f007",
+      "icons/48.png": "535f6bfd4812b5a0e5b5f4bb47861518d8289959dfbe60a744cc53c90ae4d6c4",
+      "input.js": "37a411e79cddf59219cac8c56ea02c0c8894d828669777b135832c4744b9c834",
+      "local-cas.js": "79cd5ed8dab1ed7c7349a71f0299ab9be25b3763ec0ea2fa8003b27ec4eb67d3",
+      "manifest.json": "315b2daaa5c2bc6b7f9814afe37033cefec1e217af1a56ae43f9fd76f6db7681",
+      "math.js": "cdf3db93e1c0526505fd6a26495825bb79837a792930fa4559e76a13a7f35cea",
+      "mq-dom.js": "a7e7b931667fdd25ed8d7cf5c936d0b06332814873763af9c88cab5e972d4eed",
+      "pagination.js": "a236e757b45da6c15e0264bac81a695f64f25d03b160c2e16afe0a8fd23d941a",
+      "policy.js": "ef6fb6bc603b6b1f1d840bba9839d9546e19b2bd0fd16985b94788d6af537cbe",
+      "popup.css": "e7d694cb431e1c014b832b3a9f29b4eff57397698dc81bef4c0232186b6a5ccf",
+      "popup.html": "f28628dc8b978e7d02e5e52d28f832a87e0dbd2e176bb749340503140476b089",
+      "popup.js": "1417fdc03e9f11b4907c75fc090bb23dd9cb5ab7d30634d4a0a0511f13dfb8d0",
+      "problem-capture.js": "7714addd9a78c03c0885ee04c53797bb5127e93a14b161029dfe36324e23c4b9",
+      "problem-document.js": "c929bea699f4265b5709e775cbd03f8f357c96db38d53e0e011da04741705937",
+      "problem-dom.js": "d50757a0afaa06ebdb67279fe5da242b8107aff2d986da073f1d003ed5d41237",
+      "runner-content.js": "eaca2d53fc978f3e062d3420e2291b6e39cd21954507c95459366f621f6d8e9c",
+      "selftest.html": "df26b678b8f49d12ed818a3de887f3bad0f97550f8df4fa81ed66919e33c0cad",
+      "selftest.js": "3270f6003bb31207a54067534e4985fc48b1d78ac8d9f861bd8bc388fe809396",
+      "status-view.js": "6bbe2252be47e57cf5fdf5985a21c9949f812553e95430d7ebd003e9f9184125",
+      "survey-page.js": "248b7bcd6826fcd66cf8bfd9a343087367391de0aeee7c75ad80447e31dc1ecf",
+      "survey.js": "388f7e44493f27a69d99fc425f4090f49260ec397cd54f63e57361cc53de4104",
+      "typed-client.js": "1e25867968d279ddea90cdc6a855d909443653157cd1a6acb25ae70e02649e1d",
+      "typed-input.js": "4b03b9d575a3b509640997d5006b1cf045d0c0c0629bb7eff143d404e5299e99",
+      "worker.js": "37d51d17b7c93ed19e6d42d5c020d7a47df2453fca5ebd630c401cdc462ac1dc"
+    },
+    "loadedFiles": {
+      "adapter.js": "239fce54ee332c75e165a7ca1a4eb49dbda841e18839f01ddba5d4e4fbb6adf2",
+      "advanced-math.js": "6ab63f2db50a6773ce13fd474b30aa789611b1e72d6512b1372712dec2a158a7",
+      "automation-page.js": "f65430fb69d7a15be4b5dbc6b96986b11a6698f16ef52a1684af85cfbd4f0ce7",
+      "choice-dom.js": "0818074629908e8efea61172fbadb9facda8e8d59726a7936a18ed3186936917",
+      "choice.js": "00ffc369e36127270e9086e8b5b5fa629d10ce2fde5e07d6f505be8e45defa7f",
+      "dual.js": "ee30560e593902ba88e67163026783cac7eb897945976ab5e9653f5ffd55fec3",
+      "icons/128.png": "65984ae0e84e5b7dd7583afecb0d9130b4e4224838a0178aad1049aaaa419a62",
+      "icons/16.png": "7424c25419f34588399c705a49ad882cd5bbf65e215e20f20a06eb58ecd9f007",
+      "icons/48.png": "535f6bfd4812b5a0e5b5f4bb47861518d8289959dfbe60a744cc53c90ae4d6c4",
+      "input.js": "37a411e79cddf59219cac8c56ea02c0c8894d828669777b135832c4744b9c834",
+      "local-cas.js": "79cd5ed8dab1ed7c7349a71f0299ab9be25b3763ec0ea2fa8003b27ec4eb67d3",
+      "manifest.json": "ec8d663966a9354ac5c550d216470e7a0233ff15f6bf06de3a79bdd978334453",
+      "math.js": "cdf3db93e1c0526505fd6a26495825bb79837a792930fa4559e76a13a7f35cea",
+      "mq-dom.js": "a7e7b931667fdd25ed8d7cf5c936d0b06332814873763af9c88cab5e972d4eed",
+      "pagination.js": "a236e757b45da6c15e0264bac81a695f64f25d03b160c2e16afe0a8fd23d941a",
+      "policy.js": "ef6fb6bc603b6b1f1d840bba9839d9546e19b2bd0fd16985b94788d6af537cbe",
+      "popup.css": "e7d694cb431e1c014b832b3a9f29b4eff57397698dc81bef4c0232186b6a5ccf",
+      "popup.html": "f28628dc8b978e7d02e5e52d28f832a87e0dbd2e176bb749340503140476b089",
+      "popup.js": "1417fdc03e9f11b4907c75fc090bb23dd9cb5ab7d30634d4a0a0511f13dfb8d0",
+      "problem-capture.js": "7714addd9a78c03c0885ee04c53797bb5127e93a14b161029dfe36324e23c4b9",
+      "problem-document.js": "c929bea699f4265b5709e775cbd03f8f357c96db38d53e0e011da04741705937",
+      "problem-dom.js": "d50757a0afaa06ebdb67279fe5da242b8107aff2d986da073f1d003ed5d41237",
+      "runner-content.js": "eaca2d53fc978f3e062d3420e2291b6e39cd21954507c95459366f621f6d8e9c",
+      "selftest.html": "df26b678b8f49d12ed818a3de887f3bad0f97550f8df4fa81ed66919e33c0cad",
+      "selftest.js": "3270f6003bb31207a54067534e4985fc48b1d78ac8d9f861bd8bc388fe809396",
+      "status-view.js": "6bbe2252be47e57cf5fdf5985a21c9949f812553e95430d7ebd003e9f9184125",
+      "survey-page.js": "248b7bcd6826fcd66cf8bfd9a343087367391de0aeee7c75ad80447e31dc1ecf",
+      "survey.js": "388f7e44493f27a69d99fc425f4090f49260ec397cd54f63e57361cc53de4104",
+      "typed-client.js": "1e25867968d279ddea90cdc6a855d909443653157cd1a6acb25ae70e02649e1d",
+      "typed-input.js": "4b03b9d575a3b509640997d5006b1cf045d0c0c0629bb7eff143d404e5299e99",
+      "worker.js": "37d51d17b7c93ed19e6d42d5c020d7a47df2453fca5ebd630c401cdc462ac1dc"
+    },
+    "helperFiles": {
+      ".gitignore": "aae4c6635bd76fa5dec2cd737b27c8466456d13dddf1aeac05f9346b00f4ac43",
+      "diagnose.py": "8b8442118f89f3743d8993ed176a941099a9fe4afa3585a7a5e531a6a64e5170",
+      "domain_math.py": "f6464e3dcba77d9914460340fda72d25b3a2843ed64bda8f913b31cfddcd1a23",
+      "ocr.py": "8913079a48dc6f94cf3fc9d68a2ed8655cbc7d2beb1ef66d75c135f75515be22",
+      "problem_document.py": "ad466130b253fa378cb7cf15a535f1aee8b37ba7b2afab5d737bc4565825058e",
+      "README.md": "54e4d06b10bb073dea80a44cd6247eb334acc0e61c22e6b8fd79928620e46770",
+      "reasoner.py": "542e0b6a333895ce50936b92b5db6962b60cf54eb7277862c2987fd8a8dcacea",
+      "requirements.txt": "27ed36a7dbb3a5d9ecd6e3eb29faefbacc0400240c575452ae57cece058e3ffd",
+      "server.py": "970f4afaa1c6596971ace544a4c415394dfd727332af74dba0c94c6fb042c10f",
+      "solver.py": "18b1dc4e80f66492ef404883c02db330cd9170f83f25a1f4c45508bbe315c0b6",
+      "start.sh": "ee4e1a712d99a7f9ce6d6cfef000cc1a6bfc9af2e497ff3faced8de69bdac345",
+      "task_extensions.py": "b0b45fc0bae880962f15ac61ce9fa8ea6bd9e0fa3f19bb5b1931cd923f1179c4",
+      "task_solver.py": "e15bcca9a18eb9e5ffd08b4e61f84b246750629cf54ae382b30b2bc026d0fa20",
+      "worker.py": "266ecb11f50b6b8d25451a09dbcf8a317352b783988ae057582d4b3e94da52fe"
+    },
+    "productionAndHelperUnchangedDuringRun": true
+  },
+  "readonlySurvey": true,
+  "counts": {
+    "answers": 5,
+    "exercise": 3,
+    "video": 1
+  },
+  "delays": [
+    {
+      "key": "a9ea96b82c5dc689708fb34ff4a09d3098d72e13a55047a63b96905c3f6064c9",
+      "seconds": 23,
+      "solution": {
+        "answer": {
+          "fields": {
+            "s0": "3",
+            "s1": "-4"
+          },
+          "kind": "field-map",
+          "latexFields": {
+            "s0": "3",
+            "s1": "-4"
+          }
+        },
+        "route": "local-sympy",
+        "status": "solved",
+        "verification": {
+          "exact": true,
+          "factorDomain": null,
+          "method": "typed-original-task"
+        }
+      },
+      "until": 1793152106402
+    },
+    {
+      "key": "5a105a26c13d93b5577367fed8e9d958d796739f19ee16926301b2a03ceedf3a",
+      "seconds": 20,
+      "solution": {
+        "answer": {
+          "fields": {
+            "s0": "3"
+          },
+          "kind": "scalar",
+          "latexFields": {
+            "s0": "3"
+          },
+          "value": "3"
+        },
+        "route": "local-sympy",
+        "status": "solved",
+        "verification": {
+          "exact": true,
+          "factorDomain": null,
+          "method": "typed-original-task"
+        }
+      },
+      "until": 1793152139677
+    },
+    {
+      "key": "32d3b98d07b38a636d991a749e3ac7e944b3c6677d3c20e028dfb48da240f50e",
+      "seconds": 25,
+      "solution": {
+        "answer": {
+          "all": false,
+          "excluded": [],
+          "fields": {
+            "s0": "2"
+          },
+          "kind": "solution-set",
+          "latexFields": {
+            "s0": "2"
+          },
+          "values": [
+            "2"
+          ]
+        },
+        "route": "local-sympy",
+        "status": "solved",
+        "verification": {
+          "exact": true,
+          "factorDomain": null,
+          "method": "typed-original-task"
+        }
+      },
+      "until": 1793152177657
+    },
+    {
+      "key": "777ad0a35a507088c1987ac882811096064d1114a2b54fdfc4479c3953ecc6d1",
+      "seconds": 15,
+      "solution": {
+        "answer": {
+          "fields": {
+            "s0": "x^2 + x + 1",
+            "s1": "0"
+          },
+          "kind": "quotient-remainder",
+          "latexFields": {
+            "s0": "x^{2} + x + 1",
+            "s1": "0"
+          },
+          "quotient": "x^2 + x + 1",
+          "remainder": "0"
+        },
+        "route": "local-sympy",
+        "status": "solved",
+        "verification": {
+          "exact": true,
+          "factorDomain": null,
+          "method": "typed-original-task"
+        }
+      },
+      "until": 1793152203088
+    },
+    {
+      "key": "a969f7c92e8305f303c80ec7c7635d1a35fb9cbb6b576a0b9bd81062fc32b567",
+      "seconds": 11,
+      "solution": {
+        "answer": {
+          "fields": {
+            "s0": "2"
+          },
+          "kind": "scalar",
+          "latexFields": {
+            "s0": "2"
+          },
+          "value": "2"
+        },
+        "route": "local-sympy",
+        "status": "solved",
+        "verification": {
+          "exact": true,
+          "factorDomain": null,
+          "method": "typed-original-task"
+        }
+      },
+      "until": 1793152224336
+    }
+  ],
+  "checks": [
+    {
+      "kind": "check",
+      "assignment": "algebra",
+      "q": 0,
+      "at": 1793152111111,
+      "values": [
+        "3",
+        "-4"
+      ],
+      "correct": true,
+      "phase": "execute"
+    },
+    {
+      "kind": "check",
+      "assignment": "algebra",
+      "q": 1,
+      "at": 1793152142867,
+      "values": [
+        "3"
+      ],
+      "correct": true,
+      "phase": "execute"
+    },
+    {
+      "kind": "check",
+      "assignment": "algebra",
+      "q": 2,
+      "at": 1793152182392,
+      "values": [
+        "2"
+      ],
+      "correct": true,
+      "phase": "execute"
+    },
+    {
+      "kind": "check",
+      "assignment": "division",
+      "q": 0,
+      "at": 1793152207696,
+      "values": [
+        "x^2 + x + 1",
+        "0"
+      ],
+      "correct": true,
+      "phase": "execute"
+    },
+    {
+      "kind": "check",
+      "assignment": "slope",
+      "q": 0,
+      "at": 1793152228934,
+      "values": [
+        "2"
+      ],
+      "correct": true,
+      "phase": "execute"
+    }
+  ],
+  "events": [
+    {
+      "kind": "question",
+      "assignment": "algebra",
+      "q": 0,
+      "at": 1793152078799,
+      "phase": "survey"
+    },
+    {
+      "kind": "question",
+      "assignment": "division",
+      "q": 0,
+      "at": 1793152079605,
+      "phase": "survey"
+    },
+    {
+      "kind": "question",
+      "assignment": "slope",
+      "q": 0,
+      "at": 1793152080325,
+      "phase": "survey"
+    },
+    {
+      "kind": "ratechange",
+      "assignment": "video",
+      "rate": 2,
+      "time": 0.0017,
+      "at": 1793152082706,
+      "phase": "execute"
+    },
+    {
+      "kind": "play",
+      "assignment": "video",
+      "rate": 2,
+      "time": 0.0035,
+      "at": 1793152082707,
+      "phase": "execute"
+    },
+    {
+      "kind": "question",
+      "assignment": "algebra",
+      "q": 0,
+      "at": 1793152082727,
+      "phase": "execute"
+    },
+    {
+      "kind": "ended",
+      "assignment": "video",
+      "rate": 2,
+      "time": 16,
+      "at": 1793152090705,
+      "phase": "execute"
+    },
+    {
+      "kind": "check",
+      "assignment": "algebra",
+      "q": 0,
+      "at": 1793152111111,
+      "values": [
+        "3",
+        "-4"
+      ],
+      "correct": true,
+      "phase": "execute"
+    },
+    {
+      "kind": "next",
+      "assignment": "algebra",
+      "q": 0,
+      "at": 1793152112620,
+      "phase": "execute"
+    },
+    {
+      "kind": "question",
+      "assignment": "algebra",
+      "q": 1,
+      "at": 1793152112621,
+      "phase": "execute"
+    },
+    {
+      "kind": "input",
+      "assignment": "algebra",
+      "q": 1,
+      "at": 1793152139688,
+      "phase": "execute"
+    },
+    {
+      "kind": "check",
+      "assignment": "algebra",
+      "q": 1,
+      "at": 1793152142867,
+      "values": [
+        "3"
+      ],
+      "correct": true,
+      "phase": "execute"
+    },
+    {
+      "kind": "next",
+      "assignment": "algebra",
+      "q": 1,
+      "at": 1793152143966,
+      "phase": "execute"
+    },
+    {
+      "kind": "question",
+      "assignment": "algebra",
+      "q": 2,
+      "at": 1793152143966,
+      "phase": "execute"
+    },
+    {
+      "kind": "input",
+      "assignment": "algebra",
+      "q": 2,
+      "at": 1793152177670,
+      "phase": "execute"
+    },
+    {
+      "kind": "check",
+      "assignment": "algebra",
+      "q": 2,
+      "at": 1793152182392,
+      "values": [
+        "2"
+      ],
+      "correct": true,
+      "phase": "execute"
+    },
+    {
+      "kind": "done",
+      "assignment": "algebra",
+      "q": 2,
+      "at": 1793152186402,
+      "phase": "execute"
+    },
+    {
+      "kind": "question",
+      "assignment": "division",
+      "q": 0,
+      "at": 1793152187477,
+      "phase": "execute"
+    },
+    {
+      "kind": "input",
+      "assignment": "division",
+      "q": 0,
+      "at": 1793152203100,
+      "phase": "execute"
+    },
+    {
+      "kind": "input",
+      "assignment": "division",
+      "q": 0,
+      "at": 1793152203102,
+      "phase": "execute"
+    },
+    {
+      "kind": "check",
+      "assignment": "division",
+      "q": 0,
+      "at": 1793152207696,
+      "values": [
+        "x^2 + x + 1",
+        "0"
+      ],
+      "correct": true,
+      "phase": "execute"
+    },
+    {
+      "kind": "done",
+      "assignment": "division",
+      "q": 0,
+      "at": 1793152211707,
+      "phase": "execute"
+    },
+    {
+      "kind": "question",
+      "assignment": "slope",
+      "q": 0,
+      "at": 1793152212756,
+      "phase": "execute"
+    },
+    {
+      "kind": "input",
+      "assignment": "slope",
+      "q": 0,
+      "at": 1793152224350,
+      "phase": "execute"
+    },
+    {
+      "kind": "check",
+      "assignment": "slope",
+      "q": 0,
+      "at": 1793152228934,
+      "values": [
+        "2"
+      ],
+      "correct": true,
+      "phase": "execute"
+    },
+    {
+      "kind": "done",
+      "assignment": "slope",
+      "q": 0,
+      "at": 1793152232623,
+      "phase": "execute"
+    }
+  ],
+  "http": [
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/solve"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/solve"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/solve"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/solve"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/solve"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/solve"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/solve"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/solve"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v2/task/verify"
+    }
+  ],
+  "reads": [
+    {
+      "ok": true,
+      "document": {
+        "schema": "kubla-problem-v1",
+        "url": "https://classroom.khanacademy.org/learner/class/TYPED/assignment/algebra",
+        "original": {
+          "instruction": "Complete the square.\n(x + <response> ) 2 + <response>",
+          "text": "Complete the square. <math> x^2+6*x+5 </math> (x + <response> ) 2 + <response> <diagram> Decorative working area </diagram>",
+          "expressions": [
+            {
+              "source": "data-tex",
+              "text": "x^2+6*x+5"
+            }
+          ],
+          "ordinal": 1,
+          "total": 3
+        },
+        "task": {
+          "schema": "kubla-task-v1",
+          "task": "complete-square",
+          "expression": "x^2+6*x+5",
+          "givens": {
+            "variable": "x",
+            "template": "(x+{s0})^2+{s1}"
+          },
+          "slots": [
+            {
+              "id": "s0",
+              "role": "shift"
+            },
+            {
+              "id": "s1",
+              "role": "constant"
+            }
+          ],
+          "output": {
+            "kind": "fields"
+          },
+          "domain": "real"
+        },
+        "response": {
+          "kind": "fields",
+          "slots": [
+            {
+              "id": "s0",
+              "role": "shift",
+              "kind": "mathquill",
+              "label": "Additive shift",
+              "path": [
+                1,
+                2,
+                0
+              ],
+              "value": "",
+              "disabled": false,
+              "template": "(x+{s0})^2+{s1}"
+            },
+            {
+              "id": "s1",
+              "role": "constant",
+              "kind": "mathquill",
+              "label": "Constant",
+              "path": [
+                1,
+                2,
+                2
+              ],
+              "value": "",
+              "disabled": false,
+              "template": "(x+{s0})^2+{s1}"
+            }
+          ],
+          "choices": []
+        },
+        "evidence": {
+          "tables": [],
+          "graph": {
+            "relevant": false,
+            "interactiveResponse": false,
+            "labels": [
+              "Decorative working area"
+            ],
+            "incidentalCount": 1
+          }
+        },
+        "notation": {
+          "mixedNumber": false,
+          "angleUnit": null,
+          "logBase": null
+        },
+        "fingerprint": "a9ea96b82c5dc689708fb34ff4a09d3098d72e13a55047a63b96905c3f6064c9"
+      },
+      "probe": {
+        "stage": "verification",
+        "choiceReadState": "CHOICE_GROUP_MISSING",
+        "slots": 2,
+        "choices": 0,
+        "expressions": 1,
+        "tables": 0,
+        "relevantGraph": false,
+        "interactiveGraph": false,
+        "incidentalGraphs": 1,
+        "task": "complete-square"
+      },
+      "guard": "[\"Complete the square.\",\"<math>\",\"x^2+6*x+5\",\"</math>\",\"(x +\",\"<response>\",\")\",\"2\",\"+\",\"<response>\",\"<diagram>\",\"Decorative working area\",\"</diagram>\",\"<ordinal>\",\"1 of 3 questions\",\"</ordinal>\"]",
+      "boundaryPath": [
+        1
+      ]
+    },
+    {
+      "ok": true,
+      "document": {
+        "schema": "kubla-problem-v1",
+        "url": "https://classroom.khanacademy.org/learner/class/TYPED/assignment/algebra?question=1",
+        "original": {
+          "instruction": "Evaluate the logarithm with base 2.",
+          "text": "Evaluate the logarithm with base 2. <math> \\log_{2}(8) </math> Answer <response> <diagram> Decorative working area </diagram>",
+          "expressions": [
+            {
+              "source": "data-tex",
+              "text": "\\log_{2}(8)"
+            }
+          ],
+          "ordinal": 2,
+          "total": 3
+        },
+        "task": {
+          "schema": "kubla-task-v1",
+          "task": "evaluate",
+          "expression": "\\log_{2}(8)",
+          "givens": {},
+          "slots": [
+            {
+              "id": "s0",
+              "role": "answer"
+            }
+          ],
+          "output": {
+            "kind": "expression",
+            "logBase": 2
+          },
+          "domain": "real"
+        },
+        "response": {
+          "kind": "native",
+          "slots": [
+            {
+              "id": "s0",
+              "role": "answer",
+              "kind": "native",
+              "label": "Answer",
+              "path": [
+                1,
+                2,
+                0
+              ],
+              "value": "",
+              "disabled": false
+            }
+          ],
+          "choices": []
+        },
+        "evidence": {
+          "tables": [],
+          "graph": {
+            "relevant": false,
+            "interactiveResponse": false,
+            "labels": [
+              "Decorative working area"
+            ],
+            "incidentalCount": 1
+          }
+        },
+        "notation": {
+          "mixedNumber": false,
+          "angleUnit": null,
+          "logBase": 2
+        },
+        "fingerprint": "d01b52f65cf7c490949921b004510e3d13f34a55a1c77f052fc9bb030e678a82"
+      },
+      "probe": {
+        "stage": "verification",
+        "choiceReadState": "CHOICE_GROUP_MISSING",
+        "slots": 1,
+        "choices": 0,
+        "expressions": 1,
+        "tables": 0,
+        "relevantGraph": false,
+        "interactiveGraph": false,
+        "incidentalGraphs": 1,
+        "task": "evaluate"
+      },
+      "guard": "[\"Evaluate the logarithm with base 2.\",\"<math>\",\"\\\\log_{2}(8)\",\"</math>\",\"Answer\",\"<response>\",\"<diagram>\",\"Decorative working area\",\"</diagram>\",\"<ordinal>\",\"2 of 3 questions\",\"</ordinal>\"]",
+      "boundaryPath": [
+        1
+      ]
+    },
+    {
+      "ok": true,
+      "document": {
+        "schema": "kubla-problem-v1",
+        "url": "https://classroom.khanacademy.org/learner/class/TYPED/assignment/algebra?question=2",
+        "original": {
+          "instruction": "Solve the equation.",
+          "text": "Solve the equation. <math> (x-2)^2=0 </math> Answer <response> <diagram> Decorative working area </diagram>",
+          "expressions": [
+            {
+              "source": "data-tex",
+              "text": "(x-2)^2=0"
+            }
+          ],
+          "ordinal": 3,
+          "total": 3
+        },
+        "task": {
+          "schema": "kubla-task-v1",
+          "task": "equation",
+          "expression": "(x-2)^2=0",
+          "givens": {},
+          "slots": [
+            {
+              "id": "s0",
+              "role": "answer"
+            }
+          ],
+          "output": {
+            "kind": "solution-set"
+          },
+          "domain": "real"
+        },
+        "response": {
+          "kind": "native",
+          "slots": [
+            {
+              "id": "s0",
+              "role": "answer",
+              "kind": "native",
+              "label": "Answer",
+              "path": [
+                1,
+                2,
+                0
+              ],
+              "value": "",
+              "disabled": false
+            }
+          ],
+          "choices": []
+        },
+        "evidence": {
+          "tables": [],
+          "graph": {
+            "relevant": false,
+            "interactiveResponse": false,
+            "labels": [
+              "Decorative working area"
+            ],
+            "incidentalCount": 1
+          }
+        },
+        "notation": {
+          "mixedNumber": false,
+          "angleUnit": null,
+          "logBase": null
+        },
+        "fingerprint": "af89ccf18ba199dfb1d311ac614eb208a87066964c131aec6ce24471e550f4b8"
+      },
+      "probe": {
+        "stage": "verification",
+        "choiceReadState": "CHOICE_GROUP_MISSING",
+        "slots": 1,
+        "choices": 0,
+        "expressions": 1,
+        "tables": 0,
+        "relevantGraph": false,
+        "interactiveGraph": false,
+        "incidentalGraphs": 1,
+        "task": "equation"
+      },
+      "guard": "[\"Solve the equation.\",\"<math>\",\"(x-2)^2=0\",\"</math>\",\"Answer\",\"<response>\",\"<diagram>\",\"Decorative working area\",\"</diagram>\",\"<ordinal>\",\"3 of 3 questions\",\"</ordinal>\"]",
+      "boundaryPath": [
+        1
+      ]
+    },
+    {
+      "ok": true,
+      "document": {
+        "schema": "kubla-problem-v1",
+        "url": "https://classroom.khanacademy.org/learner/class/TYPED/assignment/division",
+        "original": {
+          "instruction": "Divide the polynomials. Give quotient and remainder.",
+          "text": "Divide the polynomials. Give quotient and remainder. <math> x^3-1 </math> divided by <math> x-1 </math> Quotient <response> Remainder <response> <diagram> Decorative working area </diagram>",
+          "expressions": [
+            {
+              "source": "data-tex",
+              "text": "x^3-1"
+            },
+            {
+              "source": "data-tex",
+              "text": "x-1"
+            }
+          ],
+          "ordinal": 1,
+          "total": 1
+        },
+        "task": {
+          "schema": "kubla-task-v1",
+          "task": "divide",
+          "expression": "x^3-1",
+          "givens": {
+            "dividend": "x^3-1",
+            "divisor": "x-1"
+          },
+          "slots": [
+            {
+              "id": "s0",
+              "role": "quotient"
+            },
+            {
+              "id": "s1",
+              "role": "remainder"
+            }
+          ],
+          "output": {
+            "kind": "fields"
+          },
+          "domain": "real"
+        },
+        "response": {
+          "kind": "fields",
+          "slots": [
+            {
+              "id": "s0",
+              "role": "quotient",
+              "kind": "native",
+              "label": "Quotient",
+              "path": [
+                1,
+                3,
+                0
+              ],
+              "value": "",
+              "disabled": false
+            },
+            {
+              "id": "s1",
+              "role": "remainder",
+              "kind": "native",
+              "label": "Remainder",
+              "path": [
+                1,
+                4,
+                0
+              ],
+              "value": "",
+              "disabled": false
+            }
+          ],
+          "choices": []
+        },
+        "evidence": {
+          "tables": [],
+          "graph": {
+            "relevant": false,
+            "interactiveResponse": false,
+            "labels": [
+              "Decorative working area"
+            ],
+            "incidentalCount": 1
+          }
+        },
+        "notation": {
+          "mixedNumber": false,
+          "angleUnit": null,
+          "logBase": null
+        },
+        "fingerprint": "777ad0a35a507088c1987ac882811096064d1114a2b54fdfc4479c3953ecc6d1"
+      },
+      "probe": {
+        "stage": "verification",
+        "choiceReadState": "CHOICE_GROUP_MISSING",
+        "slots": 2,
+        "choices": 0,
+        "expressions": 2,
+        "tables": 0,
+        "relevantGraph": false,
+        "interactiveGraph": false,
+        "incidentalGraphs": 1,
+        "task": "divide"
+      },
+      "guard": "[\"Divide the polynomials. Give quotient and remainder.\",\"<math>\",\"x^3-1\",\"</math>\",\"divided by\",\"<math>\",\"x-1\",\"</math>\",\"Quotient\",\"<response>\",\"Remainder\",\"<response>\",\"<diagram>\",\"Decorative working area\",\"</diagram>\",\"<ordinal>\",\"1 of 1 questions\",\"</ordinal>\"]",
+      "boundaryPath": [
+        1
+      ]
+    },
+    {
+      "ok": true,
+      "document": {
+        "schema": "kubla-problem-v1",
+        "url": "https://classroom.khanacademy.org/learner/class/TYPED/assignment/slope",
+        "original": {
+          "instruction": "Find the slope from the table.",
+          "text": "Find the slope from the table. x y 0 1 1 3 2 5 Answer <response> <diagram> Decorative working area </diagram>",
+          "expressions": [],
+          "ordinal": 1,
+          "total": 1
+        },
+        "task": {
+          "schema": "kubla-task-v1",
+          "task": "slope",
+          "expression": "",
+          "givens": {
+            "points": [
+              [
+                "0",
+                "1"
+              ],
+              [
+                "1",
+                "3"
+              ],
+              [
+                "2",
+                "5"
+              ]
+            ]
+          },
+          "slots": [
+            {
+              "id": "s0",
+              "role": "answer"
+            }
+          ],
+          "output": {
+            "kind": "expression"
+          },
+          "domain": "real"
+        },
+        "response": {
+          "kind": "native",
+          "slots": [
+            {
+              "id": "s0",
+              "role": "answer",
+              "kind": "native",
+              "label": "Answer",
+              "path": [
+                1,
+                2,
+                0
+              ],
+              "value": "",
+              "disabled": false
+            }
+          ],
+          "choices": []
+        },
+        "evidence": {
+          "tables": [
+            {
+              "headers": [
+                "x",
+                "y"
+              ],
+              "rows": [
+                [
+                  "0",
+                  "1"
+                ],
+                [
+                  "1",
+                  "3"
+                ],
+                [
+                  "2",
+                  "5"
+                ]
+              ],
+              "points": [
+                [
+                  "0",
+                  "1"
+                ],
+                [
+                  "1",
+                  "3"
+                ],
+                [
+                  "2",
+                  "5"
+                ]
+              ],
+              "exact": true
+            }
+          ],
+          "graph": {
+            "relevant": false,
+            "interactiveResponse": false,
+            "labels": [
+              "Decorative working area"
+            ],
+            "incidentalCount": 1
+          }
+        },
+        "notation": {
+          "mixedNumber": false,
+          "angleUnit": null,
+          "logBase": null
+        },
+        "fingerprint": "a969f7c92e8305f303c80ec7c7635d1a35fb9cbb6b576a0b9bd81062fc32b567"
+      },
+      "probe": {
+        "stage": "verification",
+        "choiceReadState": "CHOICE_GROUP_MISSING",
+        "slots": 1,
+        "choices": 0,
+        "expressions": 0,
+        "tables": 1,
+        "relevantGraph": false,
+        "interactiveGraph": false,
+        "incidentalGraphs": 1,
+        "task": "slope"
+      },
+      "guard": "[\"Find the slope from the table.\",\"x\",\"y\",\"0\",\"1\",\"1\",\"3\",\"2\",\"5\",\"Answer\",\"<response>\",\"<diagram>\",\"Decorative working area\",\"</diagram>\",\"<ordinal>\",\"1 of 1 questions\",\"</ordinal>\"]",
+      "boundaryPath": [
+        1
+      ]
+    }
+  ],
+  "plan": {
+    "createdAt": 1793152078716,
+    "items": [
+      {
+        "boundary": "verification",
+        "choiceCount": 0,
+        "classification": "multiple-fields",
+        "kind": "exercise",
+        "reason": "TYPED_ORIGINAL_TASK_VERIFIED",
+        "slotCount": 2,
+        "solver": "local-sympy",
+        "status": "ready",
+        "task": "complete-square",
+        "title": "Completing square, logarithm and repeated root",
+        "url": "https://classroom.khanacademy.org/learner/class/TYPED/assignment/algebra",
+        "visibleQuestionOnly": true
+      },
+      {
+        "boundary": "verification",
+        "choiceCount": 0,
+        "classification": "multiple-fields",
+        "kind": "exercise",
+        "reason": "TYPED_ORIGINAL_TASK_VERIFIED",
+        "slotCount": 2,
+        "solver": "local-sympy",
+        "status": "ready",
+        "task": "divide",
+        "title": "Polynomial division",
+        "url": "https://classroom.khanacademy.org/learner/class/TYPED/assignment/division",
+        "visibleQuestionOnly": true
+      },
+      {
+        "boundary": "verification",
+        "choiceCount": 0,
+        "classification": "single-box",
+        "kind": "exercise",
+        "reason": "TYPED_ORIGINAL_TASK_VERIFIED",
+        "slotCount": 1,
+        "solver": "local-sympy",
+        "status": "ready",
+        "task": "slope",
+        "title": "Slope from table",
+        "url": "https://classroom.khanacademy.org/learner/class/TYPED/assignment/slope",
+        "visibleQuestionOnly": true
+      },
+      {
+        "classification": "video",
+        "kind": "video",
+        "reason": "VISIBLE_VIDEO_PLAYER",
+        "solver": "media",
+        "status": "ready",
+        "title": "Watch video",
+        "url": "https://classroom.khanacademy.org/learner/class/TYPED/assignment/video",
+        "visibleQuestionOnly": true
+      }
+    ],
+    "schema": "kubla-khan-plan-v1",
+    "scope": "https://classroom.khanacademy.org/learner/class/TYPED"
+  },
+  "pageErrors": []
+}

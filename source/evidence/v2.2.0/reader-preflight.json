@@ -1,0 +1,56 @@
+{
+  "browser": "156.0.8078.47",
+  "syntheticDOM": true,
+  "liveOwnerVerified": false,
+  "results": [
+    {
+      "name": "incidental",
+      "passed": true,
+      "task": "factor"
+    },
+    {
+      "name": "sin",
+      "passed": true,
+      "task": "evaluate"
+    },
+    {
+      "name": "square",
+      "passed": true,
+      "task": "complete-square"
+    },
+    {
+      "name": "bare-log",
+      "passed": true,
+      "task": "evaluate"
+    },
+    {
+      "name": "inverse-table",
+      "passed": true,
+      "task": "inverse-table"
+    },
+    {
+      "name": "inverse-affine",
+      "passed": true,
+      "task": "inverse-affine"
+    },
+    {
+      "name": "rational",
+      "passed": true,
+      "task": "rational-analysis"
+    },
+    {
+      "name": "error",
+      "passed": true,
+      "task": "error-analysis"
+    },
+    {
+      "name": "choice-perseus",
+      "passed": true,
+      "task": "evaluate"
+    },
+    {
+      "name": "unlabelled-MQ-plainCorrect-stability",
+      "passed": true
+    }
+  ]
+}

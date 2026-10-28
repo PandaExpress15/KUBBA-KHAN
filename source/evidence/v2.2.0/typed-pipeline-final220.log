@@ -1,0 +1,8 @@
+PASS final2.2.0 runtime source asset attestation {"files":31,"manifestFixture":true}
+PASS typed readonly survey all representative tasks ready
+TYPED DELAY 1 23
+TYPED DELAY 2 20
+TYPED DELAY 3 25
+TYPED DELAY 4 15
+TYPED DELAY 5 11
+PASS typed pipeline actual HTTP + no-global MQ/native + complete-square/log/equation/division/table-slope + real video {"counts":{"answers":5,"exercise":3,"video":1},"delays":[23,20,25,15,11]}

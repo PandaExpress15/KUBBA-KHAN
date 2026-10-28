@@ -1,0 +1,24 @@
+HELPER {"ready": true, "host": "127.0.0.1", "port": 34033, "version": "2.2.0", "tokenConfig": "/tmp/kubla-reader-http-3TRjdE/token.json"}
+Paste the token from the private config into the extension local-solver settings. Keep this terminal running.
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: division-one-fraction {"ok":false,"status":"unsupported","reason":"DIVISION_GIVENS_NOT_GROUNDED"}
++ actual - expected
+
++ 'unsupported'
+- 'solved'
+
+    at file:///workspace/khan-runner-isolated/turn-rebuild-v2.2.0/source/tests/browser-reader-math-boundaries.mjs:14:649
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'unsupported',
+  expected: 'solved',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

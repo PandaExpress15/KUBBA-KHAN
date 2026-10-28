@@ -11,7 +11,9 @@ ORIGIN='chrome-extension://'+'a'*32;TOKEN='a'*64
 class FixtureHandler(BaseHTTPRequestHandler):
  def log_message(self,*args):pass
  def reply(self,body):
-  data=json.dumps(body).encode();self.send_response(200);self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(data)));self.end_headers();self.wfile.write(data)
+  data=json.dumps(body).encode()
+  try:self.send_response(200);self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(data)));self.end_headers();self.wfile.write(data)
+  except (BrokenPipeError,ConnectionResetError):pass # Expected scripted-runtime disconnect when helper child is cancelled.
  def do_GET(self):self.reply({'models':[self.server.metadata]})
  def do_POST(self):
   request=json.loads(self.rfile.read(int(self.headers['Content-Length'])))

@@ -1,0 +1,15 @@
+{
+  "networkPermissionGranted": true,
+  "ownerBrowserAttached": false,
+  "actualInferenceVerified": false,
+  "checks": [
+    {
+      "url": "https://registry.ollama.ai/v2/library/qwen3/manifests/4b",
+      "error": "<urlopen error Tunnel connection failed: 403 Forbidden>"
+    },
+    {
+      "url": "https://huggingface.co/Qwen/Qwen3-4B-GGUF/raw/main/README.md",
+      "error": "<urlopen error Tunnel connection failed: 403 Forbidden>"
+    }
+  ]
+}

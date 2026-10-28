@@ -1,0 +1,15 @@
+test_actual_printed_question_and_axis_transcription_unverified (__main__.ActualOCRTests.test_actual_printed_question_and_axis_transcription_unverified) ... ok
+test_auth_origin_and_no_url_or_command_fields (__main__.ActualOCRTests.test_auth_origin_and_no_url_or_command_fields) ... ok
+test_client_disconnect_cleans_private_files_and_releases_slot (__main__.ActualOCRTests.test_client_disconnect_cleans_private_files_and_releases_slot) ... ok
+test_health_exposes_optional_ocr (__main__.ActualOCRTests.test_health_exposes_optional_ocr) ... ok
+test_malformed_and_oversized_png_return_review (__main__.ActualOCRTests.test_malformed_and_oversized_png_return_review) ... ok
+test_crc_and_trailing_payload_rejected (__main__.PNGTests.test_crc_and_trailing_payload_rejected) ... ok
+test_dimensions_unsupported_interlace_and_depth (__main__.PNGTests.test_dimensions_unsupported_interlace_and_depth) ... ok
+test_size_and_decompression_bomb_rejected (__main__.PNGTests.test_size_and_decompression_bomb_rejected) ... ok
+test_valid_png_and_metadata_removed (__main__.PNGTests.test_valid_png_and_metadata_removed) ... ok
+test_wrong_magic_and_base64 (__main__.PNGTests.test_wrong_magic_and_base64) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.957s
+
+OK

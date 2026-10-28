@@ -32,7 +32,7 @@ def tokenize(source):
     # Never concatenate spaced digits (a mixed number is not implicit multiplication).
     if re.search(r'\d\s+\d', source): raise Unsupported('MIXED_NUMBER_NOTATION')
     result=[]; pos=0
-    pattern=re.compile(r'\s*(?:(\d+(?:\.\d+)?)|([A-Za-z]+)|(\*\*|[+\-*/^(){}=°]))')
+    pattern=re.compile(r'\s*(?:(\d+(?:\.\d+)?)|([A-Za-z]+)|(\*\*|[+\-*/^(){}=°,]))')
     while pos<len(source):
         if source[pos:].isspace(): break
         m=pattern.match(source,pos)
@@ -45,109 +45,11 @@ def tokenize(source):
         if len(result)>200: raise Unsupported('TOKEN_LIMIT')
     return result
 
-class Parser:
-    def __init__(self, tokens): self.tokens=tokens; self.i=0; self.depth=0
-    def peek(self): return self.tokens[self.i] if self.i<len(self.tokens) else None
-    def take(self):
-        token=self.peek();self.i+=1;return token
-    def group(self):
-        opening=self.take()
-        if opening not in ('(', '{'): raise Unsupported('GROUP_REQUIRED')
-        closing=')' if opening=='(' else '}'
-        answer=self.sum()
-        if self.take()!=closing: raise Unsupported('UNBALANCED_GROUP')
-        return answer
-    def atom(self):
-        self.depth+=1
-        if self.depth>24: raise Unsupported('NESTING_LIMIT')
-        token=self.peek()
-        if token in ('(', '{'): answer=self.group()
-        else:
-            self.take()
-            if token is None: raise Unsupported('MISSING_OPERAND')
-            if re.fullmatch(r'\d+(?:\.\d+)?',token):
-                if '.' in token:
-                    whole,fraction=token.split('.');answer=s.Rational(int(whole+fraction),10**len(fraction))
-                else: answer=s.Integer(int(token))
-            elif token=='pi': answer=s.pi
-            elif token=='e': answer=s.E
-            elif token=='frac':
-                numerator=self.group();denominator=self.group()
-                if denominator==0: raise Unsupported('DIVISION_BY_ZERO')
-                answer=numerator/denominator
-            elif token in FUNCTIONS:
-                function_power=None
-                if self.peek() in ('^','**'):
-                    self.take();function_power=self.exponent()
-                # A TeX fraction is a delimited single argument. Bare numeric
-                # or symbolic arguments remain rejected unless explicitly °.
-                argument=self.atom() if self.peek()=='frac' else self.group()
-                if token=='sqrt' and argument.is_number and argument.is_nonnegative is not True: raise Unsupported('REAL_DOMAIN_REQUIRED')
-                if token in ('asin','acos','arcsin','arccos') and argument.is_number and (argument.is_real is not True or (argument < -1) is s.true or (argument > 1) is s.true): raise Unsupported('REAL_DOMAIN_REQUIRED')
-                answer=FUNCTIONS[token](argument)
-                if function_power is not None:
-                    if answer==0 and function_power<=0: raise Unsupported('UNDEFINED_POWER')
-                    answer=answer**function_power
-            elif re.fullmatch('[a-z]',token): answer=s.Symbol(token,real=True)
-            else: raise Unsupported('EXPECTED_OPERAND')
-        self.depth-=1
-        return answer
-    def exponent(self):
-        if self.peek() in ('(', '{'): exponent=self.group()
-        else:
-            sign=1
-            if self.peek() in ('+','-'): sign=-1 if self.take()=='-' else 1
-            token=self.take()
-            if token is None or not re.fullmatch(r'\d+',token): raise Unsupported('INTEGER_EXPONENT_REQUIRED')
-            exponent=s.Integer(sign*int(token))
-        if not exponent.is_Integer or abs(exponent)>12: raise Unsupported('EXPONENT_LIMIT')
-        return exponent
-    def power(self):
-        base=self.atom()
-        if self.peek() in ('^','**'):
-            self.take();exponent=self.exponent()
-            if base==0 and exponent<=0: raise Unsupported('UNDEFINED_POWER')
-            base=base**exponent
-        if self.peek()=='°':
-            self.take();base=base*s.pi/180
-        return base
-    def unary(self):
-        if self.peek() in ('+','-'):
-            op=self.take();return self.unary() if op=='+' else -self.unary()
-        return self.power()
-    def product(self):
-        answer=self.unary()
-        while self.peek() is not None:
-            token=self.peek()
-            if token in ('*','/'):
-                self.take();other=self.unary()
-                if token=='/' and other==0: raise Unsupported('DIVISION_BY_ZERO')
-                answer=answer*other if token=='*' else answer/other
-            elif token in ('(', '{') or token in FUNCTIONS or token in ('frac','pi','e') or re.fullmatch(r'(?:\d+(?:\.\d+)?|[a-z])', token):
-                answer*=self.unary()
-            else: break
-        return answer
-    def sum(self):
-        answer=self.product()
-        while self.peek() in ('+','-'):
-            op=self.take();other=self.product();answer=answer+other if op=='+' else answer-other
-        return answer
-
 def parse_expression(source, equation=False):
-    tokens=tokenize(source); parser=Parser(tokens)
-    left=parser.sum();right=None
-    if parser.peek()=='=' and equation:
-        parser.take();right=parser.sum()
-    if parser.peek() is not None: raise Unsupported('UNEXPECTED_TOKEN')
-    values=[left] if right is None else [left,right]
-    symbols=set().union(*(v.free_symbols for v in values))
-    if len(symbols)>1: raise Unsupported('ONE_VARIABLE_ONLY')
-    for value in values:
-        if s.count_ops(value)>180 or value.has(s.zoo,s.nan,s.oo,-s.oo,s.I): raise Unsupported('UNDEFINED_OR_COMPLEX')
-        for number in value.atoms(s.Rational):
-            if len(str(abs(number.p)))>120 or len(str(number.q))>120: raise Unsupported('NUMBER_SIZE')
-    if equation and right is None: raise Unsupported('EQUATION_REQUIRED')
-    return (left,right) if equation else left
+    from domain_math import parse_document
+    doc=parse_document(source,equation)
+    return doc.values if equation else doc.values[0]
+
 
 def equal(a,b):
     delta=a-b
@@ -194,17 +96,20 @@ def solve_request(request):
     expression=request.get('expression');operation=request.get('operation')
     if operation not in ('factor','expand','simplify','evaluate','equation'): raise Unsupported('UNSUPPORTED_OPERATION')
     if operation=='equation':
-        left,right=parse_expression(expression,True);symbols=left.free_symbols|right.free_symbols
+        from domain_math import parse_document
+        document=parse_document(expression,True);left,right=document.values;symbols=document.symbols
         if len(symbols)!=1: raise Unsupported('ONE_VARIABLE_EQUATION_REQUIRED')
         variable=next(iter(symbols));difference=left-right
         p=polynomial(s.cancel(difference).as_numer_denom()[0])
         if p is None or p.degree()>4: raise Unsupported('EQUATION_DEGREE_LIMIT')
         roots=s.solveset(difference,variable,domain=s.S.Reals)
+        if isinstance(roots,s.FiniteSet): roots=s.FiniteSet(*(r for r in roots if document.valid({variable:r})))
         if not isinstance(roots,s.FiniteSet) or len(roots)!=1: raise Unsupported('NEED_EXACTLY_ONE_REAL_SOLUTION')
         answer=next(iter(roots))
         if not equal(left.subs(variable,answer),right.subs(variable,answer)): raise Unsupported('SOLUTION_VERIFICATION_FAILED')
     else:
-        original=parse_expression(expression)
+        from domain_math import parse_document
+        document=parse_document(expression);original=document.values[0]
         if operation=='factor':
             polynomial(original);answer=s.factor(original)
             if not equal(original,answer) or not factored_form(answer): raise Unsupported('FACTOR_VERIFICATION_FAILED')
@@ -215,16 +120,21 @@ def solve_request(request):
             answer=s.simplify(s.trigsimp(original))
         if not equal(original,answer): raise Unsupported('EXACT_VERIFICATION_FAILED')
     if answer.has(s.zoo,s.nan,s.oo,-s.oo,s.I) or answer.is_real is False: raise Unsupported('REAL_FINITE_ANSWER_REQUIRED')
-    text=s.sstr(answer).replace('**','^');latex=s.latex(answer)
+    text=s.sstr(answer).replace('**','^').replace('log(', 'ln(');latex=s.latex(answer).replace(r'\log',r'\ln')
     if len(text)>600 or len(latex)>1200: raise Unsupported('ANSWER_SIZE')
     try: parse_expression(text)
     except Unsupported: raise Unsupported('ANSWER_NOT_SUPPORTED')
-    return {'ok':True,'status':'solved','answer':text,'latex':latex,'request':{'expression':expression,'operation':operation},'source':'local-sympy','certificate':certificate(answer),'verification':{'exact':True,'method':'sympy-exact','factorDomain':'rational' if operation=='factor' else None}}
+    return {'ok':True,'status':'solved','answer':text,'latex':latex,'request':{'expression':expression,'operation':operation},'source':'local-sympy','certificate':certificate(answer),'domain':document.domain(),'verification':{'exact':True,'method':'sympy-exact','factorDomain':'rational' if operation=='factor' else None}}
 
 def verify_request(request):
     if not isinstance(request,dict) or set(request)-{'expression','operation','answer','observed'}: raise Unsupported('INVALID_REQUEST')
     expected=solve_request({'expression':request.get('expression'),'operation':request.get('operation')})
     answer=parse_expression(request.get('answer'));observed=parse_expression(request.get('observed'));computed=parse_expression(expected['answer'])
-    equivalent=equal(answer,computed) and equal(observed,computed)
+    from domain_math import parse_document
+    from task_solver import _same_value
+    original=None if request['operation']=='equation' else parse_document(request['expression'])
+    equivalent=_same_value(expected['answer'],request['answer'],original) and _same_value(expected['answer'],request['observed'],original)
+    if request['operation']=='expand': equivalent=equivalent and s.expand(observed)==observed and s.expand(answer)==answer
+    if request['operation']=='simplify': equivalent=equivalent and s.simplify(s.trigsimp(observed))==observed and s.simplify(s.trigsimp(answer))==answer
     if request['operation']=='factor': equivalent=equivalent and factored_form(observed) and factored_form(answer)
     return {'ok':True,'equivalent':bool(equivalent),'verification':{'exact':True,'method':'sympy-exact-recompute'}}

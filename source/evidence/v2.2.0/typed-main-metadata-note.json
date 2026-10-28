@@ -1,0 +1,7 @@
+{
+  "extensionManifestVersion": "2.1.14",
+  "behavior": "new2.2.0 typed survey/controller/input bridge",
+  "reason": "Test copied extension before immediate metadata bump. This run is behavioral proof, not exact final artifact installation attestation.",
+  "productionManifestUnchangedByTest": true,
+  "testManifestLoopbackHostPermissionGranted": true
+}

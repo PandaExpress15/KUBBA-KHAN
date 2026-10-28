@@ -1,0 +1,12 @@
+{
+  "pass": true,
+  "oracle": "Python Fraction arithmetic; expected values independent of SymPy and helper parser",
+  "counts": {
+    "fractionalCompletingSquare": 36,
+    "rationalRootDomains": 32,
+    "negativeOddPowers": 24,
+    "averageRates": 4
+  },
+  "seconds": 0.403,
+  "actualLanguageModelInference": false
+}

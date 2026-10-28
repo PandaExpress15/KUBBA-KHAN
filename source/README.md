@@ -1,13 +1,27 @@
-# KUBLA KHAN · 2.1.14
+# KUBLA KHAN · 2.2.0
 
-[Download Chrome extension + optional local helper](https://github.com/PandaExpress15/KUBLA-KHAN/raw/refs/heads/main/downloads/KUBLA-KHAN-Chrome-v2.1.14.zip)
+[Download Chrome extension + optional local helper](https://github.com/PandaExpress15/KUBLA-KHAN/raw/refs/heads/main/downloads/KUBLA-KHAN-Chrome-v2.2.0.zip) · [Complete source](https://github.com/PandaExpress15/KUBLA-KHAN/raw/refs/heads/main/downloads/KUBLA-KHAN-Source-v2.2.0.zip)
 
-Fixes survey rejecting a visibly selected To-do filter before it reaches any assignments or mathematics. Custom status controls now support associated labels and aria-labelledby, including compound label/current-value references. Unknown or conflicting controls still stop safely and explain the actual reason. Run without survey also fixes its startup scope error.
+This rebuild reads a structured question before choosing its solver and response adapter. It fixes incidental application widgets being classified as graphs, supports named multi-field answers and verified semantic multiple choice, and preserves original mathematical domain restrictions.
 
-Extract the ZIP into a permanent folder. Open chrome://extensions → Developer mode → remove the old runner → Load unpacked → extension. Confirm2.1.14 and refresh Khan. On All assignments / To-do, click Survey all assignments. Review the local plan, then Run plan. Run without survey remains available. If a survey fails, Copy diagnostics now refreshes the current status-reader probe before copying.
+Extract into a permanent folder. In chrome://extensions, remove the old runner, enable Developer mode, Load unpacked and choose extension. Confirm2.2.0 and refresh Khan. On All assignments / To-do, choose Survey all assignments, inspect the local plan, then Run plan. Survey reads only visible first questions and never submits answers; later questions are inspected during execution.
 
-The reported failure happened before queue discovery, so no math solver or model had been reached. The normal solver order remains built-in exact mathematics, optional local SymPy, then review-only model suggestions. This update does not install or start Ollama, and unverified model output still cannot automatically Check an answer. Runtime/model weights are not bundled.
+Broader mathematics requires the bundled2.2.0 helper: open a terminal in the extracted folder and run the exact command shown in the popup, equivalent to `sh helper/start.sh YOUR_EXTENSION_ID 9000`. It creates a private Python environment with hash-pinned free dependencies. Pair its printed token, enable localhost permission, then Refresh helper health. A new extension folder can change its ID; restart this helper with the new ID. Do not stop unrelated services to free a port—choose an unused port instead.
 
-The optional Linux helper still uses a configurable local port, default9000: `sh helper/start.sh YOUR_EXTENSION_ID 9000`. If loading a new folder changes the extension ID, restart the helper with that ID and pair its token again. See helper/README.md.
+| Supported bounded family | Required visible evidence |
+| --- | --- |
+| Exact algebra, factorization, equations, powers, logs and trig | Unambiguous original expression, domain, angle/precision requirements and supported response |
+| Completing square | Signed blank template, including fixed nonmonic coefficient |
+| Polynomial division | Original dividend/divisor and named quotient/remainder slots |
+| Slope, rate, average rate and point-slope | Exact table/points, explicit interval or slope as required |
+| Inverse tables/affine functions; rational features | Explicit target and original function/table |
+| First invalid algebraic step | Captured ordered steps and original expression/domain |
+| Multiple choice | Every choice interpretable, exactly one independently verified match |
 
-One exercise plus one video, integer10–30-second answer pauses, existing-work protection, durable once-only Check, needs-review counts and Stop remain. See TEST_REPORT.md for actual Chrome verification and limits. Owner's signed-in Chrome remains unattached. Project Sovereign, RADAR, MasterChess, unrelated services and frozen releases remain untouched.
+Interactive graph drawing, arbitrary word interpretation and ambiguous/unsupported widgets remain needs-review. Generic fields cannot safely represent every solution-set format. Existing answers are preserved. Continue past blocked assignments defers them without marking them complete. One exercise and one independent video can run together; answers retain integer10–30-second spacing. Stop cancels pending extension actions, including helper/model results; already entered text is not undone.
+
+Ollama and model weights are optional and not bundled or installed. A configured local model can propose structured interpretations, but exact original-task binding and verification must authorize entry. Actual model inference could not be tested here because model downloads returned403; scripted protocol tests are labelled separately. The tiny0.6b example is a runtime smoke test, not a general math guarantee. See helper/README.md.
+
+Copy question sample exports bounded question text/math/options and widget inventory without class URLs or entered answers. Review it locally before sharing. Optional PNG transcription uses local Tesseract when installed; OCR is explicitly unverified and never automatically supplies an answer.
+
+See TEST_REPORT.md for actual Chrome, helper and independent math results. The owner's signed-in Chrome and27 assignment questions remain unverified; the uploaded metadata-only plan cannot establish their before/after coverage. Project Sovereign, RADAR, MasterChess and prior frozen releases remain untouched.

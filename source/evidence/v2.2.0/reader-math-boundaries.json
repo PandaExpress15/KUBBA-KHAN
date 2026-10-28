@@ -1,0 +1,281 @@
+{
+  "browser": "156.0.8078.47",
+  "syntheticDOM": true,
+  "actualPythonHTTP": true,
+  "liveOwnerVerified": false,
+  "results": [
+    {
+      "name": "mixed-log-bases",
+      "passed": true,
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "evaluate",
+        "expression": "\\log_{2}(8)+log(100)",
+        "givens": {},
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "output": {
+          "kind": "expression",
+          "logBase": 10
+        },
+        "domain": "real"
+      },
+      "answer": {
+        "kind": "scalar",
+        "value": "5",
+        "fields": {
+          "s0": "5"
+        },
+        "latexFields": {
+          "s0": "5"
+        }
+      },
+      "verification": {
+        "exact": true,
+        "method": "typed-original-task",
+        "factorDomain": null
+      }
+    },
+    {
+      "name": "degree-input",
+      "passed": true,
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "evaluate",
+        "expression": "sin(30^\\circ)",
+        "givens": {},
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "output": {
+          "kind": "expression"
+        },
+        "domain": "real"
+      },
+      "answer": {
+        "kind": "scalar",
+        "value": "1/2",
+        "fields": {
+          "s0": "1/2"
+        },
+        "latexFields": {
+          "s0": "\\frac{1}{2}"
+        }
+      },
+      "verification": {
+        "exact": true,
+        "method": "typed-original-task",
+        "factorDomain": null
+      }
+    },
+    {
+      "name": "inverse-trig",
+      "passed": true,
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "evaluate",
+        "expression": "sin^{-1}(1/2)",
+        "givens": {},
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "output": {
+          "kind": "expression"
+        },
+        "domain": "real"
+      },
+      "answer": {
+        "kind": "scalar",
+        "value": "pi/6",
+        "fields": {
+          "s0": "pi/6"
+        },
+        "latexFields": {
+          "s0": "\\frac{\\pi}{6}"
+        }
+      },
+      "verification": {
+        "exact": true,
+        "method": "typed-original-task",
+        "factorDomain": null
+      }
+    },
+    {
+      "name": "inverse-trig-degrees",
+      "passed": true,
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "evaluate",
+        "expression": "sin^{-1}(1/2)",
+        "givens": {},
+        "slots": [
+          {
+            "id": "s0",
+            "role": "answer"
+          }
+        ],
+        "output": {
+          "kind": "expression",
+          "angleUnit": "degrees"
+        },
+        "domain": "real"
+      },
+      "answer": {
+        "kind": "scalar",
+        "value": "30",
+        "fields": {
+          "s0": "30"
+        },
+        "latexFields": {
+          "s0": "30"
+        }
+      },
+      "verification": {
+        "exact": true,
+        "method": "typed-original-task",
+        "factorDomain": null
+      }
+    },
+    {
+      "name": "division-one-fraction",
+      "passed": true,
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "divide",
+        "expression": "\\frac{x^3-1}{x-1}",
+        "givens": {
+          "dividend": "x^3-1",
+          "divisor": "x-1"
+        },
+        "slots": [
+          {
+            "id": "s0",
+            "role": "quotient"
+          },
+          {
+            "id": "s1",
+            "role": "remainder"
+          }
+        ],
+        "output": {
+          "kind": "fields"
+        },
+        "domain": "real"
+      },
+      "answer": {
+        "kind": "quotient-remainder",
+        "quotient": "x^2 + x + 1",
+        "remainder": "0",
+        "fields": {
+          "s0": "x^2 + x + 1",
+          "s1": "0"
+        },
+        "latexFields": {
+          "s0": "x^{2} + x + 1",
+          "s1": "0"
+        }
+      },
+      "verification": {
+        "exact": true,
+        "method": "typed-original-task",
+        "factorDomain": null
+      }
+    },
+    {
+      "name": "square-function",
+      "passed": true,
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "complete-square",
+        "expression": "x^2+6*x+5",
+        "givens": {
+          "variable": "x",
+          "template": "(x+{s0})^2+{s1}"
+        },
+        "slots": [
+          {
+            "id": "s0",
+            "role": "shift"
+          },
+          {
+            "id": "s1",
+            "role": "constant"
+          }
+        ],
+        "output": {
+          "kind": "fields"
+        },
+        "domain": "real"
+      },
+      "answer": {
+        "kind": "field-map",
+        "fields": {
+          "s0": "3",
+          "s1": "-4"
+        },
+        "latexFields": {
+          "s0": "3",
+          "s1": "-4"
+        }
+      },
+      "verification": {
+        "exact": true,
+        "method": "typed-original-task",
+        "factorDomain": null
+      }
+    },
+    {
+      "name": "square-fixed-coefficient",
+      "passed": true,
+      "task": {
+        "schema": "kubla-task-v1",
+        "task": "complete-square",
+        "expression": "2*x^2+12*x+5",
+        "givens": {
+          "variable": "x",
+          "template": "2*(x+{s0})^2+{s1}"
+        },
+        "slots": [
+          {
+            "id": "s0",
+            "role": "shift"
+          },
+          {
+            "id": "s1",
+            "role": "constant"
+          }
+        ],
+        "output": {
+          "kind": "fields"
+        },
+        "domain": "real"
+      },
+      "answer": {
+        "kind": "field-map",
+        "fields": {
+          "s0": "3",
+          "s1": "-13"
+        },
+        "latexFields": {
+          "s0": "3",
+          "s1": "-13"
+        }
+      },
+      "verification": {
+        "exact": true,
+        "method": "typed-original-task",
+        "factorDomain": null
+      }
+    }
+  ]
+}

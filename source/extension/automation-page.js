@@ -11,7 +11,7 @@ export function pageSnapshot(){
  const withFields=roots.filter(e=>[...e.querySelectorAll(fieldSelector)].some(visible));
  const mains=withFields.filter(e=>e.matches('main,[role=main]'));
  const root=mains.sort(byDepth)[0]||withFields.filter(e=>!e.matches('.perseus-renderer')).sort(byDepth)[0]||withFields.sort((a,b)=>-byDepth(a,b))[0]||roots[0]||document;
- const irrelevant=e=>!!e.closest('aside,nav,[role=complementary],[role=navigation],[hidden],[inert]');
+ const irrelevant=e=>!!e.closest('aside,nav,[role=complementary],[role=navigation],[hidden],[inert],[role=search],[data-testid*=calculator i],[aria-label*=calculator i],[data-testid*=drawing i],[aria-label="Tools" i],[aria-label="Draw" i]');
  const choiceArea=e=>!!e.closest('[data-widget=radio],[role=radiogroup],[role=radio]')||!!e.closest('label')?.querySelector('input[type=radio]')||!!(e.closest('label')?.htmlFor&&document.getElementById(e.closest('label').htmlFor)?.matches('input[type=radio]'));
  const detached=[...document.querySelectorAll('footer,[role=toolbar],[data-testid*=footer]')].filter(e=>!root.contains(e)&&visible(e)&&!irrelevant(e)&&[...e.querySelectorAll('button,[role=button]')].some(b=>visible(b)&&/^(check|check answer|check answers|submit answer|(?:go to (?:the )?)?next(?: question)?|continue|done|finish|finish exercise|finish assignment)$/i.test(buttonName(b))));
  const footer=detached.filter(e=>!detached.some(other=>other!==e&&e.contains(other)));
@@ -31,6 +31,7 @@ export function pageSnapshot(){
   const tag=e.tagName?.toLowerCase(),children=[...(e.children||[])];
   if(tag==='annotation')return '';
   if(tag==='msup'&&children.length===2)return '('+readMath(children[0])+')^('+readMath(children[1])+')';
+  if(tag==='msub'&&children.length===2)return readMath(children[0])+'_{'+readMath(children[1])+'}';
   if(tag==='mfrac'&&children.length===2)return '('+readMath(children[0])+')/('+readMath(children[1])+')';
   if(tag==='msqrt')return '\\sqrt{'+children.map(readMath).join('')+'}';
   if(tag==='sup')return '^('+text(e)+')';
@@ -38,7 +39,7 @@ export function pageSnapshot(){
  };
  const extra=[...root.querySelectorAll('[data-tex],[data-latex],[role=math],script[type="math/tex"],.katex,math')].filter(e=>!e.closest('.mq-editable-field')&&!choiceArea(e)&&!irrelevant(e)&&!e.querySelectorAll('annotation[encoding="application/x-tex"]').length&&(visible(e)||e.matches('script[type="math/tex"]')&&visible(e.previousElementSibling)));
  const fallback=extra.map(e=>e.getAttribute('data-tex')||e.getAttribute('data-latex')||(e.matches('[role=math]')?e.getAttribute('aria-label'):null)||readMath(e)).map(s=>s.trim()).filter(s=>s&&!labels(s));
- const normalizeMath=s=>s.replace(/\s/g,'').replace(/−/g,'-').replace(/²/g,'^2').replace(/³/g,'^3').replace(/\^\((\d+)\)/g,'^$1').replace(/\(([a-z])\)/g,'$1');
+ const normalizeMath=s=>s.replace(/\s/g,'').replace(/−/g,'-').replace(/²/g,'^2').replace(/³/g,'^3').replace(/\^\((\d+)\)/g,'^$1');
  const rawExpressions=[...anns.map(e=>text(e)),...fallback].filter(s=>s&&!labels(s));
  // Same mixed-number guard as math.js, inlined because this injected function is self-contained.
  const unsupportedNotation=rawExpressions.some(s=>/\d\s+\d|\d\s*(?:\\[,!;: ]\s*)*\\(?:d?frac)\s*\{\s*\d+\s*\}\s*\{\s*\d+\s*\}/.test(s));

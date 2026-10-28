@@ -1,0 +1,12 @@
+{
+  "browser": "156.0.8078.47",
+  "version": "2.1.14",
+  "syntheticSite": true,
+  "ownerBrowserVerified": false,
+  "fieldCount": 1,
+  "expression": "x^2-1",
+  "mathematicalAnswer": "(x - 1)*(x + 1)",
+  "incidentalApplicationClassifiedAsGraph": true,
+  "planStatus": "review",
+  "planReason": "GRAPH_REQUIRES_REVIEW"
+}

@@ -1,0 +1,21 @@
+✔ read-only multipage survey captures every type, classifies first visible question, executable subset only (10.692193ms)
+✔ To-do must already be selected; survey never changes status filters (0.410396ms)
+✔ native list navigation context loss observes next document without duplicate Next (3.160813ms)
+✔ first visible unsupported math requires review, never assumes hidden future questions (1.197707ms)
+✔ preview leaving class scope stops read-only scan (0.578458ms)
+✔ Stop while preview creation awaits cannot navigate or save a late running plan (0.38681ms)
+✔ sync cancel before awaited startup lookup prevents late content injection or tabs (0.191908ms)
+✔ strict declarative plan rejects injected properties, duplicate or foreign URLs, invalid ready claims (2.369285ms)
+✔ unready survey cannot export a runnable plan (0.848243ms)
+✔ prefilled native or MathQuill work is preserved and reviewed rather than marked ready (1.469305ms)
+✔ readonly choice inspection requires a unique verified answer and preserves a preselection (2.153451ms)
+✔ a same-class manual navigation during pending exact CAS cannot trigger the next navigation or close (1.983265ms)
+✔ preflight returns exact stored status failure and sanitized probe before any preview (0.512248ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 96.899751

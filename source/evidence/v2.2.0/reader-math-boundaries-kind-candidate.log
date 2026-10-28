@@ -1,0 +1,30 @@
+PASS actual Chrome read + actual Python HTTP mixed-log-bases {"kind":"scalar","value":"5","fields":{"s0":"5"},"latexFields":{"s0":"5"}}
+PASS actual Chrome read + actual Python HTTP degree-input {"kind":"scalar","value":"1/2","fields":{"s0":"1/2"},"latexFields":{"s0":"\\frac{1}{2}"}}
+PASS actual Chrome read + actual Python HTTP inverse-trig {"kind":"scalar","value":"pi/6","fields":{"s0":"pi/6"},"latexFields":{"s0":"\\frac{\\pi}{6}"}}
+PASS actual Chrome read + actual Python HTTP inverse-trig-degrees {"kind":"scalar","value":"30","fields":{"s0":"30"},"latexFields":{"s0":"30"}}
+FAIL division-one-fraction Expected values to be strictly equal:
++ actual - expected
+
++ 'quotient-remainder'
+- 'field-map'
+
+PASS actual Chrome read + actual Python HTTP square-function {"kind":"field-map","fields":{"s0":"3","s1":"-4"},"latexFields":{"s0":"3","s1":"-4"}}
+PASS actual Chrome read + actual Python HTTP square-fixed-coefficient {"kind":"field-map","fields":{"s0":"3","s1":"-13"},"latexFields":{"s0":"3","s1":"-13"}}
+HELPER {"ready": true, "host": "127.0.0.1", "port": 46203, "version": "2.2.0", "tokenConfig": "/tmp/kubla-reader-http-gayN2v/token.json"}
+Paste the token from the private config into the extension local-solver settings. Keep this terminal running.
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: all requested reader/math boundary cases pass
+    at file:///workspace/khan-runner-isolated/turn-rebuild-v2.2.0/source/tests/browser-reader-math-boundaries.mjs:16:274 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

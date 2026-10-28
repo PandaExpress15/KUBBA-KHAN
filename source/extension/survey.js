@@ -1,3 +1,5 @@
+import {readProblemDOM} from './problem-dom.js';
+import {resolveProblemDocument} from './typed-client.js';
 import {isKhan,inScope} from './policy.js';
 import {pageSnapshot} from './automation-page.js';
 import {paginationUI} from './pagination.js';
@@ -18,9 +20,10 @@ export function validatePlan(plan){
  if(!exact(plan,['schema','scope','createdAt','items'])||plan.schema!==SCHEMA||!Number.isFinite(plan.createdAt)||plan.createdAt<0||scopeOf(plan.scope)!==plan.scope||!Array.isArray(plan.items)||plan.items.length>100)throw Error('INVALID_SURVEY_PLAN');
  const seen=new Set();
  for(const item of plan.items){
-  if(!exact(item,['url','kind','title','status','classification','solver','reason','visibleQuestionOnly'])||!kinds.includes(item.kind)||!['ready','review','unknown'].includes(item.status)||!classes.includes(item.classification)||!solvers.includes(item.solver)||typeof item.title!=='string'||item.title.length>160||/[\u0000-\u001f]/.test(item.title)||typeof item.reason!=='string'||!/^[A-Z_0-9]{1,80}$/.test(item.reason)||item.visibleQuestionOnly!==true)throw Error('INVALID_SURVEY_PLAN');
+  if(!item||typeof item!=='object'||Array.isArray(item)||!['url','kind','title','status','classification','solver','reason','visibleQuestionOnly'].every(k=>Object.hasOwn(item,k))||Object.keys(item).some(k=>!['url','kind','title','status','classification','solver','reason','visibleQuestionOnly','boundary','task','slotCount','choiceCount'].includes(k))||!kinds.includes(item.kind)||!['ready','review','unknown'].includes(item.status)||!classes.includes(item.classification)||!solvers.includes(item.solver)||typeof item.title!=='string'||item.title.length>160||/[\u0000-\u001f]/.test(item.title)||typeof item.reason!=='string'||!/^[A-Z_0-9]{1,80}$/.test(item.reason)||item.visibleQuestionOnly!==true)throw Error('INVALID_SURVEY_PLAN');
   if(typeof item.url!=='string'||item.url.length>2048||clean(item.url)!==item.url||!inScope(item.url,plan.scope)||!/^\/learner\/class\/[^/]+\/assignment\/[^/]+\/?$/.test(new URL(item.url).pathname)||seen.has(item.url))throw Error('INVALID_SURVEY_PLAN');seen.add(item.url);
-  if(item.status==='ready'&&!(item.kind==='video'&&item.classification==='video'&&item.solver==='media'||item.kind==='exercise'&&['single-box','multiple-choice'].includes(item.classification)&&['builtin-exact','local-sympy'].includes(item.solver)))throw Error('INVALID_SURVEY_PLAN');
+  if(item.boundary!==undefined&&!['readiness','extraction','response','interpretation','solving','verification','input','submission','progression','complete'].includes(item.boundary))throw Error('INVALID_SURVEY_PLAN');if(item.task!==undefined&&(typeof item.task!=='string'||!/^[a-z][a-z-]{0,40}$/.test(item.task)))throw Error('INVALID_SURVEY_PLAN');for(const key of ['slotCount','choiceCount'])if(item[key]!==undefined&&(!Number.isInteger(item[key])||item[key]<0||item[key]>12))throw Error('INVALID_SURVEY_PLAN');
+  if(item.status==='ready'&&!(item.kind==='video'&&item.classification==='video'&&item.solver==='media'||item.kind==='exercise'&&['single-box','multiple-choice','multiple-fields'].includes(item.classification)&&['builtin-exact','local-sympy'].includes(item.solver)))throw Error('INVALID_SURVEY_PLAN');
  }
  return plan;
 }
@@ -31,7 +34,7 @@ export class SurveyRunner{
  async get(){return (await this.api.storage.session.get(STORE))[STORE]||idle();}
  async save(s){if(!this.cancelled)await this.api.storage.session.set({[STORE]:s});}
  async invoke(id,func,args=[]){const r=await this.api.scripting.executeScript({target:{tabId:id,frameIds:[0]},func,args});return r[0]?.result;}
- public(s){return {sourceTab:s.sourceTab,previewTab:s.previewTab,running:s.running,stage:s.stage,revision:s.revision,error:s.error||'',captured:s.plan?.items.length||0,previewed:s.index||0,pages:s.scan?.pages||0,statusProbe:s.scan?.statusProbe||null,counts:{ready:s.plan?.items.filter(i=>i.status==='ready').length||0,review:s.plan?.items.filter(i=>i.status==='review').length||0,unknown:s.plan?.items.filter(i=>i.status==='unknown').length||0},plan:s.plan};}
+ public(s){return {sourceTab:s.sourceTab,previewTab:s.previewTab,running:s.running,stage:s.stage,revision:s.revision,error:s.error||'',captured:s.plan?.items.length||0,previewed:s.index||0,pages:s.scan?.pages||0,statusProbe:s.scan?.statusProbe||null,coverage:{captured:s.plan?.items.length||0,extracted:s.plan?.items.filter(i=>i.task&&i.task!=='unknown').length||0,solvable:s.plan?.items.filter(i=>i.status==='ready'&&i.kind==='exercise').length||0,articles:s.plan?.items.filter(i=>i.kind==='article').length||0},counts:{ready:s.plan?.items.filter(i=>i.status==='ready').length||0,review:s.plan?.items.filter(i=>i.status==='review').length||0,unknown:s.plan?.items.filter(i=>i.status==='unknown').length||0},plan:s.plan};}
  async signal(s){for(const id of [s.sourceTab,s.previewTab].filter(Number.isInteger)){if(this.cancelled&&s.running)return;await this.api.tabs.sendMessage(id,{type:'AUTO_CONFIG',running:s.running,revision:s.revision}).catch(()=>{});}}
  async start(tabId){
   const generation=++this.generation;const previous=await this.get();if(previous.running)throw Error('SURVEY_ALREADY_RUNNING');
@@ -70,12 +73,23 @@ export class SurveyRunner{
   const item=s.plan.items[s.index],tab=await this.api.tabs.get(s.previewTab);if(this.cancelled)return;if(clean(tab.url)!==item.url){if(tab.pendingUrl&&clean(tab.pendingUrl)===item.url&&this.now()-s.previewSince<=30000)return;if(!inScope(tab.url,s.plan.scope))throw Error('SURVEY_PREVIEW_LEFT_CLASS_SCOPE');throw Error('SURVEY_PREVIEW_CHANGED_BY_USER');}
   let p,extra;try{p=await this.invoke(s.previewTab,pageSnapshot);if(this.cancelled)return;extra=await this.invoke(s.previewTab,surveyPreviewSnapshot);}catch(e){if(this.now()-s.previewSince<12000)return;item.status='review';item.reason='PREVIEW_UNREADABLE';await this.next(s);return;}
   if(this.cancelled)return;await this.requirePreview(s,item.url);if(this.cancelled)return;if(!p||!extra){if(this.now()-s.previewSince<12000)return;item.status='review';item.reason='PREVIEW_UNREADABLE';await this.next(s);return;}
+  let typed=null;if(item.kind==='exercise')try{typed=await this.invoke(s.previewTab,readProblemDOM,['read']);}catch{}
+  if(this.cancelled)return;await this.requirePreview(s,item.url);if(this.cancelled)return;
+  const intro=extra.intro||p.controls?.some(x=>/^(start|start exercise|begin practice|let.s go)$/i.test(x));
+  if(item.kind==='exercise'&&typed?.ok&&!(intro&&!typed.document.response.slots.length&&!typed.document.response.choices.length)){
+   const d=typed.document;item.classification=d.response.kind==='choice'?'multiple-choice':d.response.slots.length>1?'multiple-fields':d.response.slots.length?'single-box':d.response.kind==='graph'?'graph':'unknown';item.slotCount=d.response.slots.length;item.choiceCount=d.response.choices.length;item.task=d.task?.task||'unknown';
+   const result=await resolveProblemDocument(this.api,d,{isCancelled:()=>this.cancelled});if(this.cancelled)return;await this.requirePreview(s,item.url);if(this.cancelled)return;
+   if(result.status==='pending')return;
+   if(result.status!=='solved'&&result.stage==='interpretation'&&this.now()-s.previewSince<12000)return;
+   if(result.effectiveTask)item.task=result.effectiveTask.task;
+   item.boundary=result.stage||'verification';item.status=result.status==='solved'?'ready':result.status==='unknown'?'unknown':'review';item.solver=result.status==='solved'?result.route:'none';item.reason=result.status==='solved'?'TYPED_ORIGINAL_TASK_VERIFIED':result.reason||'TYPED_TASK_UNSUPPORTED';await this.next(s);return;
+  }
   let choices=null;if(item.kind==='exercise'){choices=await this.invoke(s.previewTab,choiceDOM,['inspect']);if(this.cancelled)return;await this.requirePreview(s,item.url);if(this.cancelled)return;}
   item.status='review';item.solver='none';
   if(item.kind==='video'){item.classification='video';if(extra.videoCount===1||extra.videoFrames===1){item.status='ready';item.solver='media';item.reason='VISIBLE_VIDEO_PLAYER';}else if(this.now()-s.previewSince<12000)return;else item.reason='NO_VISIBLE_VIDEO_PLAYER';}
   else if(item.kind==='article'){item.classification='article';item.reason='MANUAL_READING_REQUIRED';}
   else if(item.kind==='unknown'){item.classification='unknown';item.status='unknown';item.reason='UNKNOWN_ASSIGNMENT_TYPE';}
-  else if(extra.intro&&!p.fieldCount&&!p.radioCount){item.classification='intro-requires-start';item.status='unknown';item.solver='inspect-after-start';item.reason='PREVIEW_REQUIRES_START';}
+  else if(intro&&!p.fieldCount&&!p.radioCount){item.classification='intro-requires-start';item.status='unknown';item.solver='inspect-after-start';item.reason='PREVIEW_REQUIRES_START';}
   else if(p.unsupportedNotation){item.classification=p.radioCount?'multiple-choice':'single-box';item.reason='UNSUPPORTED_QUESTION_NOTATION';}
   else if(p.radioCount||choices?.ok){item.classification='multiple-choice';item.reason='CHOICE_REQUIRES_VERIFIED_SOLVER';if(choices?.selected?.length)item.reason='EXISTING_CHOICE_PRESERVED';else if(choices?.ok&&p.expression&&p.operation&&!p.unsupportedAnswerFormat&&!p.unsupportedFactorDomain){let answer=solveSupported(p.expression,p.operation);if(answer.status!=='solved'){const local=await localAnswer(this.api,p);if(this.cancelled)return;if(local)answer=local;}if(answer.status==='solved'){const match=await uniqueChoice(p,answer,choices.choices,answer.source==='local-sympy'?expression=>localComparison(this.api,p,answer,expression):undefined);if(this.cancelled)return;if(match.ok){item.status='ready';item.solver=answer.source==='local-sympy'?'local-sympy':'builtin-exact';item.reason='FIRST_VISIBLE_CHOICE_VERIFIED';}else item.reason=match.error;}}}
   else if(p.fieldCount>1){item.classification='multiple-fields';item.reason='MULTIPLE_FIELDS_REQUIRE_REVIEW';}

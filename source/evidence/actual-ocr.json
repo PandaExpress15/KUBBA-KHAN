@@ -1,0 +1,148 @@
+{
+  "evidence": "ACTUAL Tesseract; synthetic image; not mathematical verification",
+  "expectedPrintedLines": [
+    "Factor: x^2 - 5*x + 6",
+    "x axis: 0 1 2 3",
+    "y axis: -2 -1 0 1"
+  ],
+  "actual": {
+    "ok": true,
+    "status": "transcribed",
+    "source": "local-ocr-unverified",
+    "fingerprint": "synthetic-ocr-question-1",
+    "engine": "tesseract",
+    "image": {
+      "width": 1000,
+      "height": 230
+    },
+    "transcription": "Factor: x*2 - 5*x + 6\nx axis:012 3\ny axis: -2-101",
+    "words": [
+      {
+        "text": "Factor:",
+        "confidence": 93.176,
+        "box": {
+          "x": 28,
+          "y": 32,
+          "width": 108,
+          "height": 25
+        }
+      },
+      {
+        "text": "x*2",
+        "confidence": 88.504,
+        "box": {
+          "x": 152,
+          "y": 32,
+          "width": 65,
+          "height": 25
+        }
+      },
+      {
+        "text": "-",
+        "confidence": 88.504,
+        "box": {
+          "x": 234,
+          "y": 46,
+          "width": 9,
+          "height": 3
+        }
+      },
+      {
+        "text": "5*x",
+        "confidence": 90.628,
+        "box": {
+          "x": 258,
+          "y": 32,
+          "width": 54,
+          "height": 25
+        }
+      },
+      {
+        "text": "+",
+        "confidence": 95.711,
+        "box": {
+          "x": 328,
+          "y": 36,
+          "width": 21,
+          "height": 21
+        }
+      },
+      {
+        "text": "6",
+        "confidence": 95.089,
+        "box": {
+          "x": 366,
+          "y": 32,
+          "width": 17,
+          "height": 25
+        }
+      },
+      {
+        "text": "x",
+        "confidence": 89.94,
+        "box": {
+          "x": 26,
+          "y": 113,
+          "width": 18,
+          "height": 19
+        }
+      },
+      {
+        "text": "axis:012",
+        "confidence": 88.816,
+        "box": {
+          "x": 58,
+          "y": 106,
+          "width": 171,
+          "height": 26
+        }
+      },
+      {
+        "text": "3",
+        "confidence": 96.386,
+        "box": {
+          "x": 247,
+          "y": 107,
+          "width": 16,
+          "height": 25
+        }
+      },
+      {
+        "text": "y",
+        "confidence": 92.617,
+        "box": {
+          "x": 26,
+          "y": 168,
+          "width": 18,
+          "height": 26
+        }
+      },
+      {
+        "text": "axis:",
+        "confidence": 74.105,
+        "box": {
+          "x": 58,
+          "y": 161,
+          "width": 74,
+          "height": 26
+        }
+      },
+      {
+        "text": "-2-101",
+        "confidence": 74.105,
+        "box": {
+          "x": 148,
+          "y": 162,
+          "width": 139,
+          "height": 25
+        }
+      }
+    ],
+    "truncated": false,
+    "verification": {
+      "exact": false,
+      "method": "ocr-unverified"
+    }
+  },
+  "elapsedSeconds": 0.2033
+}
